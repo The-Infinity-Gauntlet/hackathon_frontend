@@ -3,11 +3,6 @@ const authRoutes = {
   component: () => import('../layouts/auth.vue'),
   children: [
     {
-      path: '/metodo-pagamento',
-      name: 'PaymentMethod',
-      component: () => import('../views/PaymentMethodView.vue'),
-    },
-    {
       path: '/sig-in',
       name: 'Login',
       component: () => import('../views/auth/LoginView.vue'),
@@ -18,10 +13,25 @@ const authRoutes = {
       component: () => import('../views/auth/RegisterView.vue'),
     },
     {
-      path: '/pagamento',
+      path: '/recuperacao',
+      name: 'Recovery',
+      component: () => import('../views/auth/RecoveryView.vue'),
+    },
+    {
+      path: 'pagamento',
       name: 'Payment',
       component: () => import('../views/PaymentView.vue'),
     },
+    // {
+    //   path: '/pagamento',
+    //   name: 'Payment',
+    //   component: () => import('../views/PaymentView.vue'),
+    // },
+    // {
+    //   path: '/metodo-pagamento',
+    //   name: 'PaymentMethod',
+    //   component: () => import('../views/PaymentMethodView.vue'),
+    // },
   ],
 }
 export default authRoutes

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HeaderComp from "@/components/general/HeaderComp.vue"
-import Forms from '@/components/auth/Forms.vue'
+import Form from '@/components/auth/Form.vue'
+import GoogleAuthButton from '@/components/auth/GoogleAuthButton.vue'
 
 const fields = [
   { label: 'Email', placeholder: 'Digite seu email aqui', type: 'email' },
@@ -12,9 +13,10 @@ const fields = [
   <div class="grid justify-center">
     <HeaderComp title="Login" />
 
-    <Forms :form-fields="fields" text="Continuar" />
+    <Form :form-fields="fields" text="Entrar" />
 
     <p class="text-center my-3">ou</p>
-    <button class="border border-[#2768CA] p-1 rounded-2xl text-sm">Continuar com o Google</button>
+    <GoogleAuthButton />
+    <!-- <button class="border border-[#2768CA] p-1 rounded-2xl text-sm">Continuar com o Google</button> -->
   </div>
 </template>
