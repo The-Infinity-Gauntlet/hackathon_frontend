@@ -1,4 +1,4 @@
 <template>
   <RouterView />
-  <img src="/ondas.svg" class="w-full">
+  <img src="/waves.svg" class="w-full">
 </template>
