@@ -17,11 +17,11 @@ const authRoutes = {
       name: 'Recovery',
       component: () => import('../views/auth/RecoveryView.vue'),
     },
-    {
-      path: 'pagamento',
-      name: 'Payment',
-      component: () => import('../views/PaymentView.vue'),
-    },
+    // {
+    //   path: 'pagamento',
+    //   name: 'Payment',
+    //   component: () => import('../views/PaymentView.vue'),
+    // },
     // {
     //   path: '/pagamento',
     //   name: 'Payment',
