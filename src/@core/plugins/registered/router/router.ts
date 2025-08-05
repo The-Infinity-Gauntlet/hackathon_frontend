@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import type { App } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import type { App } from 'vue'
 
 /*
  * Módulos de rotas carregados dinamicamente.
@@ -8,7 +8,7 @@ import type { App } from 'vue';
  *
  * @type {Record<string, { default: import('vue-router').RouteRecordRaw[] }>}
  */
-const routeModules = import.meta.glob('@/modules/*/routes/index.ts', { eager: true });
+const routeModules = import.meta.glob('@/modules/*/routes/index.ts', { eager: true })
 
 // Coleta e combina todas as rotas dos módulos em um único array
 /**
@@ -17,7 +17,7 @@ const routeModules = import.meta.glob('@/modules/*/routes/index.ts', { eager: tr
  *
  * @type {import('vue-router').RouteRecordRaw[]}
  */
-const moduleRoutes = Object.values(routeModules).flatMap((mod: any) => mod.default || []);
+const moduleRoutes = Object.values(routeModules).flatMap((mod: any) => mod.default || [])
 
 // Criação da instância do Vue Router
 /**
@@ -37,7 +37,7 @@ const router = createRouter({
     },
     ...moduleRoutes,
   ],
-});
+})
 
 /**
  * Função responsável por registrar o Vue Router na instância principal do Vue.
@@ -55,5 +55,5 @@ const router = createRouter({
  */
 
 export default function (app: App) {
-  app.use(router);
+  app.use(router)
 }
