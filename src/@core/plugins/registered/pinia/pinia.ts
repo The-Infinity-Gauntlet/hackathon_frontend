@@ -1,5 +1,5 @@
-import { createPinia } from 'pinia';
-import type { App } from 'vue';
+import { createPinia } from 'pinia'
+import type { App } from 'vue'
 
 /**
  * Inicializa e registra o Pinia como gerenciador de estado global na aplicação Vue.
@@ -23,6 +23,6 @@ import type { App } from 'vue';
  * @returns {void}
  */
 export default function registerPinia(app: App): void {
-  const pinia = createPinia();
-  app.use(pinia);
+  const pinia = createPinia()
+  app.use(pinia)
 }

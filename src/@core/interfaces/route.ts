@@ -14,14 +14,14 @@ export interface IRoutes {
    *
    * @type {string}
    */
-  path: string;
+  path: string
 
   /**
    * Nome único da rota, usado para navegação programática (e.g., `router.push({ name: 'home' })`).
    *
    * @type {string}
    */
-  name: string;
+  name: string
 
   /**
    * Função que retorna o componente a ser renderizado para essa rota.
@@ -35,7 +35,7 @@ export interface IRoutes {
    *
    * @type {() => void}
    */
-  component: () => void;
+  component: () => void
 
   /**
    * Indica se os parâmetros da rota devem ser passados como props para o componente.
@@ -45,5 +45,5 @@ export interface IRoutes {
    * @type {boolean}
    * @optional
    */
-  props?: boolean;
+  props?: boolean
 }

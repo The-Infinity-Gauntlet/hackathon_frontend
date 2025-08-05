@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from 'axios'
 
 /**
  * Interface que define a estrutura base de um serviço de API utilizando Axios.
@@ -14,7 +14,7 @@ export interface IApi {
    *
    * @type {AxiosInstance}
    */
-  client: AxiosInstance;
+  client: AxiosInstance
 
   /**
    * Realiza uma requisição HTTP GET para o endpoint especificado.
@@ -23,7 +23,7 @@ export interface IApi {
    * @param {string} url - URL do recurso a ser acessado.
    * @returns {Promise<AxiosResponse<T>>} Promise contendo a resposta do Axios.
    */
-  get<T = any>(url: string): Promise<AxiosResponse<T>>;
+  get<T = any>(url: string): Promise<AxiosResponse<T>>
 
   /**
    * Realiza uma requisição HTTP POST com os dados fornecidos.
@@ -33,7 +33,7 @@ export interface IApi {
    * @param {*} data - Corpo da requisição.
    * @returns {Promise<AxiosResponse<T>>} Promise contendo a resposta do Axios.
    */
-  post?<T = any>(url: string, data: any): Promise<AxiosResponse<T>>;
+  post?<T = any>(url: string, data: any): Promise<AxiosResponse<T>>
 
   /**
    * Realiza uma requisição HTTP PATCH com os dados fornecidos.
@@ -43,7 +43,7 @@ export interface IApi {
    * @param {*} data - Corpo da requisição.
    * @returns {Promise<AxiosResponse<T>>} Promise contendo a resposta do Axios.
    */
-  patch?<T = any>(url: string, data: any): Promise<AxiosResponse<T>>;
+  patch?<T = any>(url: string, data: any): Promise<AxiosResponse<T>>
 
   /**
    * Realiza uma requisição HTTP PUT com os dados fornecidos.
@@ -53,7 +53,7 @@ export interface IApi {
    * @param {*} data - Corpo da requisição.
    * @returns {Promise<AxiosResponse<T>>} Promise contendo a resposta do Axios.
    */
-  put?<T = any>(url: string, data: any): Promise<AxiosResponse<T>>;
+  put?<T = any>(url: string, data: any): Promise<AxiosResponse<T>>
 }
 
 /**
@@ -66,13 +66,13 @@ interface ILinks {
    * URL da próxima página, se houver.
    * @type {string}
    */
-  next: string;
+  next: string
 
   /**
    * URL da página anterior, se houver.
    * @type {string}
    */
-  previous: string;
+  previous: string
 }
 
 /**
@@ -86,35 +86,35 @@ export interface IGlobalResponse<T> {
    * Total de registros disponíveis.
    * @type {number}
    */
-  total: number;
+  total: number
 
   /**
    * Número total de páginas.
    * @type {number}
    */
-  num_pages: number;
+  num_pages: number
 
   /**
    * Página atual da resposta.
    * @type {number}
    */
-  page_number: number;
+  page_number: number
 
   /**
    * Número de registros por página.
    * @type {number}
    */
-  page_size: number;
+  page_size: number
 
   /**
    * Objeto com os links de navegação (próxima e anterior).
    * @type {ILinks}
    */
-  links: ILinks;
+  links: ILinks
 
   /**
    * Lista de resultados retornados na página atual.
    * @type {Array<T>}
    */
-  results: Array<T>;
+  results: Array<T>
 }

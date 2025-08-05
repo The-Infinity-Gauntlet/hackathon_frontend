@@ -1,6 +1,6 @@
-import { inject, injectable } from "tsyringe";
-import { Api } from "@/@core/services/api";
-import { IGlobalResponse } from "@/@core/interfaces/api";
+import { inject, injectable } from 'tsyringe'
+import { Api } from '@/@core/services/api'
+import { IGlobalResponse } from '@/@core/interfaces/api'
 
 /**
  * Classe base genérica para operações CRUD (Create, Read, Update, Delete).
@@ -21,7 +21,7 @@ export class BaseRepository<T> {
    * @param {string} basePath - Caminho base do endpoint da API para a entidade (ex: `"users/"`, `"products/"`).
    */
   constructor(
-    @inject("ApiService") protected api: Api,
+    @inject('ApiService') protected api: Api,
     private readonly basePath: string,
   ) {}
 
@@ -31,8 +31,8 @@ export class BaseRepository<T> {
    * @returns {Promise<IGlobalResponse<T>>} Um objeto de resposta com dados paginados (e metadados, se houver).
    */
   async list(): Promise<IGlobalResponse<T>> {
-    const { data } = await this.api.get<IGlobalResponse<T>>(`${this.basePath}`);
-    return data;
+    const { data } = await this.api.get<IGlobalResponse<T>>(`${this.basePath}`)
+    return data
   }
 
   /**
@@ -41,8 +41,8 @@ export class BaseRepository<T> {
    * @returns {Promise<T[]>} Lista completa de objetos da entidade.
    */
   async listAll(): Promise<T[]> {
-    const { data } = await this.api.get<T[]>(`${this.basePath}all/`);
-    return data;
+    const { data } = await this.api.get<T[]>(`${this.basePath}all/`)
+    return data
   }
 
   /**
@@ -52,8 +52,8 @@ export class BaseRepository<T> {
    * @returns {Promise<T>} Objeto correspondente ao ID fornecido.
    */
   async getById(id: string): Promise<T> {
-    const { data } = await this.api.get<T>(`${this.basePath}${id}/`);
-    return data;
+    const { data } = await this.api.get<T>(`${this.basePath}${id}/`)
+    return data
   }
 
   /**
@@ -63,8 +63,8 @@ export class BaseRepository<T> {
    * @returns {Promise<T>} Item recém-criado.
    */
   async create(payload: Partial<T>): Promise<T> {
-    const { data } = await this.api.post<T>(`${this.basePath}`, payload);
-    return data;
+    const { data } = await this.api.post<T>(`${this.basePath}`, payload)
+    return data
   }
 
   /**
@@ -75,8 +75,8 @@ export class BaseRepository<T> {
    * @returns {Promise<T>} Objeto atualizado.
    */
   async update(id: string, payload: Partial<T>): Promise<T> {
-    const { data } = await this.api.patch<T>(`${this.basePath}${id}/`, payload);
-    return data;
+    const { data } = await this.api.patch<T>(`${this.basePath}${id}/`, payload)
+    return data
   }
 
   /**
@@ -86,7 +86,7 @@ export class BaseRepository<T> {
    * @returns {Promise<void>} Promise resolvida após exclusão (sem retorno).
    */
   async delete(id: string): Promise<void> {
-    await this.api.delete(`${this.basePath}${id}/`);
+    await this.api.delete(`${this.basePath}${id}/`)
   }
 
   /**
@@ -98,9 +98,7 @@ export class BaseRepository<T> {
    * @returns {Promise<IGlobalResponse<T>>} Resultado da busca paginada.
    */
   async search(search: string): Promise<IGlobalResponse<T>> {
-    const { data } = await this.api.get<IGlobalResponse<T>>(
-      `${this.basePath}?search=${search}`,
-    );
-    return data;
+    const { data } = await this.api.get<IGlobalResponse<T>>(`${this.basePath}?search=${search}`)
+    return data
   }
 }
