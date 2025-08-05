@@ -1,16 +1,27 @@
-import { IRoutes } from "@/@core/interfaces/route";
+import { IRoutes } from '@/@core/interfaces/route'
 
 const routes: IRoutes[] = [
   {
-    path: "/auth",
-    name: "auth",
-    component: () => import("@/modules/auth/infra/pages/index.vue"),
+    path: '/',
+    component: () => import('@/@templates/layouts/Waves.vue'),
+    children: [
+      {
+        path: '/sig-in',
+        name: 'Login',
+        component: () => import('@/modules/auth/infra/pages/Login.vue'),
+      },
+      {
+        path: '/sig-up',
+        name: 'Register',
+        component: () => import('@/modules/auth/infra/pages/Register.vue'),
+      },
+      {
+        path: '/recuperacao',
+        name: 'Recovery',
+        component: () => import('@/modules/auth/infra/pages/Recovery.vue'),
+      },
+    ],
   },
-  {
-    path: "/auth/:id",
-    name: "auth-detail",
-    component: () => import("@/modules/auth/infra/pages/ViewAuthDetails.vue"),
-  }
-];
+]
 
-export default routes;
+export default routes

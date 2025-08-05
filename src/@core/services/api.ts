@@ -1,11 +1,11 @@
-import axios, { AxiosResponse } from "axios";
-import { IApi } from "../interfaces/api";
+import axios, { AxiosResponse } from 'axios'
+import { IApi } from '../interfaces/api'
 
 /**
  * URL base da API utilizada por padrão na instância do cliente Axios.
  * @constant {string}
  */
-const API_URL = 'http://localhost:3000/';
+const API_URL = 'http://localhost:3000/'
 
 /**
  * Classe responsável por encapsular chamadas HTTP usando Axios.
@@ -26,10 +26,10 @@ export class Api implements IApi {
   client = axios.create({
     baseURL: `${API_URL}api/`,
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     timeout: 30000, // Timeout de 30 segundos para requisições
-  });
+  })
 
   /**
    * Realiza uma requisição HTTP GET para a URL informada.
@@ -40,7 +40,7 @@ export class Api implements IApi {
    * @returns {Promise<AxiosResponse<T>>} - Promessa com a resposta da requisição.
    */
   async get<T = any>(url: string, headers: any = {}): Promise<AxiosResponse<T>> {
-    return this.client.get(url, { headers: { ...this.client.defaults.headers, ...headers } });
+    return this.client.get(url, { headers: { ...this.client.defaults.headers, ...headers } })
   }
 
   /**
@@ -53,7 +53,7 @@ export class Api implements IApi {
    * @returns {Promise<AxiosResponse<T>>} - Promessa com a resposta da requisição.
    */
   async post<T = any>(url: string, data: any, headers: any = {}): Promise<AxiosResponse<T>> {
-    return this.client.post(url, data, { headers: { ...this.client.defaults.headers, ...headers } });
+    return this.client.post(url, data, { headers: { ...this.client.defaults.headers, ...headers } })
   }
 
   /**
@@ -65,7 +65,7 @@ export class Api implements IApi {
    * @returns {Promise<AxiosResponse<T>>} - Promessa com a resposta da requisição.
    */
   async put<T = any>(url: string, data: any): Promise<AxiosResponse<T>> {
-    return this.client.put(url, data);
+    return this.client.put(url, data)
   }
 
   /**
@@ -77,7 +77,7 @@ export class Api implements IApi {
    * @returns {Promise<AxiosResponse<T>>} - Promessa com a resposta da requisição.
    */
   async patch<T = any>(url: string, data: any): Promise<AxiosResponse<T>> {
-    return this.client.patch(url, data);
+    return this.client.patch(url, data)
   }
 
   /**
@@ -88,7 +88,7 @@ export class Api implements IApi {
    * @returns {Promise<AxiosResponse<T>>} - Promessa com a resposta da requisição.
    */
   async delete<T = any>(url: string): Promise<AxiosResponse<T>> {
-    return this.client.delete(url);
+    return this.client.delete(url)
   }
 
   /**
@@ -103,8 +103,8 @@ export class Api implements IApi {
   async postImage<T = any>(url: string, data: any): Promise<AxiosResponse<T>> {
     return this.client.post(url, data, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
-    });
+    })
   }
 }

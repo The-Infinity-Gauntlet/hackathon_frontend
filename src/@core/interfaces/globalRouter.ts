@@ -1,4 +1,4 @@
-import { Router } from "vue-router";
+import { Router } from 'vue-router'
 
 /**
  * Objeto global que armazena a instância do Vue Router.
@@ -30,8 +30,8 @@ import { Router } from "vue-router";
  * @type {{ [x: string]: any; router: Router | null }}
  */
 const globalRouter = { router: null } as {
-  [x: string]: any;
-  router: null | Router;
-};
+  [x: string]: any
+  router: null | Router
+}
 
-export { globalRouter };
+export { globalRouter }

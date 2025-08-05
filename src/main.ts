@@ -1,16 +1,15 @@
+import '@/@core/assets/main.css'
 import 'reflect-metadata'
-import '@mdi/font/css/materialdesignicons.css';
-import 'vuetify/styles';
+import '@mdi/font/css/materialdesignicons.css'
 
-import registerServices from './@core/di/registerServices';
-import { registerPlugins } from "./@core/plugins/registerPlugins";
-import { createApp } from "vue";
+import registerServices from './@core/di/registerServices'
+import { registerPlugins } from './@core/plugins/registerPlugins'
+import { createApp } from 'vue'
 
+import App from './App.vue'
 
-import App from "./App.vue";
+const app = createApp(App)
 
-const app = createApp(App);
-
-registerPlugins(app);
-registerServices();
-app.mount("#app");
+registerPlugins(app)
+registerServices()
+app.mount('#app')

@@ -1,4 +1,4 @@
-import { ComputedRef } from "vue";
+import { ComputedRef } from 'vue'
 
 /**
  * Interface para o store da aplicação principal utilizando Composition API.
@@ -14,14 +14,14 @@ export interface IUseAppStore {
    *
    * @type {{ [key: string]: any }}
    */
-  state: { [key: string]: any };
+  state: { [key: string]: any }
 
   /**
    * Propriedade computada que indica se há alguma operação em andamento.
    *
    * @type {ComputedRef<boolean>}
    */
-  loading: ComputedRef<boolean>;
+  loading: ComputedRef<boolean>
 }
 
 /**
@@ -35,14 +35,14 @@ export interface IAppState {
    *
    * @type {boolean}
    */
-  const: boolean;
+  const: boolean
 
   /**
    * Indica se a aplicação está em estado de carregamento.
    *
    * @type {boolean}
    */
-  loading: boolean;
+  loading: boolean
 }
 
 /**
@@ -56,42 +56,42 @@ export interface IPagination {
    *
    * @type {number}
    */
-  page: number;
+  page: number
 
   /**
    * Número de itens por página.
    *
    * @type {number}
    */
-  page_size: number;
+  page_size: number
 
   /**
    * Total de registros disponíveis.
    *
    * @type {number}
    */
-  total: number;
+  total: number
 
   /**
    * Número total de páginas.
    *
    * @type {number}
    */
-  num_pages: number;
+  num_pages: number
 
   /**
    * Lista de campos pelos quais a ordenação está sendo aplicada.
    *
    * @type {Array<string>}
    */
-  sortBy: Array<string>;
+  sortBy: Array<string>
 
   /**
    * Indica, para cada campo em `sortBy`, se a ordenação é descendente (`true`) ou ascendente (`false`).
    *
    * @type {Array<boolean>}
    */
-  sortDesc: Array<boolean>;
+  sortDesc: Array<boolean>
 }
 
 /**
@@ -105,42 +105,42 @@ export interface IHeader {
    *
    * @type {number}
    */
-  id: number;
+  id: number
 
   /**
    * Título que será exibido na interface para o cabeçalho da coluna.
    *
    * @type {string}
    */
-  title: string;
+  title: string
 
   /**
    * Chave de acesso no objeto de dados correspondente a essa coluna.
    *
    * @type {string}
    */
-  value: string;
+  value: string
 
   /**
    * Ordem de exibição da coluna na tabela.
    *
    * @type {number}
    */
-  sequence: number;
+  sequence: number
 
   /**
    * Define se a coluna está visível na tabela.
    *
    * @type {boolean}
    */
-  isVisible: boolean;
+  isVisible: boolean
 
   /**
    * Indica se a coluna pode ser ordenada.
    *
    * @type {boolean}
    */
-  sortable: boolean;
+  sortable: boolean
 
   /**
    * Conjunto de funções de validação aplicadas aos valores dessa coluna.
@@ -149,5 +149,5 @@ export interface IHeader {
    * @type {Array<(v: string) => boolean | string>}
    * @optional
    */
-  rules?: Array<(v: string) => boolean | string>;
+  rules?: Array<(v: string) => boolean | string>
 }
