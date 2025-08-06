@@ -21,7 +21,7 @@ export interface IRoutes {
    *
    * @type {string}
    */
-  name: string
+  name?: string
 
   /**
    * Função que retorna o componente a ser renderizado para essa rota.
