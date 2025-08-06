@@ -25,7 +25,7 @@ const togglePasswordVisibility = (fieldId: string) => {
 
 <template>
   <ul class="mt-5">
-    <li v-for="field in formFields" :key="field.id" class="grid w-[332px] my-5">
+    <li v-for="field in formFields" :key="field.id" class="my-5 grid w-[332px]">
       <div v-if="field.type === 'password'" class="grid gap-2">
         <label :for="field.id">{{ field.label }}</label>
         <div class="relative">
@@ -36,11 +36,11 @@ const togglePasswordVisibility = (fieldId: string) => {
             required
             :placeholder="field.placeholder"
             :autocomplete="field.autocomplete"
-            class="border border-[#7AA6C8] px-3 py-3 rounded-lg text-xs text-black dark:text-[#999999] focus:bg-[#7AA6C8]/20 w-full outline-none"
+            class="w-full rounded-lg border border-[#7AA6C8] px-3 py-3 text-xs text-black outline-none focus:bg-[#7AA6C8]/20 dark:text-[#999999]"
           />
           <span
             @click="togglePasswordVisibility(field.id)"
-            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-[#999999]"
+            class="material-symbols-outlined absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#999999]"
           >
             {{ passwordVisibility[field.id] ? 'visibility_off' : 'visibility' }}
           </span>
@@ -56,7 +56,7 @@ const togglePasswordVisibility = (fieldId: string) => {
           required
           :placeholder="field.placeholder"
           :autocomplete="field.autocomplete"
-          class="border border-[#7AA6C8] px-3 py-3 rounded-lg text-xs text-black dark:text-[#999999] focus:bg-[#7AA6C8]/20 outline-none"
+          class="rounded-lg border border-[#7AA6C8] px-3 py-3 text-xs text-black outline-none focus:bg-[#7AA6C8]/20 dark:text-[#999999]"
         />
       </div>
 
@@ -66,7 +66,7 @@ const togglePasswordVisibility = (fieldId: string) => {
           <select
             name="day"
             id="day"
-            class="border border-[#7AA6C8] px-3 py-2 rounded-lg text-xs text-black dark:text-[#999999] w-[48%] outline-none"
+            class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-black outline-none dark:text-[#999999]"
           >
             <option value="">Dia</option>
             <option v-for="day in 31" :key="day" :value="day">{{ day }}</option>
@@ -74,7 +74,7 @@ const togglePasswordVisibility = (fieldId: string) => {
           <select
             name="month"
             id="month"
-            class="border border-[#7AA6C8] px-3 py-2 rounded-lg text-xs text-black dark:text-[#999999] w-[48%] outline-none"
+            class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-black outline-none dark:text-[#999999]"
           >
             <option value="">Mês</option>
             <option v-for="(option, index) in field.options" :key="option" :value="index + 1">
@@ -84,7 +84,7 @@ const togglePasswordVisibility = (fieldId: string) => {
           <select
             name="year"
             id="year"
-            class="border border-[#7AA6C8] px-3 py-2 rounded-lg text-xs text-black dark:text-[#999999] w-[48%] outline-none"
+            class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-black outline-none dark:text-[#999999]"
           >
             <option value="">Ano</option>
             <option v-for="year in 100" :key="year" :value="new Date().getFullYear() - year + 1">
@@ -100,7 +100,7 @@ const togglePasswordVisibility = (fieldId: string) => {
           <select
             name="month"
             id="month"
-            class="border border-[#7AA6C8] px-3 py-2 rounded-lg text-xs text-black dark:text-[#999999] w-[48%] outline-none"
+            class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-black outline-none dark:text-[#999999]"
           >
             <option value="">Mês</option>
             <option v-for="(option, index) in field.options" :key="option" :value="index + 1">
@@ -110,7 +110,7 @@ const togglePasswordVisibility = (fieldId: string) => {
           <select
             name="year"
             id="year"
-            class="border border-[#7AA6C8] px-3 py-2 rounded-lg text-xs text-black dark:text-[#999999] w-[48%] outline-none"
+            class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-black outline-none dark:text-[#999999]"
           >
             <option value="">Ano</option>
             <option v-for="year in 100" :key="year" :value="new Date().getFullYear() - year + 1">
@@ -126,7 +126,7 @@ const togglePasswordVisibility = (fieldId: string) => {
           <select
             :name="field.autocomplete"
             :id="field.id"
-            class="border border-[#7AA6C8] px-3 py-2 rounded-lg text-xs text-black dark:text-[#999999] w-full outline-none"
+            class="w-full rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-black outline-none dark:text-[#999999]"
           >
             <option value="">{{ field.name }}</option>
             <option

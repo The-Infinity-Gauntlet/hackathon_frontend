@@ -68,7 +68,7 @@ const chartOptions = ref({
     </section>
 
     <section>
-      <div class="flex justify-center items-center gap-1 p-5">
+      <div class="flex items-center justify-center gap-1 p-5">
         <img src="/icons/location.svg" alt="Localização" />
         <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
       </div>

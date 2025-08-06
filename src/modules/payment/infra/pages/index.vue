@@ -125,7 +125,7 @@ const handleFinish = () => {
     </template>
 
     <template #finish-message>
-      <h2 class="text-xl font-semibold mb-4 text-green-500">Concluído!</h2>
+      <h2 class="mb-4 text-xl font-semibold text-green-500">Concluído!</h2>
       <p class="text-gray-600 dark:text-gray-400">Doação paga com sucesso.</p>
     </template>
   </stepByStep>

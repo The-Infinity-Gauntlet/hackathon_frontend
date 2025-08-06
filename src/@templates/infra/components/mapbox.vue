@@ -220,7 +220,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="h-[500px] mb-20 rounded-2xl overflow-hidden">
+  <div class="mb-20 h-[500px] overflow-hidden rounded-2xl">
     <div id="map" class="h-full w-full"></div>
   </div>
 </template>

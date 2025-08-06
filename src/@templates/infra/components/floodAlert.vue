@@ -34,7 +34,7 @@ const alertInfo = computed(() => ALERTS[props.alert])
   <div class="my-5 grid gap-3">
     <p
       v-if="alertInfo"
-      class="grid text-sm text-center p-1 rounded-lg text-black"
+      class="grid rounded-lg p-1 text-center text-sm text-black"
       :class="alertInfo.bgClass"
     >
       <span class="text-md font-semibold">{{ props.alert }}</span>

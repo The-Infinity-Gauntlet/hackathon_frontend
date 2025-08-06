@@ -13,7 +13,7 @@ const fields: IFormField[] = [
   <div class="grid justify-center">
     <baseForm :form-fields="fields" button-text="Entrar" />
 
-    <p class="text-center my-3">ou</p>
+    <p class="my-3 text-center">ou</p>
     <GoogleAuthButton />
   </div>
 </template>
