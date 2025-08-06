@@ -12,17 +12,86 @@ const payForms = [
 ]
 
 const fieldsStep2: IFormField[] = [
-  { id: 'name', label: 'Nome do titular', placeholder: 'Digite o nome do titular aqui', type: 'text', autocomplete: 'name' },
-  { id: 'card', label: 'Número do cartão', placeholder: 'xxxx xxxx xxxx xxxx', type: 'number', autocomplete: 'card' },
-  { id: 'date', label: 'Data de validade (MM/AA)', options: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"] },
-  { id: 'cpf', label: 'CPF do titular', placeholder: 'xxx.xxx.xxx-xx', type: 'number', autocomplete: 'cpf' },
-  { id: 'seguranca', label: 'Código de segurança (CVV)', placeholder: 'xxx', type: 'number', autocomplete: 'seguranca' },
   {
-    id: 'bank', label: 'Banco Emissor', name: 'Banco', options: ["Banco do Brasil", "Caixa Econômica Federal", "Itaú Unibanco", "Bradesco", "Santander Brasil", "Banco Safra",
-      "Banco BTG Pactual", "Banco Pan", "Banco Inter", "Nubank", "C6 Bank", "Banco Original", "PagBank (PagSeguro)", "Neon", "Banco Modal", "Banco BMG",
-      "Banco Mercantil do Brasil", "Banco Votorantim (BV)", "Banco Daycoval", "Banco do Nordeste"]
+    id: 'name',
+    label: 'Nome do titular',
+    placeholder: 'Digite o nome do titular aqui',
+    type: 'text',
+    autocomplete: 'name',
   },
-  { id: 'email', label: 'Email', placeholder: 'Digite seu email aqui', type: 'email', autocomplete: 'email' },
+  {
+    id: 'card',
+    label: 'Número do cartão',
+    placeholder: 'xxxx xxxx xxxx xxxx',
+    type: 'number',
+    autocomplete: 'card',
+  },
+  {
+    id: 'date',
+    label: 'Data de validade (MM/AA)',
+    options: [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
+    ],
+  },
+  {
+    id: 'cpf',
+    label: 'CPF do titular',
+    placeholder: 'xxx.xxx.xxx-xx',
+    type: 'number',
+    autocomplete: 'cpf',
+  },
+  {
+    id: 'seguranca',
+    label: 'Código de segurança (CVV)',
+    placeholder: 'xxx',
+    type: 'number',
+    autocomplete: 'seguranca',
+  },
+  {
+    id: 'bank',
+    label: 'Banco Emissor',
+    name: 'Banco',
+    options: [
+      'Banco do Brasil',
+      'Caixa Econômica Federal',
+      'Itaú Unibanco',
+      'Bradesco',
+      'Santander Brasil',
+      'Banco Safra',
+      'Banco BTG Pactual',
+      'Banco Pan',
+      'Banco Inter',
+      'Nubank',
+      'C6 Bank',
+      'Banco Original',
+      'PagBank (PagSeguro)',
+      'Neon',
+      'Banco Modal',
+      'Banco BMG',
+      'Banco Mercantil do Brasil',
+      'Banco Votorantim (BV)',
+      'Banco Daycoval',
+      'Banco do Nordeste',
+    ],
+  },
+  {
+    id: 'email',
+    label: 'Email',
+    placeholder: 'Digite seu email aqui',
+    type: 'email',
+    autocomplete: 'email',
+  },
 ]
 
 const fieldsStep4 = [
@@ -35,7 +104,7 @@ const fieldsStep4 = [
 ]
 
 const handleFinish = () => {
-  alert("Pagamento efetuado!")
+  alert('Pagamento efetuado!')
 }
 </script>
 
@@ -49,9 +118,7 @@ const handleFinish = () => {
       <baseForm :form-fields="fieldsStep2" />
     </template>
 
-    <template #step-3>
-
-    </template>
+    <template #step-3> </template>
 
     <template #step-4>
       <purchaseDetails :complete-fields="fieldsStep4" />

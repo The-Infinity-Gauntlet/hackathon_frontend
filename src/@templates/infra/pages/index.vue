@@ -6,12 +6,17 @@ import FloodAlert from '../components/floodAlert.vue'
 import Mapbox from '../components/mapbox.vue'
 
 const location = ref({
-  neighborhood: "Floresta",
-  city: "Joinville",
+  neighborhood: 'Floresta',
+  city: 'Joinville',
   data: [
-    { name: "Temperatura", icon: '/weather_information/cloud.svg', scale: 23 },
-    { name: "Probabilidade de enchente", icon: '/weather_information/danger.svg', scale: 59, message: "CRISE!" },
-    { name: "Umidade", icon: '/weather_information/no-rain.svg', scale: 73 }
+    { name: 'Temperatura', icon: '/weather_information/cloud.svg', scale: 23 },
+    {
+      name: 'Probabilidade de enchente',
+      icon: '/weather_information/danger.svg',
+      scale: 59,
+      message: 'NORMALIDADE!',
+    },
+    { name: 'Umidade', icon: '/weather_information/no-rain.svg', scale: 73 },
   ],
 })
 const chartData = ref({
@@ -22,37 +27,37 @@ const chartData = ref({
       data: [12, 19, 3, 5, 2],
       backgroundColor: 'rgba(54, 162, 235, 0.5)',
       borderColor: 'rgba(54, 162, 235, 1)',
-      borderWidth: 1
-    }
-  ]
+      borderWidth: 1,
+    },
+  ],
 })
 const chartOptions = ref({
   responsive: true,
   plugins: {
     legend: {
       labels: {
-        color: '#495057'
-      }
-    }
+        color: '#495057',
+      },
+    },
   },
   scales: {
     x: {
       ticks: {
-        color: '#495057'
+        color: '#495057',
       },
       grid: {
-        color: '#ebedef'
-      }
+        color: '#ebedef',
+      },
     },
     y: {
       ticks: {
-        color: '#495057'
+        color: '#495057',
       },
       grid: {
-        color: '#ebedef'
-      }
-    }
-  }
+        color: '#ebedef',
+      },
+    },
+  },
 })
 </script>
 

@@ -186,7 +186,7 @@
 //   })
 // })
 
-import { onMounted, onBeforeUnmount } from 'vue'
+import { onMounted, onBeforeUnmount, ref } from 'vue'
 import mapboxgl from 'mapbox-gl'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
@@ -200,11 +200,15 @@ onMounted(() => {
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v12', // estilo padrão
     center: [-48.8464, -26.3044],
-    maxBounds: [[-48.95, -26.45], [-48.70, -26.15]],
+    maxBounds: [
+      [-48.95, -26.45],
+      [-48.7, -26.15],
+    ],
     zoom: 13,
   })
 
-  map.addControl(new mapboxgl.NavigationControl(), 'top-right')
+  map.addControl(new mapboxgl.NavigationControl(), 'top-left')
+  map.addControl(new mapboxgl.FullscreenControl(), 'top-right')
 })
 
 onBeforeUnmount(() => {
