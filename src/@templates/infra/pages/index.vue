@@ -5,6 +5,7 @@ import WeatherStats from '../components/weatherStats.vue'
 import FloodAlert from '../components/floodAlert.vue'
 import Mapbox from '../components/mapbox.vue'
 import BlogPost from '../components/blogPost.vue'
+import Localization from '../components/localization.vue'
 
 const location = ref({
   neighborhood: 'Floresta',
@@ -86,5 +87,6 @@ const chartOptions = ref({
     <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
 
     <BlogPost />
+    <Localization class="mb-20" />
   </div>
 </template>
