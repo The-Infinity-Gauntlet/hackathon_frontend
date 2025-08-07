@@ -5,7 +5,7 @@ import mobileMenu from './@core/components/general/mobileMenu.vue'
 </script>
 
 <template>
-  <headerComp title="Aqua" />
+  <headerComp :title="$route.name" />
   <RouterView v-slot="{ Component }">
     <Transition
       mode="out-in"

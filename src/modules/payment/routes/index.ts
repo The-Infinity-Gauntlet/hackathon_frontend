@@ -7,7 +7,7 @@ const routes: IRoutes[] = [
     children: [
       {
         path: '/pagamento',
-        name: 'Payment',
+        name: 'Pagamento',
         component: () => import('@/modules/payment/infra/pages/index.vue'),
       },
     ],
