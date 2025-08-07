@@ -37,6 +37,9 @@ const router = createRouter({
     },
     ...moduleRoutes,
   ],
+  scrollBehavior() {
+    return { top: 0 }
+  },
 })
 
 /**

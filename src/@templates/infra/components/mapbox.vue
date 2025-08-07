@@ -207,8 +207,8 @@ onMounted(() => {
     zoom: 13,
   })
 
-  map.addControl(new mapboxgl.NavigationControl(), 'top-left')
-  map.addControl(new mapboxgl.FullscreenControl(), 'top-right')
+  map.addControl(new mapboxgl.NavigationControl(), 'top-right')
+  map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
 })
 
 onBeforeUnmount(() => {
@@ -217,10 +217,52 @@ onBeforeUnmount(() => {
     map = null
   }
 })
+
+const filters = [{ name: 'Geral' }, { name: 'IA' }, { name: 'Especialista' }]
+
+const fields = [
+  { start: '81%', end: '100%' },
+  { start: '61%', end: '80%' },
+  { start: '41%', end: '60%' },
+  { start: '21%', end: '40%' },
+  { start: '0%', end: '20%' },
+]
 </script>
 
 <template>
-  <div class="mb-20 h-[500px] overflow-hidden rounded-2xl">
-    <div id="map" class="h-full w-full"></div>
-  </div>
+  <section class="mb-20">
+    <div class="h-[500px] overflow-hidden rounded-2xl">
+      <div id="map" class="h-full w-full"></div>
+    </div>
+
+    <div class="mt-10 flex justify-center gap-2">
+      <div class="border-r border-[#E5E5E5] px-5 text-center dark:border-[#00182F]">
+        <h3 class="text-lg font-semibold">Legendas</h3>
+        <p class="text-xs font-semibold">Probabilidade de alagamento</p>
+
+        <div class="mt-5 flex gap-3">
+          <div class="h-30 w-5 rounded-lg bg-gradient-to-b from-[#0047AB] to-[#00B2A9]"></div>
+          <ul class="grid h-32 justify-between">
+            <li v-for="field in fields" :key="field.start" class="text-left text-xs">
+              {{ field.end }} - {{ field.start }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="px-5 text-center">
+        <h3 class="text-lg font-semibold">Camadas</h3>
+        <p class="text-xs font-semibold">Aperte para mudar a camada</p>
+        <ul class="mt-5 grid gap-3">
+          <li
+            v-for="filter in filters"
+            :key="filter.name"
+            class="rounded-lg bg-[#2768CA] py-2 text-xs hover:bg-[#263e61]"
+          >
+            {{ filter.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
 </template>

@@ -4,7 +4,7 @@ const menubar = [
   { icon: 'savings', link: '/sig-up' },
   { icon: 'home', link: '/' },
   { icon: 'distance', link: '/recuperacao' },
-  { icon: 'apps', link: '/' },
+  { icon: 'apps', link: '/pagamento' },
 ]
 </script>
 

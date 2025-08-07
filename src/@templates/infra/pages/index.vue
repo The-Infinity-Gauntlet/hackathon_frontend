@@ -4,6 +4,7 @@ import Chart from 'primevue/chart'
 import WeatherStats from '../components/weatherStats.vue'
 import FloodAlert from '../components/floodAlert.vue'
 import Mapbox from '../components/mapbox.vue'
+import BlogPost from '../components/blogPost.vue'
 
 const location = ref({
   neighborhood: 'Floresta',
@@ -16,7 +17,7 @@ const location = ref({
       scale: 59,
       message: 'NORMALIDADE!',
     },
-    { name: 'Umidade', icon: '/weather_information/no-rain.svg', scale: 73 },
+    { name: 'Umidade', icon: '/weather_information/no_rain.svg', scale: 73 },
   ],
 })
 const chartData = ref({
@@ -79,6 +80,11 @@ const chartOptions = ref({
 
     <Mapbox />
 
-    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-20" />
+    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
+    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
+    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
+    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
+
+    <BlogPost />
   </div>
 </template>
