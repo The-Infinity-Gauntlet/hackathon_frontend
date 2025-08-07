@@ -6,9 +6,9 @@ import purchaseDetails from '../components/purchaseDetails.vue'
 import type { IFormField } from '@/@core/interfaces/form'
 
 const payForms = [
-  { icon: '/payment/card.svg', name: 'Cartão' },
-  { icon: '/payment/pix.svg', name: 'Pix' },
-  { icon: '/payment/bank_slip.svg', name: 'Boleto' },
+  { id: 1, icon: '/payment/card.svg', name: 'Cartão' },
+  { id: 2, icon: '/payment/pix.svg', name: 'Pix' },
+  { id: 3, icon: '/payment/bank_slip.svg', name: 'Boleto' },
 ]
 
 const fieldsStep2: IFormField[] = [
@@ -29,6 +29,7 @@ const fieldsStep2: IFormField[] = [
   {
     id: 'date',
     label: 'Data de validade (MM/AA)',
+    type: 'select',
     options: [
       'Janeiro',
       'Fevereiro',
@@ -62,6 +63,7 @@ const fieldsStep2: IFormField[] = [
     id: 'bank',
     label: 'Banco Emissor',
     name: 'Banco',
+    type: 'select',
     options: [
       'Banco do Brasil',
       'Caixa Econômica Federal',

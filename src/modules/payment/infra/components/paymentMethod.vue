@@ -1,10 +1,13 @@
 <script setup lang="ts">
-defineProps({
-  formFields: {
-    type: Array,
-    required: true,
-  },
-})
+interface IFormField {
+  id: string | number
+  icon: string
+  name: string
+}
+
+defineProps<{
+  formFields: IFormField[]
+}>()
 </script>
 
 <template>

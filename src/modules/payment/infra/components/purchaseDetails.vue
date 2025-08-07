@@ -1,10 +1,13 @@
 <script setup lang="ts">
-defineProps({
-  completeFields: {
-    type: Array,
-    required: true,
-  },
-})
+interface ICompleteField {
+  id: string
+  name: string
+  data: string
+}
+
+defineProps<{
+  completeFields: ICompleteField[]
+}>()
 </script>
 
 <template>
