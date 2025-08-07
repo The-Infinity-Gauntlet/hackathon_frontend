@@ -84,7 +84,7 @@ const handlePaste = (e: ClipboardEvent) => {
 </script>
 
 <template>
-  <div class="flex justify-center gap-2 mt-10 mb-5">
+  <div class="mt-10 mb-5 flex justify-center gap-2">
     <template v-for="(_, index) in codeLength" :key="index">
       <input
         :ref="
@@ -97,7 +97,7 @@ const handlePaste = (e: ClipboardEvent) => {
         maxlength="1"
         pattern="\d*"
         inputmode="numeric"
-        class="w-12 h-14 text-center text-2xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-2 border-gray-200 dark:border-gray-600 rounded-lg focus:bg-white dark:focus:bg-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50"
+        class="h-14 w-12 rounded-lg border-2 border-gray-200 bg-gray-100 text-center text-2xl text-gray-800 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-500/50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:focus:bg-gray-900"
         @input="handleInput($event, index)"
         @keydown="handleKeydown($event, index)"
         @paste="handlePaste"

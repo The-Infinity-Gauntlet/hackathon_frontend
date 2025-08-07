@@ -21,7 +21,7 @@ export interface IRoutes {
    *
    * @type {string}
    */
-  name: string
+  name?: string
 
   /**
    * Função que retorna o componente a ser renderizado para essa rota.
@@ -35,6 +35,17 @@ export interface IRoutes {
    *
    * @type {() => void}
    */
+
+  /**
+   * Rotas filhas (sub-rotas) associadas a esta rota.
+   *
+   * Permite criar rotas aninhadas, onde cada objeto segue a interface IRoutes.
+   *
+   * @type {IRoutes[]}
+   * @optional
+   */
+  children?: IRoutes[]
+
   component: () => void
 
   /**

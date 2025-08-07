@@ -30,16 +30,20 @@ const closePopup = () => {
 </script>
 
 <template>
-  <div v-if="showPopup" class="fixed inset-0 flex items-center justify-center bg-black z-2">
+  <div v-if="showPopup" class="fixed inset-0 z-2 flex items-center justify-center bg-black">
     <div
-      class="bg-white dark:bg-[#000d19] bg-opacity-2 rounded-lg shadow-lg w-[90%] max-w-md max-h-[90vh] overflow-y-auto flex flex-col pt-4 pb-7">
+      class="bg-opacity-2 flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-lg bg-white pt-4 pb-7 shadow-lg dark:bg-[#000d19]"
+    >
       <div class="flex justify-between px-5">
-        <button class="text-2xl text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" @click="closePopup">
+        <button
+          class="text-2xl text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+          @click="closePopup"
+        >
           ×
         </button>
       </div>
 
-      <div class="p-5 pt-3 flex flex-col items-center gap-4">
+      <div class="flex flex-col items-center gap-4 p-5 pt-3">
         <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
           {{ title }}
         </h2>

@@ -4,13 +4,13 @@ const menubar = [
   { icon: 'savings', link: '/sig-up' },
   { icon: 'home', link: '/' },
   { icon: 'distance', link: '/recuperacao' },
-  { icon: 'apps', link: '/' },
+  { icon: 'apps', link: '/pagamento' },
 ]
 </script>
 
 <template>
-  <nav class="backdrop-blur-xs bg-[#7AA6C8]/30 py-2 shadow-xl rounded-t-2xl w-full">
-    <ul class="flex justify-around items-center text-[#0453AF]">
+  <nav class="w-full rounded-t-2xl bg-[#7AA6C8]/30 py-2 shadow-xl backdrop-blur-xs">
+    <ul class="flex items-center justify-around text-[#0453AF]">
       <li v-for="item in menubar" :key="item.icon">
         <RouterLink :to="item.link">
           <span class="material-symbols-outlined">{{ item.icon }}</span>

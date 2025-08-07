@@ -6,23 +6,94 @@ import purchaseDetails from '../components/purchaseDetails.vue'
 import type { IFormField } from '@/@core/interfaces/form'
 
 const payForms = [
-  { icon: '/payment/card.svg', name: 'Cartão' },
-  { icon: '/payment/pix.svg', name: 'Pix' },
-  { icon: '/payment/bank_slip.svg', name: 'Boleto' },
+  { id: 1, icon: '/payment/card.svg', name: 'Cartão' },
+  { id: 2, icon: '/payment/pix.svg', name: 'Pix' },
+  { id: 3, icon: '/payment/bank_slip.svg', name: 'Boleto' },
 ]
 
 const fieldsStep2: IFormField[] = [
-  { id: 'name', label: 'Nome do titular', placeholder: 'Digite o nome do titular aqui', type: 'text', autocomplete: 'name' },
-  { id: 'card', label: 'Número do cartão', placeholder: 'xxxx xxxx xxxx xxxx', type: 'number', autocomplete: 'card' },
-  { id: 'date', label: 'Data de validade (MM/AA)', options: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"] },
-  { id: 'cpf', label: 'CPF do titular', placeholder: 'xxx.xxx.xxx-xx', type: 'number', autocomplete: 'cpf' },
-  { id: 'seguranca', label: 'Código de segurança (CVV)', placeholder: 'xxx', type: 'number', autocomplete: 'seguranca' },
   {
-    id: 'bank', label: 'Banco Emissor', name: 'Banco', options: ["Banco do Brasil", "Caixa Econômica Federal", "Itaú Unibanco", "Bradesco", "Santander Brasil", "Banco Safra",
-      "Banco BTG Pactual", "Banco Pan", "Banco Inter", "Nubank", "C6 Bank", "Banco Original", "PagBank (PagSeguro)", "Neon", "Banco Modal", "Banco BMG",
-      "Banco Mercantil do Brasil", "Banco Votorantim (BV)", "Banco Daycoval", "Banco do Nordeste"]
+    id: 'name',
+    label: 'Nome do titular',
+    placeholder: 'Digite o nome do titular aqui',
+    type: 'text',
+    autocomplete: 'name',
   },
-  { id: 'email', label: 'Email', placeholder: 'Digite seu email aqui', type: 'email', autocomplete: 'email' },
+  {
+    id: 'card',
+    label: 'Número do cartão',
+    placeholder: 'xxxx xxxx xxxx xxxx',
+    type: 'number',
+    autocomplete: 'card',
+  },
+  {
+    id: 'date',
+    label: 'Data de validade (MM/AA)',
+    type: 'select',
+    options: [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
+    ],
+  },
+  {
+    id: 'cpf',
+    label: 'CPF do titular',
+    placeholder: 'xxx.xxx.xxx-xx',
+    type: 'number',
+    autocomplete: 'cpf',
+  },
+  {
+    id: 'seguranca',
+    label: 'Código de segurança (CVV)',
+    placeholder: 'xxx',
+    type: 'number',
+    autocomplete: 'seguranca',
+  },
+  {
+    id: 'bank',
+    label: 'Banco Emissor',
+    name: 'Banco',
+    type: 'select',
+    options: [
+      'Banco do Brasil',
+      'Caixa Econômica Federal',
+      'Itaú Unibanco',
+      'Bradesco',
+      'Santander Brasil',
+      'Banco Safra',
+      'Banco BTG Pactual',
+      'Banco Pan',
+      'Banco Inter',
+      'Nubank',
+      'C6 Bank',
+      'Banco Original',
+      'PagBank (PagSeguro)',
+      'Neon',
+      'Banco Modal',
+      'Banco BMG',
+      'Banco Mercantil do Brasil',
+      'Banco Votorantim (BV)',
+      'Banco Daycoval',
+      'Banco do Nordeste',
+    ],
+  },
+  {
+    id: 'email',
+    label: 'Email',
+    placeholder: 'Digite seu email aqui',
+    type: 'email',
+    autocomplete: 'email',
+  },
 ]
 
 const fieldsStep4 = [
@@ -35,7 +106,7 @@ const fieldsStep4 = [
 ]
 
 const handleFinish = () => {
-  alert("Pagamento efetuado!")
+  alert('Pagamento efetuado!')
 }
 </script>
 
@@ -49,16 +120,14 @@ const handleFinish = () => {
       <baseForm :form-fields="fieldsStep2" />
     </template>
 
-    <template #step-3>
-
-    </template>
+    <template #step-3> </template>
 
     <template #step-4>
       <purchaseDetails :complete-fields="fieldsStep4" />
     </template>
 
     <template #finish-message>
-      <h2 class="text-xl font-semibold mb-4 text-green-500">Concluído!</h2>
+      <h2 class="mb-4 text-xl font-semibold text-green-500">Concluído!</h2>
       <p class="text-gray-600 dark:text-gray-400">Doação paga com sucesso.</p>
     </template>
   </stepByStep>
