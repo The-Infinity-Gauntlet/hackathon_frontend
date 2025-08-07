@@ -3,17 +3,17 @@ import { IRoutes } from '@/@core/interfaces/route'
 const routes: IRoutes[] = [
   {
     path: '/blog',
-    name: 'Blog',
+    name: '',
     component: () => import('@/modules/info/infra/pages/index.vue'),
   },
   {
     path: '/post',
-    name: 'Post',
+    name: '',
     component: () => import('@/modules/info/infra/pages/Post.vue'),
   },
   {
     path: '/sobre',
-    name: 'About',
+    name: 'Sobre Nós',
     component: () => import('@/modules/info/infra/pages/About.vue'),
   },
 ]

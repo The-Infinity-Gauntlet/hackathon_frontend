@@ -12,12 +12,12 @@ const routes: IRoutes[] = [
       },
       {
         path: '/sig-up',
-        name: 'Register',
+        name: 'Cadastro',
         component: () => import('@/modules/auth/infra/pages/Register.vue'),
       },
       {
         path: '/recuperacao',
-        name: 'Recovery',
+        name: 'Recuperação',
         component: () => import('@/modules/auth/infra/pages/Recovery.vue'),
       },
     ],

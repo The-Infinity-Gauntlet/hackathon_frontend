@@ -32,7 +32,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: '',
       component: () => import('@/@templates/infra/pages/index.vue'),
     },
     ...moduleRoutes,
