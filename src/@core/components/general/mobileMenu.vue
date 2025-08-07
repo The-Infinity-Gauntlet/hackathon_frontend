@@ -3,8 +3,8 @@ const menubar = [
   { icon: 'person', link: '/sig-in' },
   { icon: 'savings', link: '/sig-up' },
   { icon: 'home', link: '/' },
-  { icon: 'distance', link: '/recuperacao' },
-  { icon: 'apps', link: '/pagamento' },
+  { icon: 'distance', link: '/blog' },
+  { icon: 'apps', link: '/sobre' },
 ]
 </script>
 
