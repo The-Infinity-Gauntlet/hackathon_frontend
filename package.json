@@ -28,10 +28,12 @@
     "primevue": "^4.3.7",
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.10.0",
+    "vite-plugin-pwa": "^1.0.2",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1",
     "vue3-toastify": "^0.2.8",
-    "vuetify": "^3.8.10"
+    "vuetify": "^3.8.10",
+    "workbox-precaching": "^7.3.0"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.1",
