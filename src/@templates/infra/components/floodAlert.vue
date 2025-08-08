@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-const ALERTS = {
+
+type AlertKey = 'CRISE!' | 'ALERTA!' | 'ATENÇÃO!' | 'MOBILIZAÇÃO!' | 'NORMALIDADE!'
+interface AlertInfo {
+  bgClass: string
+  description: string
+}
+
+const ALERTS: Record<AlertKey, AlertInfo> = {
   'CRISE!': {
     bgClass: 'bg-[#6326CC]',
     description: 'Probabilidade muito alta de alagamento.',

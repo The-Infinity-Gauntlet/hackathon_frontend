@@ -5,6 +5,7 @@ import WeatherStats from '../components/weatherStats.vue'
 import FloodAlert from '../components/floodAlert.vue'
 import Mapbox from '../components/mapbox.vue'
 import BlogPost from '../components/blogPost.vue'
+import Localization from '../components/currentLocation.vue'
 
 const location = ref({
   neighborhood: 'Floresta',
@@ -18,7 +19,7 @@ const location = ref({
       message: 'NORMALIDADE!',
     },
     { name: 'Umidade', icon: '/weather_information/no_rain.svg', scale: 73 },
-  ],
+  ] as const,
 })
 const chartData = ref({
   labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
@@ -86,5 +87,6 @@ const chartOptions = ref({
     <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
 
     <BlogPost />
+    <Localization class="mb-20" />
   </div>
 </template>
