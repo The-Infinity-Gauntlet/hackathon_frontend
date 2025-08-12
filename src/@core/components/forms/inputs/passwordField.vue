@@ -22,19 +22,11 @@ const togglePasswordVisibility = (fieldId: string) => {
   <div class="grid gap-2">
     <label :for="field.id">{{ field.label }}</label>
     <div class="relative">
-      <input
-        :type="passwordVisibility[field.id] ? 'text' : 'password'"
-        :id="field.id"
-        :name="field.id"
-        required
-        :placeholder="field.placeholder"
-        :autocomplete="field.autocomplete"
-        class="w-full rounded-lg border border-[#7AA6C8] px-3 py-3 text-xs text-black outline-none focus:bg-[#7AA6C8]/20 dark:text-[#999999]"
-      />
-      <span
-        @click="togglePasswordVisibility(field.id)"
-        class="material-symbols-outlined absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#999999]"
-      >
+      <input :type="passwordVisibility[field.id] ? 'text' : 'password'" :id="field.id" :name="field.id" required
+        :placeholder="field.placeholder" :autocomplete="field.autocomplete"
+        class="w-full rounded-lg border border-[#7AA6C8] px-3 py-3 text-xs text-black outline-none focus:bg-[#7AA6C8]/20 dark:text-[#999999]" />
+      <span @click="togglePasswordVisibility(field.id)"
+        class="material-symbols-outlined absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#999999]">
         {{ passwordVisibility[field.id] ? 'visibility_off' : 'visibility' }}
       </span>
     </div>

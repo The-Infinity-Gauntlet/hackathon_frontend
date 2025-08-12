@@ -17,12 +17,6 @@ const routes: IRoutes[] = [
         component: () => import('@/modules/profile/infra/pages/Dashboard.vue'),
         meta: { requiresAuth: true },
       },
-      // {
-      //   path: '/seguranca',
-      //   name: 'Segurança',
-      //   component: () => import('@/modules/profile/infra/pages/Security.vue'),
-      //   meta: { requiresAuth: true },
-      // },
       {
         path: '/suporte',
         name: 'Suporte',
