@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Chart from 'primevue/chart'
-import WeatherStats from '../components/weatherStats.vue'
 import FloodAlert from '@/@core/components/flood/floodAlert.vue'
-import Mapbox from '../components/mapbox.vue'
-import BlogPost from '../components/blogPost.vue'
-import Localization from '../components/currentLocation.vue'
+import Chart from 'primevue/chart'
 
 const location = ref({
   neighborhood: 'Floresta',
@@ -64,29 +60,10 @@ const chartOptions = ref({
 </script>
 
 <template>
-  <div class="grid justify-center px-5">
-    <section class="p-5">
-      <h1 class="text-4xl font-semibold">Bem-vindo ao AQUA!</h1>
-    </section>
-
-    <section>
-      <div class="flex items-center justify-center gap-1 p-5">
-        <img src="/icons/location.svg" alt="Localização" />
-        <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
-      </div>
-
-      <WeatherStats :weatherStats="location.data" />
-      <FloodAlert :alert="location.data[1].message" />
-    </section>
-
-    <Mapbox />
-
+  <div class="grid justify-center px-5 pb-20">
+    <FloodAlert :alert="location.data[1].message" />
     <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
     <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
-    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
-    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
-
-    <BlogPost />
-    <Localization class="mb-20" />
+    <Chart type="doughnut" :data="chartData" :options="chartOptions" class="mb-10" />
   </div>
 </template>
