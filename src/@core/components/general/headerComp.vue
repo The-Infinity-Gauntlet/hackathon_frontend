@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import themeSwitcher from './themeSwitcher.vue'
 import { useNavigation } from '../../composables/navigation'
-import NotificationButton from '../buttons/notificationButton.vue'
 
 defineProps<{
   title?: string
@@ -18,6 +17,5 @@ const { routerBack } = useNavigation()
   </header>
   <div class="grid">
     <h1 class="text-center">{{ title }}</h1>
-    <NotificationButton />
   </div>
 </template>
