@@ -19,8 +19,6 @@ import mobileMenu from '@/@core/components/general/mobileMenu.vue'
         <component :is="Component" :key="$route.fullPath" />
       </Transition>
     </RouterView>
-
-    <img src="/layouts/waves.svg" class="w-full" />
     <mobileMenu class="fixed bottom-0" />
   </div>
 </template>

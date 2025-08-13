@@ -10,8 +10,10 @@ const { routerBack } = useNavigation()
 </script>
 
 <template>
-  <header class="flex items-center justify-between px-7">
-    <button class="material-symbols-outlined" @click="routerBack">arrow_back_ios</button>
+  <header class="relative z-10 flex items-center justify-between bg-transparent px-7">
+    <button class="material-symbols-outlined text-[#999999]" @click="routerBack">
+      arrow_back_ios
+    </button>
     <img src="/icons/logo.svg" class="ml-3" />
     <theme-switcher />
   </header>
