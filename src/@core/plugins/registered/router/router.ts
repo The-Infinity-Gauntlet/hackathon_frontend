@@ -32,8 +32,14 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: '',
-      component: () => import('@/@templates/infra/pages/index.vue'),
+      component: () => import('@/@templates/layouts/Default.vue'),
+      children: [
+        {
+          path: '/',
+          name: '',
+          component: () => import('@/@templates/infra/pages/index.vue'),
+        },
+      ],
     },
     ...moduleRoutes,
   ],

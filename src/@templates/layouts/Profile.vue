@@ -5,7 +5,15 @@ import mobileMenu from '@/@core/components/general/mobileMenu.vue'
 
 <template>
   <div>
-    <headerComp :title="$route.name" />
+    <div class="relative mb-8 h-40">
+      <img
+        src="/layouts/waves.svg"
+        alt="Fundo decorativo"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+      <headerComp :title="$route.name" />
+    </div>
+
     <RouterView v-slot="{ Component }">
       <Transition
         mode="out-in"
@@ -19,8 +27,6 @@ import mobileMenu from '@/@core/components/general/mobileMenu.vue'
         <component :is="Component" :key="$route.fullPath" />
       </Transition>
     </RouterView>
-
-    <img src="/layouts/waves.svg" class="w-full" />
     <mobileMenu class="fixed bottom-0" />
   </div>
 </template>

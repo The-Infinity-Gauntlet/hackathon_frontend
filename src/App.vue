@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import 'reflect-metadata'
-import headerComp from '@/@core/components/general/headerComp.vue'
-import mobileMenu from './@core/components/general/mobileMenu.vue'
 </script>
 
 <template>
-  <headerComp :title="$route.name" />
   <RouterView v-slot="{ Component }">
     <Transition
       mode="out-in"
@@ -19,5 +16,4 @@ import mobileMenu from './@core/components/general/mobileMenu.vue'
       <component :is="Component" :key="$route.fullPath" />
     </Transition>
   </RouterView>
-  <mobileMenu class="fixed bottom-0" />
 </template>

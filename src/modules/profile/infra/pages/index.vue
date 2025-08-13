@@ -7,7 +7,7 @@ const user = ref({
 })
 
 const menubar = [
-  { label: 'Perfil', link: '/nicolefemello' },
+  { label: 'Perfil', link: '/minha-conta/nicolefemello' },
   { label: 'Dashboard', link: '/dashboard' },
   { label: 'Segurança', link: '/seguranca' },
   { label: 'Suporte', link: '/suporte' },
