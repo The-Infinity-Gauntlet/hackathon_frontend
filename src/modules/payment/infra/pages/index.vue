@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import stepByStep from '@/@core/components/steps/stepByStep.vue'
 import paymentMethod from '../components/paymentMethod.vue'
 import baseForm from '@/@core/components/forms/baseForm.vue'
 import purchaseDetails from '../components/purchaseDetails.vue'
 import type { IFormField } from '@/@core/interfaces/form'
+import QrCode from '../components/qrCode.vue'
 
 const payForms = [
   { id: 1, icon: '/payment/card.svg', name: 'Cartão' },
@@ -96,7 +98,51 @@ const fieldsStep2: IFormField[] = [
   },
 ]
 
-const fieldsStep4 = [
+const fieldsStep3: IFormField[] = [
+  {
+    id: 'name',
+    label: 'Nome do titular',
+    placeholder: 'Digite o nome do titular aqui',
+    type: 'text',
+    autocomplete: 'name',
+  },
+  {
+    id: 'last_name',
+    label: 'Sobrenome',
+    placeholder: 'Digite o sobrenome do titular aqui',
+    type: 'text',
+    autocomplete: 'last_name',
+  },
+  {
+    id: 'email',
+    label: 'Email',
+    placeholder: 'Digite seu email aqui',
+    type: 'email',
+    autocomplete: 'email',
+  },
+  {
+    id: 'cpf',
+    label: 'CPF do titular',
+    placeholder: 'xxx.xxx.xxx-xx',
+    type: 'number',
+    autocomplete: 'cpf',
+  },
+  {
+    id: 'document',
+    label: 'Número do documento',
+    placeholder: 'xx.xxx.xxx.xxx.xx',
+    type: 'number',
+    autocomplete: 'document',
+  },
+]
+
+const showPopup = ref(false)
+
+const closePopup = () => {
+  showPopup.value = false
+}
+
+const fieldsStep5 = [
   { id: 'name', name: 'Nome do titular', data: 'Fulano Ciclano Beutrano' },
   { id: 'card', name: 'Número do cartão', data: '000.000.000.0000' },
   { id: 'name', name: 'Nome do titular', data: 'Fulano Ciclano Beutrano' },
@@ -106,12 +152,13 @@ const fieldsStep4 = [
 ]
 
 const handleFinish = () => {
-  alert('Pagamento efetuado!')
+  showPopup.value = true
+  // alert('Pagamento efetuado!')
 }
 </script>
 
 <template>
-  <stepByStep :total-steps="4" finish-button-text="Doar" @finish="handleFinish">
+  <stepByStep :total-steps="5" finish-button-text="Doar" @finish="handleFinish">
     <template #step-1>
       <paymentMethod :form-fields="payForms" />
     </template>
@@ -120,13 +167,23 @@ const handleFinish = () => {
       <baseForm :form-fields="fieldsStep2" />
     </template>
 
-    <template #step-3> </template>
+    <template #step-3>
+      <baseForm :form-fields="fieldsStep3" />
+    </template>
 
-    <template #step-4>
-      <purchaseDetails :complete-fields="fieldsStep4" />
+    <template #step-4> </template>
+
+    <template #step-5>
+      <purchaseDetails :complete-fields="fieldsStep5" />
     </template>
 
     <template #finish-message>
+      <QrCode
+        :showPopup="showPopup"
+        @close="closePopup"
+        code="00020126520014BR.GOV.BCB.PIX0120A8f3Zr3P1xY6L0uN"
+        time="90"
+      />
       <h2 class="mb-4 text-xl font-semibold text-green-500">Concluído!</h2>
       <p class="text-gray-600 dark:text-gray-400">Doação paga com sucesso.</p>
     </template>
