@@ -1,99 +1,44 @@
 <script setup lang="ts">
-import ProfileForm from '../components/profileForm.vue'
+import SelectField from '@/@core/components/forms/inputs/selectField.vue'
+import type { IFormField } from '@/@core/interfaces/form'
 
-const fields = [
-  {
-    id: 'name',
-    label: 'Atualizar nome',
-    fields: [
-      {
-        placeholder: 'Digite seu nome aqui',
-        type: 'text',
-        autocomplete: 'name',
-      },
-      {
-        placeholder: 'Digite seu sobrenome aqui',
-        type: 'text',
-        autocomplete: 'name',
-      },
-    ],
-    buttonText: 'Atualizar nome',
-  },
-  {
-    id: 'email',
-    label: 'Atualizar email',
-    message: 'E-mail atual: qwertyzxc@gmail.com',
-    placeholder: 'Digite seu email aqui',
-    type: 'email',
-    autocomplete: 'email',
-    buttonText: 'Atualizar e-mail',
-  },
-  {
-    id: 'dateborn',
-    label: 'Atualizar data de nascimento',
-    type: 'date',
-    name: 'Mês',
-    options: [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro',
-    ],
-    buttonText: 'Atualizar data',
-  },
-  {
-    id: 'password',
-    label: 'Atualizar senha',
-    fields: [
-      {
-        label: 'Senha atual',
-        placeholder: 'Digite sua senha atual aqui',
-        type: 'password',
-        autocomplete: 'new-password',
-      },
-      {
-        id: 'new-password',
-        label: 'Nova senha',
-        placeholder: 'Digite sua nova senha aqui',
-        type: 'password',
-        autocomplete: 'new-password',
-      },
-      {
-        id: 'password-confirm',
-        label: 'Confirme a sua senha',
-        placeholder: 'Confirme a sua senha aqui',
-        type: 'password',
-        autocomplete: 'new-password',
-      },
-    ],
-    buttonText: 'Atualizar senha',
-  },
-  {
-    id: 'delete',
-    label: 'Excluir conta',
-    placeholder: 'Digite sua senha aqui',
-    type: 'password',
-    autocomplete: 'new-password',
-    buttonText: 'Excluir conta',
-  },
-]
+const category: IFormField[] = {
+  id: 'category',
+  label: '',
+  type: 'select',
+  name: 'Categoria',
+  options: [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro',
+  ],
+}
+
+const status: IFormField[] = {
+  id: 'status',
+  label: '',
+  type: 'select',
+  name: 'Status',
+  options: ['Pendente', 'Concluído'],
+}
 </script>
 
 <template>
-  <div class="grid justify-center px-5 pb-20">
-    <ProfileForm
-      v-for="field in fields"
-      :key="field.id"
-      :form-fields="[field]"
-      :buttonText="field.buttonText"
-    />
+  <div class="grid justify-center px-5 py-10">
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined">tune</span>
+      <p class="text-xs font-semibold">Filtrar atendimentos</p>
+      <SelectField :field="category" />
+      <SelectField :field="status" />
+    </div>
   </div>
 </template>
