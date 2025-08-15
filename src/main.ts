@@ -5,7 +5,6 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 import registerServices from './@core/di/registerServices'
 import { registerPlugins } from './@core/plugins/registerPlugins'
-import registerPinia from './@core/plugins/registered/pinia/pinia'
 import { createApp } from 'vue'
 
 import PrimeVue from 'primevue/config'
@@ -36,5 +35,4 @@ const app = createApp(App)
 registerPlugins(app)
 registerServices()
 app.use(PrimeVue)
-registerPinia(app)
 app.mount('#app')
