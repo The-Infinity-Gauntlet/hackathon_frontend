@@ -5,14 +5,26 @@ const store = useInAppMessagingStore()
 </script>
 
 <template>
-  <div class="fixed -top-0 -left-5 -right-5 grid z-50 px-4">
-    <div v-for="msg in store.messages" :key="msg.id"
-      class="flex items-start gap-3 p-4 w-full bg-gray-900/90 text-white rounded-b-xl shadow-lg backdrop-blur-md border border-gray-700 animate-slide-in">
-
-      <div class="w-6 h-6 flex items-center justify-center bg-blue-500 rounded-full">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z" />
+  <div class="fixed -top-0 -right-5 -left-5 z-50 grid px-4">
+    <div
+      v-for="msg in store.messages"
+      :key="msg.id"
+      class="animate-slide-in flex w-full items-start gap-3 rounded-b-xl border border-gray-700 bg-gray-900/90 p-4 text-white shadow-lg backdrop-blur-md"
+    >
+      <div class="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z"
+          />
         </svg>
       </div>
 

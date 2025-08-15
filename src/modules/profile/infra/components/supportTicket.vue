@@ -29,29 +29,18 @@ const togglePopup = () => (showPopup.value = !showPopup.value)
       </p>
       <p>
         Status:
-        <span
-          class="rounded-md px-2 py-0.5 font-normal"
-          :class="[
-            ticket.interactions.req.status === 'Concluído'
-              ? 'bg-green-200 text-[#0F9900] dark:bg-green-300'
-              : 'bg-red-200 text-[#990000] dark:bg-red-300',
-          ]"
-          >{{ ticket.interactions.req.status }}</span
-        >
+        <span class="rounded-md px-2 py-0.5 font-normal" :class="[
+          ticket.interactions.req.status === 'Concluído'
+            ? 'bg-green-200 text-[#0F9900] dark:bg-green-300'
+            : 'bg-red-200 text-[#990000] dark:bg-red-300',
+        ]">{{ ticket.interactions.req.status }}</span>
       </p>
     </div>
 
-    <button
-      class="rounded-2xl border border-[#2768CA] p-2 text-sm text-[#2768CA] dark:bg-[#2768CA] dark:text-white"
-      @click="togglePopup"
-    >
+    <button class="rounded-2xl border border-[#2768CA] p-2 text-sm text-[#2768CA] dark:bg-[#2768CA] dark:text-white"
+      @click="togglePopup">
       Ver detalhes
     </button>
-    <SupportPopup
-      v-if="showPopup"
-      :showPopup="showPopup"
-      @close="showPopup = false"
-      :ticket="ticket"
-    />
+    <SupportPopup v-if="showPopup" :showPopup="showPopup" @close="showPopup = false" :ticket="ticket" />
   </div>
 </template>
