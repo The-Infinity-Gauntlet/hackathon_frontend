@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { type PropType } from 'vue'
-import { DatebornField, DateField, PasswordField, SelectField, TextField } from './inputs'
+import {
+  DatebornField,
+  DateField,
+  FileField,
+  PasswordField,
+  SelectField,
+  TextField,
+} from './inputs'
 import buttonGlassmorphism from '../buttons/buttonGlassmorphism.vue'
 import type { IFormField } from '@/@core/interfaces/form'
 
@@ -27,7 +34,10 @@ const getFieldComponent = (field: IFormField) => {
     case 'date':
       return DateField
     case 'bank':
+    case 'category':
       return SelectField
+    case 'file':
+      return FileField
     default:
       return TextField
   }

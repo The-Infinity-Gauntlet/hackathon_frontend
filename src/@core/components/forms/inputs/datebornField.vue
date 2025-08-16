@@ -17,7 +17,7 @@ defineProps({
       <select
         name="day"
         id="day"
-        class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-black outline-none dark:text-[#999999]"
+        class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-[#999999] outline-none"
       >
         <option value="">Dia</option>
         <option v-for="day in 31" :key="day" :value="day">{{ day }}</option>
@@ -25,7 +25,7 @@ defineProps({
       <select
         name="month"
         id="month"
-        class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-black outline-none dark:text-[#999999]"
+        class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-[#999999] outline-none"
       >
         <option value="">Mês</option>
         <option v-for="(option, index) in field.options" :key="option" :value="index + 1">
@@ -35,7 +35,7 @@ defineProps({
       <select
         name="year"
         id="year"
-        class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-black outline-none dark:text-[#999999]"
+        class="w-[48%] rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-[#999999] outline-none"
       >
         <option value="">Ano</option>
         <option v-for="year in 100" :key="year" :value="new Date().getFullYear() - year + 1">

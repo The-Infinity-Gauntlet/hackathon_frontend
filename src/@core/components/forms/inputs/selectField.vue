@@ -17,7 +17,7 @@ defineProps({
       <select
         :name="field.autocomplete"
         :id="field.id"
-        class="w-full rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-black outline-none dark:text-[#999999]"
+        class="w-full rounded-lg border border-[#7AA6C8] px-3 py-2 text-xs text-[#999999] outline-none"
       >
         <option value="">{{ field.name }}</option>
         <option
