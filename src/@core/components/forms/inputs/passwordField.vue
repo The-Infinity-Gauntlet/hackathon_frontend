@@ -4,7 +4,7 @@ import type { IFormField } from '@/@core/interfaces/form'
 
 defineProps({
   field: {
-    type: Object as PropType<IFormField[]>,
+    type: Object as PropType<IFormField>,
     required: true,
   },
 })

@@ -12,8 +12,6 @@ defineProps({
 <template>
   <div class="grid gap-2">
     <p>{{ field.label }}</p>
-    <div v-for="field in field.fields">
-      <PasswordField :field="field" />
-    </div>
+    <PasswordField v-for="(field, index) in field.fields" :key="index" :field="field" />
   </div>
 </template>

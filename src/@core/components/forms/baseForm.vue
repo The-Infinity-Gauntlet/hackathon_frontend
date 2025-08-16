@@ -14,16 +14,30 @@ defineProps({
     required: false,
   },
 })
+
+const getFieldComponent = (field: IFormField) => {
+  switch (field.id) {
+    case 'password':
+    case 'password-confirm':
+      return PasswordField
+    case 'text':
+      return TextField
+    case 'dateborn':
+      return DatebornField
+    case 'date':
+      return DateField
+    case 'bank':
+      return SelectField
+    default:
+      return TextField
+  }
+}
 </script>
 
 <template>
   <ul class="mt-5">
     <li v-for="field in formFields" :key="field.id" class="my-5 grid w-[332px]">
-      <PasswordField v-if="field.type === 'password'" :field="field" />
-      <TextField v-else-if="field.placeholder" :field="field" />
-      <DatebornField v-else-if="field.id === 'dateborn'" :field="field" />
-      <DateField v-else-if="field.id === 'date'" :field="field" />
-      <SelectField v-else :field="field" />
+      <component :is="getFieldComponent(field)" :field="field" />
     </li>
   </ul>
 
