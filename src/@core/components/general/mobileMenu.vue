@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const menubar = [
-  { icon: 'person', link: '/sig-in' },
-  { icon: 'savings', link: '/sig-up' },
+  { icon: 'person', link: '/entrar' },
+  { icon: 'savings', link: '/cadastrar' },
   { icon: 'home', link: '/' },
   { icon: 'distance', link: '/blog' },
   { icon: 'apps', link: '/sobre' },

@@ -47,7 +47,7 @@ const closePopup = () => {
         <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
           {{ title }}
         </h2>
-        <img v-if="gifUrl" :src="gifUrl" alt="Imagem animada" class="max-w-full rounded-md" />
+        <img v-if="gifUrl" :src="gifUrl" alt="gif" class="max-w-full rounded-md" />
       </div>
 
       <buttonGlassmorphism buttonText="Continuar" @click="goHome" />

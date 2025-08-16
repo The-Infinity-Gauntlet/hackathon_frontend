@@ -20,7 +20,7 @@ import mobileMenu from '@/@core/components/general/mobileMenu.vue'
       </Transition>
     </RouterView>
 
-    <img src="/layouts/waves.svg" class="w-full" />
+    <img src="/layouts/waves.svg" alt="Ondas" class="w-full" />
     <mobileMenu class="fixed bottom-0" />
   </div>
 </template>

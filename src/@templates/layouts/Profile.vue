@@ -8,7 +8,7 @@ import mobileMenu from '@/@core/components/general/mobileMenu.vue'
     <div class="relative mb-8 h-40">
       <img
         src="/layouts/waves.svg"
-        alt="Fundo decorativo"
+        alt="Ondas"
         class="absolute inset-0 h-full w-full object-cover"
       />
       <headerComp :title="$route.name" />

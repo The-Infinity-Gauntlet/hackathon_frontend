@@ -6,12 +6,12 @@ const routes: IRoutes[] = [
     component: () => import('@/@templates/layouts/Waves.vue'),
     children: [
       {
-        path: '/sig-in',
+        path: '/entrar',
         name: 'Login',
         component: () => import('@/modules/auth/infra/pages/Login.vue'),
       },
       {
-        path: '/sig-up',
+        path: '/cadastrar',
         name: 'Cadastro',
         component: () => import('@/modules/auth/infra/pages/Register.vue'),
       },

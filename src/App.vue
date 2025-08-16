@@ -27,6 +27,7 @@ onMounted(() => {
 
 <template>
   <RouterView v-slot="{ Component }">
+    <InAppMessages />
     <Transition
       mode="out-in"
       enter-active-class="transition duration-300 ease-out"
@@ -36,10 +37,7 @@ onMounted(() => {
       leave-from-class="opacity-100 translate-y-0"
       leave-to-class="opacity-0 translate-y-4"
     >
-      <div>
-        <InAppMessages />
-        <component :is="Component" :key="$route.fullPath" />
-      </div>
+      <component :is="Component" :key="$route.fullPath" />
     </Transition>
   </RouterView>
 </template>

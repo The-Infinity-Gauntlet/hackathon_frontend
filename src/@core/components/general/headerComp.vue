@@ -14,7 +14,7 @@ const { routerBack } = useNavigation()
     <button class="material-symbols-outlined text-[#999999]" @click="routerBack">
       arrow_back_ios
     </button>
-    <img src="/icons/logo.svg" class="ml-3" />
+    <img src="/icons/logo.svg" alt="Aqua" class="ml-3" />
     <theme-switcher />
   </header>
   <div class="grid">

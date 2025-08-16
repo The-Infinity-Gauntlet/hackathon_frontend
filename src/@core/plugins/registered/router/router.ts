@@ -42,6 +42,11 @@ const router = createRouter({
       ],
     },
     ...moduleRoutes,
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('@/@templates/infra/pages/NotFound.vue'),
+    },
   ],
   scrollBehavior() {
     return { top: 0 }
