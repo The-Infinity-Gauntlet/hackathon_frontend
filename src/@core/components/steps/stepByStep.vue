@@ -54,19 +54,13 @@ onUnmounted(() => {
   <div class="grid justify-center bg-white dark:bg-[#000d19]">
     <div class="mt-8 flex justify-center gap-10">
       <div v-for="step in totalSteps" :key="step" class="flex items-center">
-        <div
-          class="flex items-center justify-center rounded-full transition-all duration-300"
-          :class="{
-            'h-7 w-7 bg-blue-500': currentStep === step,
-            'h-5 w-5 bg-gray-300 dark:bg-gray-600': currentStep !== step,
-            'border-4 border-blue-200 dark:border-blue-800': currentStep === step,
-          }"
-        ></div>
-        <div
-          v-if="step < totalSteps"
-          class="transition-width flex-auto border-t-2 duration-500 ease-in-out"
-          :class="step < currentStep ? 'border-blue-500' : 'border-gray-300 dark:border-gray-600'"
-        ></div>
+        <div class="flex items-center justify-center rounded-full transition-all duration-300" :class="{
+          'h-7 w-7 bg-blue-500': currentStep === step,
+          'h-5 w-5 bg-gray-300 dark:bg-gray-600': currentStep !== step,
+          'border-4 border-blue-200 dark:border-blue-800': currentStep === step,
+        }"></div>
+        <div v-if="step < totalSteps" class="transition-width flex-auto border-t-2 duration-500 ease-in-out"
+          :class="step < currentStep ? 'border-blue-500' : 'border-gray-300 dark:border-gray-600'"></div>
       </div>
     </div>
 
@@ -85,25 +79,16 @@ onUnmounted(() => {
     </div>
 
     <div class="mt-8 flex justify-between">
-      <button
-        @click="prevStep"
-        :disabled="currentStep === 1"
-        class="rounded bg-gray-500 px-6 py-2 text-white hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-400 dark:disabled:bg-gray-700"
-      >
+      <button @click="prevStep" :disabled="currentStep === 1"
+        class="rounded bg-gray-500 px-6 py-2 text-white hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-400 dark:disabled:bg-gray-700">
         Anterior
       </button>
-      <button
-        v-if="currentStep < totalSteps"
-        @click="nextStep"
-        class="rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600"
-      >
+      <button v-if="currentStep < totalSteps" @click="nextStep"
+        class="rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600">
         Próximo
       </button>
-      <button
-        v-if="currentStep === totalSteps"
-        @click="finish"
-        class="rounded bg-green-500 px-6 py-2 text-white hover:bg-green-600"
-      >
+      <button v-if="currentStep === totalSteps" @click="finish"
+        class="rounded bg-green-500 px-6 py-2 text-white hover:bg-green-600">
         {{ finishButtonText }}
       </button>
     </div>
