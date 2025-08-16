@@ -59,8 +59,15 @@ const tickets = [
 </script>
 
 <template>
-  <div class="mb-10 grid justify-center px-5 py-10">
-    <div class="mb-7 flex items-center gap-2">
+  <div class="mb-10 grid justify-center px-5 pt-5 pb-10">
+    <RouterLink
+      to="/suporte/registro"
+      class="mx-auto w-full rounded-2xl bg-blue-500 p-2 text-center text-sm font-semibold text-white shadow-xl"
+    >
+      Precisa de Ajuda? Clique Aqui
+    </RouterLink>
+
+    <div class="my-7 flex items-center gap-2">
       <span class="material-symbols-outlined">tune</span>
       <p class="text-xs font-semibold">Filtrar atendimentos</p>
       <SelectField :field="category" />

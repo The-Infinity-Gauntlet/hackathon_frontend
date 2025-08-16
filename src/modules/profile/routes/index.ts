@@ -25,6 +25,11 @@ const routes: IRoutes[] = [
         name: 'Suporte',
         component: () => import('@/modules/profile/infra/pages/Suport.vue'),
       },
+      {
+        path: '/suporte/registro',
+        name: 'Registrar Dúvida',
+        component: () => import('@/modules/profile/infra/pages/RegisterTicket.vue'),
+      },
     ],
   },
   {
