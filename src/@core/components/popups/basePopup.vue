@@ -27,12 +27,23 @@ const { goHome } = useNavigation()
 const closePopup = () => {
   emit('close')
 }
+
+const handleOverlayClick = (event: MouseEvent) => {
+  if ((event.target as HTMLElement).id === 'overlay') {
+    emit('close')
+  }
+}
 </script>
 
 <template>
-  <div v-if="showPopup" class="fixed inset-0 z-2 flex items-center justify-center bg-black">
+  <div
+    id="overlay"
+    v-if="showPopup"
+    class="fixed inset-0 z-20 flex items-center justify-center bg-black/80"
+    @click="handleOverlayClick"
+  >
     <div
-      class="bg-opacity-2 flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-lg bg-white pt-4 pb-7 shadow-lg dark:bg-[#000d19]"
+      class="flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-lg bg-white pt-4 pb-7 shadow-lg dark:bg-[#000d19]"
     >
       <div class="flex justify-between px-5">
         <button
