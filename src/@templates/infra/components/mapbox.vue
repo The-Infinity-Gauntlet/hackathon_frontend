@@ -182,6 +182,7 @@ onMounted(() => {
       <div id="map-fixed" class="h-full w-full"></div>
       <MapboxFilters class="hidden lg:block" />
     </div>
+    <MapboxPopup v-if="showPopup" @close="showPopup = false" />
 
     <MapboxFilters class="lg:hidden" />
   </section>

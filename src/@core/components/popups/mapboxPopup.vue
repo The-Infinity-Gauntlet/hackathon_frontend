@@ -93,23 +93,15 @@ const handleOverlayClick = (event: MouseEvent) => {
 </script>
 
 <template>
-  <div
-    id="overlay"
-    class="fixed inset-0 z-20 flex items-center justify-center bg-black/80"
-    @click="handleOverlayClick"
-  >
+  <div id="overlay" class="fixed inset-0 z-20 flex items-center justify-center bg-black/80" @click="handleOverlayClick">
     <div
-      class="flex max-h-[90vh] w-[90%] flex-col overflow-y-auto rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]"
-    >
+      class="flex max-h-[90vh] w-[90%] flex-col overflow-y-auto rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]">
       <div class="flex items-center justify-between gap-3">
         <button class="material-symbols-outlined text-[#999999]" @click="emit('close')">
           arrow_back_ios
         </button>
-        <input
-          type="text"
-          placeholder="Buscar localização"
-          class="w-full rounded-2xl border border-[#7AA6C8] px-3 py-2 text-xs outline-none"
-        />
+        <input type="text" placeholder="Buscar localização"
+          class="w-full rounded-2xl border border-[#7AA6C8] px-3 py-2 text-xs outline-none" />
         <span class="material-symbols-outlined text-[#7AA6C8]">search</span>
       </div>
 
