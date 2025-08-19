@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import { BaseForm, StepByStep } from '@/@core/components'
 import { PaymentMethod, PurchaseDetails, QrCode } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
-import QrCode from '../components/qrCode.vue'
 
 const payForms = [
   { id: 1, icon: '/payment/card.svg', name: 'Cartão' },

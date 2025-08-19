@@ -17,8 +17,7 @@ const fields: IFormField[] = [
 
       <p class="my-3 text-center font-semibold">ou</p>
       <GoogleAuthButton />
-      <RouterLink to="/cadastrar" class="my-3 text-center text-xs lg:hidden"
-        >Você ainda não tem conta? Crie uma conta
+      <RouterLink to="/cadastrar" class="my-3 text-center text-xs lg:hidden">Você ainda não tem conta? Crie uma conta
       </RouterLink>
     </div>
 
@@ -27,12 +26,9 @@ const fields: IFormField[] = [
       <p class="w-[332px] font-semibold">
         Faça o cadastro agora e <span>aproveite todos os benefícios do </span><span>AQUA</span>
       </p>
-      <RouterLink
-        to="/cadastrar"
-        class="flex items-center justify-center gap-2 rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-10 py-2 font-semibold shadow-xl backdrop-blur-xs"
-      >
-        Cadastre-se <span class="material-symbols-outlined">arrow_forward</span></RouterLink
-      >
+      <RouterLink to="/cadastrar"
+        class="flex items-center justify-center gap-2 rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-10 py-2 font-semibold shadow-xl backdrop-blur-xs">
+        Cadastre-se <span class="material-symbols-outlined">arrow_forward</span></RouterLink>
     </div>
   </div>
 </template>

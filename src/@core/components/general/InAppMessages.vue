@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useInAppMessagingStore } from '../plugins/registered/pinia/inAppMessaging'
+import { useInAppMessagingStore } from '@/@core/plugins/registered/pinia/inAppMessaging'
 
 const store = useInAppMessagingStore()
 </script>
