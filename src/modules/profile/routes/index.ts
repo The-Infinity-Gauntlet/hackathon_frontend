@@ -23,7 +23,7 @@ const routes: IRoutes[] = [
       {
         path: '/suporte',
         name: 'Suporte',
-        component: () => import('@/modules/profile/infra/pages/Suport.vue'),
+        component: () => import('@/modules/profile/infra/pages/Support.vue'),
       },
       {
         path: '/suporte/registro',
