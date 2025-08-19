@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
-import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import MapboxPopup from '@/@core/components/popups/mapboxPopup.vue'
@@ -64,7 +62,7 @@ onMounted(() => {
 
   map.on('fullscreenchange', () => {
     const isFullscreen = document.fullscreenElement !== null
-    showFullscreenPopup.value = isFullscreen
+    showPopup.value = isFullscreen
   })
 })
 
