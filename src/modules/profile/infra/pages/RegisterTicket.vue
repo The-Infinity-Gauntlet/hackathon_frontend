@@ -36,11 +36,73 @@ const fields = [
     type: 'file',
     autocomplete: 'file',
   },
+  {
+    id: 'state',
+    label: 'Estado',
+    name: 'Selecione o seu estado',
+    type: 'select',
+    options: [
+      'Acre',
+      'Alagoas',
+      'Amapá',
+      'Amazonas',
+      'Bahia',
+      'Ceará',
+      'Distrito Federal',
+      'Espírito Santo',
+      'Goiás',
+      'Maranhão',
+      'Mato Grosso',
+      'Mato Grosso do Sul',
+      'Minas Gerais',
+      'Pará',
+      'Paraíba',
+      'Paraná',
+      'Pernambuco',
+      'Piauí',
+      'Rio de Janeiro',
+      'Rio Grande do Norte',
+      'Rio Grande do Sul',
+      'Rondônia',
+      'Roraima',
+      'Santa Catarina',
+      'São Paulo',
+      'Sergipe',
+      'Tocantins',
+    ],
+  },
+  {
+    id: 'city',
+    label: 'Cidade',
+    placeholder: 'Digite o nome da sua cidade',
+    type: 'text',
+    autocomplete: 'city',
+  },
+  {
+    id: 'neighborhood',
+    label: 'Bairro',
+    placeholder: 'Digite o nome do seu bairro',
+    type: 'text',
+    autocomplete: 'neighborhood',
+  },
 ]
 </script>
 
 <template>
   <div class="mb-10 grid justify-center px-5 pt-5 pb-10">
     <BaseForm :form-fields="fields" />
+
+    <div class="flex gap-3">
+      <button
+        class="mx-auto mt-2 w-full rounded-lg border border-blue-500 px-2 py-1 font-semibold text-blue-500 shadow-xl"
+      >
+        Cancelar
+      </button>
+      <button
+        class="mx-auto mt-2 w-full rounded-lg bg-blue-500 px-2 py-1 font-semibold text-white shadow-xl"
+      >
+        Confirmar
+      </button>
+    </div>
   </div>
 </template>

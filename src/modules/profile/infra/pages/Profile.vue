@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import HeaderComp from '@/@core/components/general/headerComp.vue'
 
 const user = ref({
   picture: '/icons/logo.svg',

@@ -35,6 +35,7 @@ const getFieldComponent = (field: IFormField) => {
       return DateField
     case 'bank':
     case 'category':
+    case 'state':
       return SelectField
     case 'file':
       return FileField
