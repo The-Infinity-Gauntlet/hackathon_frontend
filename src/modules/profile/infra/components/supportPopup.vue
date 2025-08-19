@@ -31,7 +31,7 @@ const handleOverlayClick = (event: MouseEvent) => {
     @click="handleOverlayClick"
   >
     <div
-      class="flex w-[90%] max-w-md flex-col overflow-y-scroll rounded-lg bg-white pt-5 pb-7 shadow-lg dark:bg-[#000d19]"
+      class="flex w-[90%] max-w-md flex-col rounded-lg bg-white pt-5 pb-7 shadow-lg dark:bg-[#000d19]"
     >
       <div class="flex items-center px-5">
         <span class="material-symbols-outlined text-[#999999]" @click="closePopup"
@@ -68,11 +68,12 @@ const handleOverlayClick = (event: MouseEvent) => {
         </div>
       </div>
 
-      <button
-        class="mx-auto mt-4 w-[250px] rounded-2xl bg-blue-500 p-2 font-semibold text-white shadow-xl"
+      <RouterLink
+        to="/suporte/enviar-mensagem"
+        class="mx-auto mt-4 w-[250px] rounded-2xl bg-blue-500 p-2 text-center font-semibold text-white shadow-xl"
       >
         Enviar mensagem
-      </button>
+      </RouterLink>
     </div>
   </div>
 </template>
