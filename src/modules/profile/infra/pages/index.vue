@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const user = ref({
-  picture: '/logo.svg',
+  picture: '/nicolefemello.jpeg',
   name: 'nicolefemello',
 })
 
@@ -26,16 +26,15 @@ const menubar = [
 
     <p class="text-center">{{ user.name }}</p>
 
-    <nav>
-      <ul class="my-5 grid justify-center gap-5">
-        <li
-          v-for="menu in menubar"
-          :key="menu.label"
-          class="rounded-xl px-25 py-5 text-center shadow-lg dark:bg-[#00182F]"
-        >
-          <RouterLink :to="menu.link">{{ menu.label }}</RouterLink>
-        </li>
-      </ul>
+    <nav class="my-5 grid justify-center gap-5">
+      <RouterLink
+        v-for="menu in menubar"
+        :key="menu.label"
+        class="rounded-xl px-25 py-5 text-center shadow-lg dark:bg-[#00182F]"
+        :to="menu.link"
+      >
+        {{ menu.label }}
+      </RouterLink>
     </nav>
   </div>
 </template>
