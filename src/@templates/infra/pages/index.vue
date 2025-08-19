@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Chart from 'primevue/chart'
-import WeatherStats from '../components/weatherStats.vue'
-import FloodAlert from '@/@core/components/flood/floodAlert.vue'
-import Mapbox from '../components/mapbox.vue'
-import BlogPost from '../components/blogPost.vue'
-import Localization from '../components/currentLocation.vue'
+import { FloodAlert } from '@/@core/components'
+import { BlogPost, CurrentLocation, Mapbox, WeatherStats } from '../components'
 
 const location = ref({
   neighborhood: 'Floresta',
@@ -87,6 +84,6 @@ const chartOptions = ref({
     <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
 
     <BlogPost />
-    <Localization class="mb-20" />
+    <CurrentLocation class="mb-20" />
   </div>
 </template>

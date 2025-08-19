@@ -6,9 +6,10 @@ import {
   FileField,
   PasswordField,
   SelectField,
+  TextareaField,
   TextField,
-} from './inputs'
-import buttonGlassmorphism from '../buttons/buttonGlassmorphism.vue'
+  ButtonGlassmorphism,
+} from '@/@core/components'
 import type { IFormField } from '@/@core/interfaces/form'
 
 defineProps({
@@ -39,6 +40,8 @@ const getFieldComponent = (field: IFormField) => {
       return SelectField
     case 'file':
       return FileField
+    case 'description':
+      return TextareaField
     default:
       return TextField
   }
@@ -52,5 +55,5 @@ const getFieldComponent = (field: IFormField) => {
     </li>
   </ul>
 
-  <buttonGlassmorphism v-if="buttonText" :buttonText="buttonText" />
+  <ButtonGlassmorphism v-if="buttonText" :buttonText="buttonText" />
 </template>

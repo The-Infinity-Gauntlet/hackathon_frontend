@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import headerComp from '@/@core/components/general/headerComp.vue'
-import mobileMenu from '@/@core/components/general/mobileMenu.vue'
+import { HeaderComp, MobileMenu } from '@/@core/components'
 </script>
 
 <template>
   <div>
-    <headerComp :title="$route.name" />
+    <HeaderComp :title="$route.name" />
     <RouterView v-slot="{ Component }">
       <Transition
         mode="out-in"
@@ -21,6 +20,6 @@ import mobileMenu from '@/@core/components/general/mobileMenu.vue'
     </RouterView>
 
     <img src="/layouts/waves.svg" alt="Ondas" class="w-full" />
-    <mobileMenu class="fixed bottom-0" />
+    <MobileMenu class="fixed bottom-0" />
   </div>
 </template>

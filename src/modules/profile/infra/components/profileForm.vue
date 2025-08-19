@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type PropType } from 'vue'
-import { DeleteField, NameField, PasswordField } from './fields'
-import { DatebornField, TextField } from '@/@core/components/forms/inputs'
+import { DatebornField, TextField } from '@/@core/components'
+import { DeleteField, NameField, PasswordField } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
 
 defineProps({

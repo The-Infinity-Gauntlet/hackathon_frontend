@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PasswordField } from '@/@core/components/forms/inputs'
+import { PasswordField } from '@/@core/components'
 
 defineProps({
   field: {

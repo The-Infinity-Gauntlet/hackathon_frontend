@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SelectField from '@/@core/components/forms/inputs/selectField.vue'
-import SupportTicket from '../components/supportTicket.vue'
+import { SelectField } from '@/@core/components'
+import { SupportTicket } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
 
 const category: IFormField[] = {
@@ -38,7 +38,7 @@ const tickets = [
     interactions: {
       req: {
         user: {
-          picture: '/icons/logo.svg',
+          picture: '/nicolefemello.jpeg',
           name: 'Nicole Ferreira Mello',
         },
         date: 'DD/MM/AAAA',
@@ -65,7 +65,7 @@ const tickets = [
     interactions: {
       req: {
         user: {
-          picture: '/icons/logo.svg',
+          picture: '/nicolefemello.jpeg',
           name: 'Nicole Ferreira Mello',
         },
         date: 'DD/MM/AAAA',
@@ -92,7 +92,7 @@ const tickets = [
     interactions: {
       req: {
         user: {
-          picture: '/icons/logo.svg',
+          picture: '/nicolefemello.jpeg',
           name: 'Nicole Ferreira Mello',
         },
         date: 'DD/MM/AAAA',
