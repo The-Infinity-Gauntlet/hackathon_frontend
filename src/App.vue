@@ -9,7 +9,7 @@ const store = useInAppMessagingStore()
 
 onMounted(() => {
   if (!sessionStorage.getItem('welcomeNotificationShown')) {
-    const id = Date.now().toString()
+    const id = Date.now()
 
     store.messages.push({
       id,
