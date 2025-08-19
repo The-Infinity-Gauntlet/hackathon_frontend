@@ -40,6 +40,11 @@ const routes: IRoutes[] = [
         name: 'Registrar Dúvida',
         component: () => import('@/modules/profile/infra/pages/RegisterTicket.vue'),
       },
+      {
+        path: '/suporte/enviar-mensagem',
+        name: 'Enviar Mensagem',
+        component: () => import('@/modules/profile/infra/pages/SendMessage.vue'),
+      },
     ],
   },
   {
