@@ -3,7 +3,7 @@ import 'reflect-metadata'
 
 import { onMounted } from 'vue'
 import { useInAppMessagingStore } from '@/@core/plugins/registered/pinia/inAppMessaging'
-import InAppMessages from '@/@core/components/InAppMessages.vue'
+import { InAppMessages } from '@/@core/components'
 
 const store = useInAppMessagingStore()
 

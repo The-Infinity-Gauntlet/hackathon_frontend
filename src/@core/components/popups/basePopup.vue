@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import buttonGlassmorphism from '../buttons/buttonGlassmorphism.vue'
-import { useNavigation } from '../../composables/navigation'
+import { ButtonGlassmorphism } from '@/@core/components'
+import { useNavigation } from '@/@core/composables/navigation'
 
 const props = defineProps({
   title: {
@@ -61,7 +61,7 @@ const handleOverlayClick = (event: MouseEvent) => {
         <img v-if="gifUrl" :src="gifUrl" alt="gif" class="max-w-full rounded-md" />
       </div>
 
-      <buttonGlassmorphism buttonText="Continuar" @click="goHome" />
+      <ButtonGlassmorphism buttonText="Continuar" @click="goHome" />
     </div>
   </div>
 </template>

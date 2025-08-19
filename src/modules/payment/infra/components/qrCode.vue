@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import buttonGlassmorphism from '@/@core/components/buttons/buttonGlassmorphism.vue'
+import { ButtonGlassmorphism } from '@/@core/components'
 
 const props = defineProps({
   qrcode: {
@@ -28,9 +28,9 @@ const closePopup = () => {
 </script>
 
 <template>
-  <div v-if="showPopup" class="fixed inset-0 z-2 flex items-center justify-center bg-black">
+  <div v-if="showPopup" class="fixed inset-0 z-20 flex items-center justify-center bg-black/80">
     <div
-      class="bg-opacity-2 flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-lg bg-white pt-4 pb-7 shadow-lg dark:bg-[#000d19]"
+      class="flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-lg bg-white pt-4 pb-7 shadow-lg dark:bg-[#000d19]"
     >
       <div class="flex justify-between px-5">
         <button
@@ -49,7 +49,7 @@ const closePopup = () => {
         <img v-if="qrcode" :src="qrcode" alt="QRCode" class="max-w-full rounded-md" />
         <p class="text-xs text-[#999999]">ou insira o código abaixo</p>
         <p class="break-all text-[#0453AF]">{{ code }}</p>
-        <buttonGlassmorphism buttonText="Copiar código" />
+        <ButtonGlassmorphism buttonText="Copiar código" />
         <p class="text-xs text-[#999999]">Expira em {{ time }} segundos</p>
         <RouterLink to="/pagamento" class="text-[#0453AF] underline">Doe com pix</RouterLink>
       </div>

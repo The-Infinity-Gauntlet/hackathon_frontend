@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import baseForm from '@/@core/components/forms/baseForm.vue'
-import GoogleAuthButton from '../components/GoogleAuthButton.vue'
+import { BaseForm } from '@/@core/components'
+import { GoogleAuthButton } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
 
 const fields: IFormField[] = [
@@ -57,7 +57,7 @@ const fields: IFormField[] = [
 
 <template>
   <div class="grid justify-center">
-    <baseForm :form-fields="fields" button-text="Continuar" />
+    <BaseForm :form-fields="fields" button-text="Continuar" />
 
     <p class="my-3 text-center">ou</p>
     <GoogleAuthButton />

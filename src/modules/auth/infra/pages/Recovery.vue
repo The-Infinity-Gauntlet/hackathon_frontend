@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import stepByStep from '@/@core/components/steps/stepByStep.vue'
-import baseForm from '@/@core/components/forms/baseForm.vue'
-import RecoveryCodeInput from '../components/RecoveryCodeInput.vue'
+import { BaseForm, BasePopup, StepByStep } from '@/@core/components'
+import { RecoveryCodeInput } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
-import basePopup from '@/@core/components/popups/basePopup.vue'
 
 const fields: IFormField[] = [
   { id: 'email', label: 'Email', placeholder: 'Digite seu email aqui', type: 'email' },
@@ -22,9 +20,9 @@ const handleFinish = () => {
 </script>
 
 <template>
-  <stepByStep :total-steps="2" finish-button-text="Recuperar" @finish="handleFinish">
+  <StepByStep :total-steps="2" finish-button-text="Recuperar" @finish="handleFinish">
     <template #step-1>
-      <baseForm :form-fields="fields" />
+      <BaseForm :form-fields="fields" />
     </template>
 
     <template #step-2>
@@ -32,7 +30,7 @@ const handleFinish = () => {
     </template>
 
     <template #finish-message>
-      <basePopup title="Sua conta foi recuperada!" :showPopup="showPopup" @close="closePopup" />
+      <BasePopup title="Sua conta foi recuperada!" :showPopup="showPopup" @close="closePopup" />
     </template>
-  </stepByStep>
+  </StepByStep>
 </template>

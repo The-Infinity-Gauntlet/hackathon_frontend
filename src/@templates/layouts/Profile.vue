@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import headerComp from '@/@core/components/general/headerComp.vue'
-import mobileMenu from '@/@core/components/general/mobileMenu.vue'
+import { HeaderComp, MobileMenu } from '@/@core/components'
 </script>
 
 <template>
@@ -11,7 +10,7 @@ import mobileMenu from '@/@core/components/general/mobileMenu.vue'
         alt="Ondas"
         class="absolute inset-0 h-full w-full object-cover"
       />
-      <headerComp :title="$route.name" />
+      <HeaderComp :title="$route.name" />
     </div>
 
     <RouterView v-slot="{ Component }">
@@ -27,6 +26,6 @@ import mobileMenu from '@/@core/components/general/mobileMenu.vue'
         <component :is="Component" :key="$route.fullPath" />
       </Transition>
     </RouterView>
-    <mobileMenu class="fixed bottom-0" />
+    <MobileMenu class="fixed bottom-0" />
   </div>
 </template>

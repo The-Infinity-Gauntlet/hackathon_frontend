@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ProfileForm from '../components/profileForm.vue'
+import { ProfileForm } from '../components'
 
 const fields = [
   {

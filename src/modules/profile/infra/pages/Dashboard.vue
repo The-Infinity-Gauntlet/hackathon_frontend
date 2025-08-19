@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import FloodAlert from '@/@core/components/flood/floodAlert.vue'
+import { FloodAlert } from '@/@core/components'
 import Chart from 'primevue/chart'
 
 const location = ref({

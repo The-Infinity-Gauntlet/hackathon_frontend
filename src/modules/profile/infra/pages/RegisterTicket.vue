@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseForm from '@/@core/components/forms/baseForm.vue'
+import { BaseForm } from '@/@core/components'
 import type { IFormField } from '@/@core/interfaces/form'
 
 const fields = [

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import themeSwitcher from './themeSwitcher.vue'
-import { useNavigation } from '../../composables/navigation'
+import { ThemeSwitcher } from '@/@core/components'
+import { useNavigation } from '@/@core/composables/navigation'
 
 defineProps<{
   title?: string
@@ -15,7 +15,7 @@ const { routerBack } = useNavigation()
       arrow_back_ios
     </button>
     <img src="/icons/logo.svg" alt="Aqua" class="ml-3" />
-    <theme-switcher />
+    <ThemeSwitcher />
   </header>
   <div class="grid">
     <h1 class="text-center">{{ title }}</h1>

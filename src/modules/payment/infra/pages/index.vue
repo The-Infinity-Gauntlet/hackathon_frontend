@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import stepByStep from '@/@core/components/steps/stepByStep.vue'
-import paymentMethod from '../components/paymentMethod.vue'
-import baseForm from '@/@core/components/forms/baseForm.vue'
-import purchaseDetails from '../components/purchaseDetails.vue'
+import { BaseForm, StepByStep } from '@/@core/components'
+import { PaymentMethod, PurchaseDetails, QrCode } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
-import QrCode from '../components/qrCode.vue'
 
 const payForms = [
   { id: 1, icon: '/payment/card.svg', name: 'Cartão' },
@@ -158,23 +155,23 @@ const handleFinish = () => {
 </script>
 
 <template>
-  <stepByStep :total-steps="5" finish-button-text="Doar" @finish="handleFinish">
+  <StepByStep :total-steps="5" finish-button-text="Doar" @finish="handleFinish">
     <template #step-1>
-      <paymentMethod :form-fields="payForms" />
+      <PaymentMethod :form-fields="payForms" />
     </template>
 
     <template #step-2>
-      <baseForm :form-fields="fieldsStep2" />
+      <BaseForm :form-fields="fieldsStep2" />
     </template>
 
     <template #step-3>
-      <baseForm :form-fields="fieldsStep3" />
+      <BaseForm :form-fields="fieldsStep3" />
     </template>
 
     <template #step-4> </template>
 
     <template #step-5>
-      <purchaseDetails :complete-fields="fieldsStep5" />
+      <PurchaseDetails :complete-fields="fieldsStep5" />
     </template>
 
     <template #finish-message>
@@ -187,5 +184,5 @@ const handleFinish = () => {
       <h2 class="mb-4 text-xl font-semibold text-green-500">Concluído!</h2>
       <p class="text-gray-600 dark:text-gray-400">Doação paga com sucesso.</p>
     </template>
-  </stepByStep>
+  </StepByStep>
 </template>
