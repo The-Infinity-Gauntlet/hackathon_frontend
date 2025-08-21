@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import buttonGlassmorphism from '../buttons/buttonGlassmorphism.vue'
-import { useNavigation } from '../../composables/navigation'
+import { ButtonGlassmorphism } from '@/@core/components'
+import { useNavigation } from '@/@core/composables/navigation'
 
 const props = defineProps({
   title: {
@@ -27,12 +27,23 @@ const { goHome } = useNavigation()
 const closePopup = () => {
   emit('close')
 }
+
+const handleOverlayClick = (event: MouseEvent) => {
+  if ((event.target as HTMLElement).id === 'overlay') {
+    emit('close')
+  }
+}
 </script>
 
 <template>
-  <div v-if="showPopup" class="fixed inset-0 z-2 flex items-center justify-center bg-black">
+  <div
+    id="overlay"
+    v-if="showPopup"
+    class="fixed inset-0 z-20 flex items-center justify-center bg-black/80"
+    @click="handleOverlayClick"
+  >
     <div
-      class="bg-opacity-2 flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-lg bg-white pt-4 pb-7 shadow-lg dark:bg-[#000d19]"
+      class="flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-lg bg-white pt-4 pb-7 shadow-lg dark:bg-[#000d19]"
     >
       <div class="flex justify-between px-5">
         <button
@@ -47,10 +58,10 @@ const closePopup = () => {
         <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
           {{ title }}
         </h2>
-        <img v-if="gifUrl" :src="gifUrl" alt="Imagem animada" class="max-w-full rounded-md" />
+        <img v-if="gifUrl" :src="gifUrl" alt="gif" class="max-w-full rounded-md" />
       </div>
 
-      <buttonGlassmorphism buttonText="Continuar" @click="goHome" />
+      <ButtonGlassmorphism buttonText="Continuar" @click="goHome" />
     </div>
   </div>
 </template>

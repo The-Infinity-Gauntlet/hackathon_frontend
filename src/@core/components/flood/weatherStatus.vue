@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { IWeatherField } from '@/@templates/interfaces/weather'
+import { type PropType } from 'vue'
 
 defineProps({
-  weatherStats: {
+  weatherStatus: {
     type: Array as PropType<IWeatherField[]>,
     required: true,
   },
@@ -11,10 +12,13 @@ defineProps({
 
 <template>
   <ul class="flex items-center justify-between rounded-2xl bg-[#E5E5E5] p-5 dark:bg-[#00182F]">
-    <li v-for="data in weatherStats" class="grid h-auto w-[50px] gap-1">
+    <li v-for="data in weatherStatus" class="grid h-auto w-[50px] gap-1">
       <img :src="data.icon" :alt="data.name" class="mx-auto" />
       <p class="text-center text-xs text-[#8F9192] dark:text-[#999999]">{{ data.name }}</p>
       <p v-if="data.name == 'Temperatura'" class="text-center font-semibold">{{ data.scale }}°C</p>
+      <p v-else-if="data.name == 'Vazão do rio'" class="text-center font-semibold">
+        {{ data.scale }}mm
+      </p>
       <p v-else class="text-center font-semibold">{{ data.scale }}%</p>
     </li>
   </ul>

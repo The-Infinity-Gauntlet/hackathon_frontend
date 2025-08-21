@@ -6,7 +6,7 @@ const posts = [
     description:
       'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime, nam illo! Expedita corrupti sunt repellat error, sapiente excepturi!',
     icon: '/icons/who_helps.svg',
-    link: '/',
+    link: '/pagamento',
     btnMessage: 'Doar',
   },
   {
@@ -15,7 +15,7 @@ const posts = [
     description:
       'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime, nam illo! Expedita corrupti sunt repellat error, sapiente excepturi!',
     icon: '/icons/document.svg',
-    link: '/',
+    link: '/blog',
     btnMessage: 'Saiba mais',
   },
 ]

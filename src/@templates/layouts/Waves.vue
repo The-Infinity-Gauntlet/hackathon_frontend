@@ -1,5 +1,10 @@
+<script setup lang="ts">
+import { HeaderComp, MobileMenu } from '@/@core/components'
+</script>
+
 <template>
-  <div class="relative">
+  <div>
+    <HeaderComp :title="$route.name" />
     <RouterView v-slot="{ Component }">
       <Transition
         mode="out-in"
@@ -14,6 +19,7 @@
       </Transition>
     </RouterView>
 
-    <img src="/layouts/waves.svg" class="w-full" />
+    <img src="/layouts/waves.svg" alt="Ondas" class="w-full" />
+    <MobileMenu class="fixed bottom-0" />
   </div>
 </template>

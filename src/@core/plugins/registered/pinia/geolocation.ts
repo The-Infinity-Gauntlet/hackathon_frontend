@@ -41,9 +41,17 @@ export const useGeolocationStore = defineStore('geolocation', () => {
     )
   }
 
+  function stopTracking() {
+    if (watchId !== null) {
+      navigator.geolocation.clearWatch(watchId)
+      watchId = null
+    }
+  }
+
   return {
     latitude,
     longitude,
     startTracking,
+    stopTracking,
   }
 })

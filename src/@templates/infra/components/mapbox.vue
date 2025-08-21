@@ -1,4 +1,71 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import mapboxgl from 'mapbox-gl'
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+import { MapboxPopup } from '@/@core/components'
+
+const showPopup = ref(false)
+const togglePopup = () => (showPopup.value = !showPopup.value)
+
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
+
+onMounted(() => {
+  const map = new mapboxgl.Map({
+    container: 'map-fixed',
+    style: 'mapbox://styles/mapbox/outdoors-v12',
+    center: [-48.8464, -26.3044],
+    zoom: 13,
+    pitch: 60,
+    bearing: -30,
+    antialias: true,
+  })
+
+  map.addControl(new mapboxgl.NavigationControl(), 'top-right')
+
+  map.on('load', async () => {
+    try {
+      // Carregar floodGeojson via fetch (não como import)
+      const response = await fetch('/flooding.json')
+      const floodGeojson = await response.json()
+
+      // Adicionar fonte de dados do flood
+      map.addSource('flood-area', {
+        type: 'geojson',
+        data: floodGeojson,
+      })
+
+      // Camada 3D para simular volume/profundidade de alagamento
+      map.addLayer({
+        id: 'flood-area-volume',
+        type: 'fill-extrusion',
+        source: 'flood-area',
+        paint: {
+          'fill-extrusion-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'risk_level'],
+            0.0,
+            '#add8e6', // lightblue
+            1.0,
+            '#00008b', // darkblue
+          ],
+          'fill-extrusion-height': ['get', 'depth'],
+          'fill-extrusion-base': 0,
+          'fill-extrusion-opacity': 0.5,
+        },
+      })
+    } catch (error) {
+      console.error('Erro ao carregar floodGeojson:', error)
+    }
+  })
+
+  map.on('fullscreenchange', () => {
+    const isFullscreen = document.fullscreenElement !== null
+    showPopup.value = isFullscreen
+  })
+})
+
 // import { onMounted } from 'vue'
 // import mapboxgl from 'mapbox-gl'
 // import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
@@ -186,37 +253,37 @@
 //   })
 // })
 
-import { onMounted, onBeforeUnmount, ref } from 'vue'
-import mapboxgl from 'mapbox-gl'
+// import { onMounted, onBeforeUnmount, ref } from 'vue'
+// import mapboxgl from 'mapbox-gl'
 
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
+// mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 
-let map = null
+// let map = null
 
-onMounted(() => {
-  if (map) return
+// onMounted(() => {
+//   if (map) return
 
-  map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v12', // estilo padrão
-    center: [-48.8464, -26.3044],
-    maxBounds: [
-      [-48.95, -26.45],
-      [-48.7, -26.15],
-    ],
-    zoom: 13,
-  })
+//   map = new mapboxgl.Map({
+//     container: 'map',
+//     style: 'mapbox://styles/mapbox/streets-v12', // estilo padrão
+//     center: [-48.8464, -26.3044],
+//     maxBounds: [
+//       [-48.95, -26.45],
+//       [-48.7, -26.15],
+//     ],
+//     zoom: 13,
+//   })
 
-  map.addControl(new mapboxgl.NavigationControl(), 'top-right')
-  map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
-})
+//   map.addControl(new mapboxgl.NavigationControl(), 'top-right')
+//   map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
+// })
 
-onBeforeUnmount(() => {
-  if (map) {
-    map.remove()
-    map = null
-  }
-})
+// onBeforeUnmount(() => {
+//   if (map) {
+//     map.remove()
+//     map = null
+//   }
+// })
 
 const filters = [{ name: 'Geral' }, { name: 'IA' }, { name: 'Especialista' }]
 
@@ -231,9 +298,17 @@ const fields = [
 
 <template>
   <section class="mb-20">
-    <div class="h-[500px] overflow-hidden rounded-2xl">
-      <div id="map" class="h-full w-full"></div>
+    <div class="relative h-[500px] overflow-hidden rounded-2xl">
+      <div id="map-fixed" class="h-full w-full"></div>
+
+      <button
+        class="absolute right-1 bottom-10 flex items-center justify-center rounded-full bg-blue-600 p-2 text-white"
+        @click="togglePopup"
+      >
+        <span class="material-symbols-outlined">screenshot_frame</span>
+      </button>
     </div>
+    <MapboxPopup v-if="showPopup" @close="showPopup = false" />
 
     <div class="mt-10 flex justify-center gap-2">
       <div class="border-r border-[#E5E5E5] px-5 text-center dark:border-[#00182F]">

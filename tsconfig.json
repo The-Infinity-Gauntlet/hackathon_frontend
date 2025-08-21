@@ -38,7 +38,8 @@
     "src/@core/components/generic/utils/jspdf-autotable.d.ts",
     "./src/**/*",
     "./src/**/*.vue",
-    "./src/themeConfig.ts"
+    "./src/themeConfig.ts",
+    "env.d.ts"
   ],
   "exclude": ["dist", "node_modules"],
   "references": [

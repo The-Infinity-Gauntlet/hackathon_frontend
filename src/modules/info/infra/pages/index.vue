@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Publications from '../components/publications.vue'
+import { Publications } from '../components'
 
 const posts = [
   {

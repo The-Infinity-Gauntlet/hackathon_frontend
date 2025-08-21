@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import themeSwitcher from './themeSwitcher.vue'
-import { useNavigation } from '../../composables/navigation'
-import NotificationButton from '../buttons/notificationButton.vue'
+import { ThemeSwitcher } from '@/@core/components'
+import { useNavigation } from '@/@core/composables/navigation'
 
 defineProps<{
   title?: string
@@ -11,13 +10,14 @@ const { routerBack } = useNavigation()
 </script>
 
 <template>
-  <header class="flex items-center justify-between px-7">
-    <button class="material-symbols-outlined" @click="routerBack">arrow_back_ios</button>
-    <img src="/icons/logo.svg" class="ml-3" />
-    <theme-switcher />
+  <header class="relative z-10 flex items-center justify-between bg-transparent px-7">
+    <button class="material-symbols-outlined text-[#999999]" @click="routerBack">
+      arrow_back_ios
+    </button>
+    <img src="/icons/logo.svg" alt="Aqua" class="ml-3" />
+    <ThemeSwitcher />
   </header>
   <div class="grid">
     <h1 class="text-center">{{ title }}</h1>
-    <NotificationButton />
   </div>
 </template>

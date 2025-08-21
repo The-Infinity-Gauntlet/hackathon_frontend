@@ -1,12 +1,33 @@
 <script setup lang="ts">
 import 'reflect-metadata'
-import headerComp from '@/@core/components/general/headerComp.vue'
-import mobileMenu from './@core/components/general/mobileMenu.vue'
+
+import { onMounted } from 'vue'
+import { useInAppMessagingStore } from '@/@core/plugins/registered/pinia/inAppMessaging'
+import { InAppMessages } from '@/@core/components'
+
+const store = useInAppMessagingStore()
+
+onMounted(() => {
+  if (!sessionStorage.getItem('welcomeNotificationShown')) {
+    const id = Date.now()
+
+    store.messages.push({
+      id,
+      text: 'Bem-vindo(a) ao site! 🎉',
+    })
+
+    sessionStorage.setItem('welcomeNotificationShown', 'true')
+
+    setTimeout(() => {
+      store.messages = store.messages.filter((m) => m.id !== id)
+    }, 5000)
+  }
+})
 </script>
 
 <template>
-  <headerComp :title="$route.name" />
   <RouterView v-slot="{ Component }">
+    <InAppMessages />
     <Transition
       mode="out-in"
       enter-active-class="transition duration-300 ease-out"
@@ -19,5 +40,4 @@ import mobileMenu from './@core/components/general/mobileMenu.vue'
       <component :is="Component" :key="$route.fullPath" />
     </Transition>
   </RouterView>
-  <mobileMenu class="fixed bottom-0" />
 </template>

@@ -32,10 +32,21 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: '',
-      component: () => import('@/@templates/infra/pages/index.vue'),
+      component: () => import('@/@templates/layouts/Default.vue'),
+      children: [
+        {
+          path: '/',
+          name: '',
+          component: () => import('@/@templates/infra/pages/index.vue'),
+        },
+      ],
     },
     ...moduleRoutes,
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('@/@templates/infra/pages/NotFound.vue'),
+    },
   ],
   scrollBehavior() {
     return { top: 0 }

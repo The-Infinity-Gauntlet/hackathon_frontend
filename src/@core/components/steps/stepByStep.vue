@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
   totalSteps: {
@@ -32,11 +32,26 @@ const finish = (): void => {
   currentStep.value++
   emit('finish')
 }
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    nextStep()
+  } else if (event.key === 'Escape') {
+    prevStep()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <template>
   <div class="grid justify-center">
-    <!-- Indicador de Passos -->
     <div class="mt-8 flex justify-center gap-10">
       <div v-for="step in totalSteps" :key="step" class="flex items-center">
         <div
@@ -55,7 +70,6 @@ const finish = (): void => {
       </div>
     </div>
 
-    <!-- Conteúdo do Passo (via Slots) -->
     <div class="mt-10 mb-5 min-h-[150px]">
       <template v-for="step in totalSteps" :key="step">
         <div v-if="currentStep === step">
@@ -70,7 +84,6 @@ const finish = (): void => {
       </div>
     </div>
 
-    <!-- Botões de Navegação -->
     <div class="mt-8 flex justify-between">
       <button
         @click="prevStep"
