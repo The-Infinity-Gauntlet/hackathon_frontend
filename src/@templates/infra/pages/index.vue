@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Chart from 'primevue/chart'
-import { FloodAlert } from '@/@core/components'
-import { BlogPost, CurrentLocation, Mapbox, WeatherStats } from '../components'
+import { FloodAlert, WeatherStats } from '@/@core/components'
+import { BlogPost, Mapbox } from '../components'
 
 const location = ref({
   neighborhood: 'Floresta',
@@ -15,7 +15,7 @@ const location = ref({
       scale: 59,
       message: 'NORMALIDADE!',
     },
-    { name: 'Umidade', icon: '/weather_information/no_rain.svg', scale: 73 },
+    { name: 'Vazão do rio', icon: '/weather_information/river_discharge.svg', scale: 46 },
   ] as const,
 })
 const chartData = ref({
@@ -70,6 +70,7 @@ const chartOptions = ref({
       <div class="flex items-center justify-center gap-1 p-5">
         <img src="/icons/location.svg" alt="Localização" />
         <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
+        <span class="material-symbols-outlined text-[#999999]">edit_square</span>
       </div>
 
       <WeatherStats :weatherStats="location.data" />
@@ -84,6 +85,5 @@ const chartOptions = ref({
     <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
 
     <BlogPost />
-    <CurrentLocation class="mb-20" />
   </div>
 </template>
