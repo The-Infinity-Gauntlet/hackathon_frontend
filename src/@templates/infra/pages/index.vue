@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Chart from 'primevue/chart'
-import { FloodAlert, WeatherStats } from '@/@core/components'
+import { FloodAlert, WeatherStatus } from '@/@core/components'
 import { BlogPost, Mapbox } from '../components'
 
 const location = ref({
@@ -73,7 +73,7 @@ const chartOptions = ref({
         <span class="material-symbols-outlined text-[#999999]">edit_square</span>
       </div>
 
-      <WeatherStats :weatherStats="location.data" />
+      <WeatherStatus :weatherStatus="location.data" />
       <FloodAlert :alert="location.data[1].message" />
     </section>
 
