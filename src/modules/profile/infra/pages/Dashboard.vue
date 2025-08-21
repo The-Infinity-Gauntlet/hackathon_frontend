@@ -14,7 +14,7 @@ const location = ref({
       scale: 59,
       message: 'NORMALIDADE!',
     },
-    { name: 'Umidade', icon: '/weather_information/no_rain.svg', scale: 73 },
+    { name: 'Vazão do rio', icon: '/weather_information/river_discharge.svg', scale: 46 },
   ] as const,
 })
 const chartData = ref({
