@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Chart from 'primevue/chart'
-import { FloodAlert, WeatherStatus } from '@/@core/components'
+import { FloodAlert, WeatherStatus, MapboxPopup } from '@/@core/components'
 import { BlogPost, Mapbox } from '../components'
+import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
+
+const showPopup = ref(false)
+const togglePopup = () => (showPopup.value = !showPopup.value)
+const geolocation = useGeolocationStore()
 
 const location = ref({
-  neighborhood: 'Floresta',
+  neighborhood: null as string | null,
   city: 'Joinville',
   data: [
     { name: 'Temperatura', icon: '/weather_information/cloud.svg', scale: 23 },
@@ -58,6 +63,10 @@ const chartOptions = ref({
     },
   },
 })
+
+onMounted(async () => {
+  location.value.neighborhood = await geolocation.findNeighborhood()
+})
 </script>
 
 <template>
@@ -67,11 +76,12 @@ const chartOptions = ref({
     </section>
 
     <section>
-      <div class="flex items-center justify-center gap-1 p-5">
+      <div class="flex items-center justify-center gap-1 p-5" @click="togglePopup">
         <img src="/icons/location.svg" alt="Localização" />
         <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
         <span class="material-symbols-outlined text-[#999999]">edit_square</span>
       </div>
+      <MapboxPopup v-if="showPopup" @close="showPopup = false" />
 
       <WeatherStatus :weatherStatus="location.data" />
       <FloodAlert :alert="location.data[1].message" />

@@ -3,12 +3,11 @@ import { ref, onMounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-import { MapboxPopup } from '@/@core/components'
-
-const showPopup = ref(false)
-const togglePopup = () => (showPopup.value = !showPopup.value)
+import { MapboxFilters } from '../components'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
+
+const isFullscreen = ref(false)
 
 onMounted(() => {
   const map = new mapboxgl.Map({
@@ -22,6 +21,7 @@ onMounted(() => {
   })
 
   map.addControl(new mapboxgl.NavigationControl(), 'top-right')
+  map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
 
   map.on('load', async () => {
     try {
@@ -61,8 +61,7 @@ onMounted(() => {
   })
 
   map.on('fullscreenchange', () => {
-    const isFullscreen = document.fullscreenElement !== null
-    showPopup.value = isFullscreen
+    isFullscreen.value = document.fullscreenElement !== null
   })
 })
 
@@ -298,17 +297,10 @@ const fields = [
 
 <template>
   <section class="mb-20">
-    <div class="relative h-[500px] overflow-hidden rounded-2xl">
+    <div class="h-[500px] overflow-hidden rounded-2xl">
       <div id="map-fixed" class="h-full w-full"></div>
-
-      <button
-        class="absolute right-1 bottom-10 flex items-center justify-center rounded-full bg-blue-600 p-2 text-white"
-        @click="togglePopup"
-      >
-        <span class="material-symbols-outlined">screenshot_frame</span>
-      </button>
+      <MapboxFilters v-if="isFullscreen" class="absolute right-4 bottom-4" />
     </div>
-    <MapboxPopup v-if="showPopup" @close="showPopup = false" />
 
     <div class="mt-10 flex justify-center gap-2">
       <div class="border-r border-[#E5E5E5] px-5 text-center dark:border-[#00182F]">
