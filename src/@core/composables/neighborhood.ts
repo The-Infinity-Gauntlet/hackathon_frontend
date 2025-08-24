@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import * as turf from '@turf/turf'
 
-interface BairroFeature {
+interface NeighborhoodFeature {
   type: 'Feature'
   properties: {
     name: string
@@ -10,50 +10,44 @@ interface BairroFeature {
   geometry: turf.Geometry
 }
 
-interface BairroGeoJSON {
+interface NeighborhoodGeoJSON {
   type: 'FeatureCollection'
-  features: BairroFeature[]
+  features: NeighborhoodFeature[]
 }
 
-export function useBairro() {
-  const bairros = ref<BairroGeoJSON | null>(null)
-  const selectedBairro = ref<string | null>(null)
+export function useNeighborhood() {
+  const neighborhoods = ref<NeighborhoodGeoJSON | null>(null)
+  const selectedNeighborhood = ref<string | null>(null)
 
-  /**
-   * Carrega o GeoJSON do public
-   */
-  async function loadBairros() {
+  async function loadNeighborhoods() {
     try {
       const response = await fetch('/neighborhood.geojson')
-      bairros.value = await response.json()
+      neighborhoods.value = await response.json()
     } catch (error) {
       console.error('Erro ao carregar GeoJSON:', error)
     }
   }
 
-  /**
-   * Retorna o nome do bairro a partir das coordenadas
-   */
-  function getBairro(lng: number, lat: number): string | null {
-    if (!bairros.value) return null
+  function getNeighborhood(lng: number, lat: number): string | null {
+    if (!neighborhoods.value) return null
 
     const point = turf.point([lng, lat])
 
-    for (const feature of bairros.value.features) {
+    for (const feature of neighborhoods.value.features) {
       if (turf.booleanPointInPolygon(point, feature)) {
-        selectedBairro.value = feature.properties.bairro
-        return selectedBairro.value
+        selectedNeighborhood.value = feature.properties.bairro
+        return selectedNeighborhood.value
       }
     }
 
-    selectedBairro.value = null
+    selectedNeighborhood.value = null
     return null
   }
 
   return {
-    bairros,
-    selectedBairro,
-    loadBairros,
-    getBairro,
+    neighborhoods,
+    selectedNeighborhood,
+    loadNeighborhoods,
+    getNeighborhood,
   }
 }
