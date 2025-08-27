@@ -21,7 +21,9 @@ const location = {
 </script>
 
 <template>
-  <div class="absolute bottom-2 left-4 z-3 w-[90%] rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]">
+  <div
+    class="absolute bottom-2 left-4 z-3 w-[90%] rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]"
+  >
     <div>
       <h4>{{ location.neighborhood }}</h4>
       <p class="text-xs text-[#999999]">{{ location.city }}, Brasil</p>

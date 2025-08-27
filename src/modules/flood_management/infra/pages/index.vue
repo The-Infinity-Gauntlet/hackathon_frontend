@@ -6,8 +6,13 @@ import { BaseCarousel, FloodAlert } from '@/@core/components'
 const menu = {
   id: 'menu',
   options: [
-    { id: 0, label: 'Cadastre um novo ponto de alagamento', icon: 'add', link: '/admin' },
-    { id: 1, label: 'Gráficos', icon: 'bar_chart_4_bars', link: '/admin' },
+    {
+      id: 0,
+      label: 'Cadastre um novo ponto de alagamento',
+      icon: 'add',
+      link: '/admin/mapa-de-alagamento',
+    },
+    { id: 1, label: 'Gráficos', icon: 'bar_chart_4_bars', link: '/admin/graficos' },
     { id: 2, label: 'Visão Geral', icon: 'travel_explore', link: '/admin' },
     { id: 3, label: 'Histórico de cadastros', icon: 'schedule', link: '/admin' },
     { id: 4, label: 'Emitir Notificação', icon: 'notifications_active', link: '/admin' },
@@ -32,7 +37,7 @@ const data = {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
       datasets: [
         {
-          label: 'Vasão do rio',
+          label: 'Vazão do rio',
           data: [12, 19, 3, 5, 2],
           backgroundColor: 'rgba(54, 162, 235, 0.5)',
           borderColor: 'rgba(54, 162, 235, 1)',

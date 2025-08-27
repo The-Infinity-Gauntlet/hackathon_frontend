@@ -1,5 +1,6 @@
 export * from './buttons'
 export * from './carousels'
+export * from './charts'
 export * from './flood'
 export * from './forms'
 export * from './general'

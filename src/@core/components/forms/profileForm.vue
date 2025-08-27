@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { type PropType } from 'vue'
-import { DatebornField, TextField } from '@/@core/components'
-import { DeleteField, NameField, PasswordField } from '../components'
+import {
+  DatebornField,
+  DeleteField,
+  FieldGroup,
+  NameField,
+  PasswordField,
+  TextField,
+} from '@/@core/components'
 import type { IFormField } from '@/@core/interfaces/form'
 
 defineProps({
@@ -33,8 +39,25 @@ const getFieldComponent = (field: IFormField) => {
 
 <template>
   <ul class="mt-5">
-    <li v-for="field in formFields" :key="field.id" class="my-5 grid w-[332px]">
+    <li
+      v-for="field in formFields.filter(
+        (f) => !['rain', 'humidity', 'atmospheric_pressure', 'river_discharge'].includes(f.id),
+      )"
+      :key="field.id"
+      class="my-5 grid w-[332px]"
+    >
       <component :is="getFieldComponent(field)" :field="field" />
+    </li>
+    <li class="my-5 grid w-[332px]">
+      <FieldGroup :fields="formFields.filter((f) => ['rain', 'humidity'].includes(f.id))" />
+    </li>
+
+    <li class="my-5 grid w-[332px]">
+      <FieldGroup
+        :fields="
+          formFields.filter((f) => ['atmospheric_pressure', 'river_discharge'].includes(f.id))
+        "
+      />
     </li>
   </ul>
 

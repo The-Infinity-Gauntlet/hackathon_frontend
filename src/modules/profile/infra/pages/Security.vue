@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ProfileForm } from '../components'
+import { ProfileForm } from '@/@core/components'
 
 const fields = [
   {

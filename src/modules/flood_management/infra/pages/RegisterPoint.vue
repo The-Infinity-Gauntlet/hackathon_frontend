@@ -3,22 +3,30 @@ import { ref, onMounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-import DataMapboxPopup from './dataMapboxPopup.vue'
 import { useNeighborhood } from '@/@core/composables/neighborhood'
+import { ProfileForm } from '@/@core/components'
+import type { IFormField } from '@/@core/interfaces/form'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
-
 const { loadNeighborhoods, getNeighborhood } = useNeighborhood()
 const neighborhood = ref<string | null>(null)
-const showPopup = ref(false)
-const togglePopup = () => (showPopup.value = !showPopup.value)
-const emit = defineEmits(['close'])
+
+const fields: IFormField[] = [
+  { id: 'latitude', label: 'Latitude', placeholder: 'Digite a latitude aqui', type: 'number' },
+  { id: 'longitude', label: 'Longitude', placeholder: 'Digite a longitude aqui', type: 'number' },
+  { id: 'city', label: 'Cidade', placeholder: 'Digite a cidade aqui', type: 'text' },
+  { id: 'neighborhood', label: 'Bairro', placeholder: 'Digite o bairro aqui', type: 'text' },
+  { id: 'rain', label: 'Chuva', placeholder: 'xxx', type: 'number' },
+  { id: 'humidity', label: 'Umidade', placeholder: 'xxx', type: 'number' },
+  { id: 'atmospheric_pressure', label: 'Pressão', placeholder: 'xxxxxx', type: 'number' },
+  { id: 'river_discharge', label: 'Vazão do rio', placeholder: 'xxx', type: 'number' },
+]
 
 onMounted(async () => {
   await loadNeighborhoods()
 
   const map = new mapboxgl.Map({
-    container: 'map-popup',
+    container: 'map-register_point',
     style: 'mapbox://styles/mapbox/outdoors-v12',
     center: [-48.8464, -26.3044],
     zoom: 13,
@@ -65,7 +73,6 @@ onMounted(async () => {
   })
 
   map.on('click', (e) => {
-    togglePopup()
     const { lng, lat } = e.lngLat
     neighborhood.value = getNeighborhood(lng, lat)
     console.log('Bairro encontrado:', neighborhood.value)
@@ -81,39 +88,13 @@ onMounted(async () => {
     //   .addTo(map)
   })
 })
-
-const handleOverlayClick = (event: MouseEvent) => {
-  if ((event.target as HTMLElement).id === 'overlay') {
-    emit('close')
-  }
-}
 </script>
 
 <template>
-  <div
-    id="overlay"
-    class="fixed inset-0 z-20 flex items-center justify-center bg-black/80"
-    @click="handleOverlayClick"
-  >
-    <div
-      class="flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]"
-    >
-      <div class="flex items-center justify-between gap-3">
-        <button class="material-symbols-outlined text-[#999999]" @click="emit('close')">
-          arrow_back_ios
-        </button>
-        <input
-          type="text"
-          placeholder="Buscar localização"
-          class="w-full rounded-2xl border border-[#7AA6C8] px-3 py-2 text-xs outline-none"
-        />
-        <span class="material-symbols-outlined text-[#7AA6C8]">search</span>
-      </div>
-
-      <div class="relative mt-3 h-[700px] overflow-hidden rounded-2xl">
-        <div id="map-popup" class="h-full w-full"></div>
-        <DataMapboxPopup :neighborhood="neighborhood" v-if="showPopup" />
-      </div>
+  <div class="grid justify-center px-5 pt-10 pb-20">
+    <div class="h-[350px] overflow-hidden rounded-2xl">
+      <div id="map-register_point" class="h-full w-full"></div>
     </div>
+    <ProfileForm :formFields="fields" buttonText="Cadastrar" />
   </div>
 </template>
