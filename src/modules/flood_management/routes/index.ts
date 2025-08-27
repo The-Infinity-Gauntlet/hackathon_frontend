@@ -54,6 +54,16 @@ const routes: IRoutes[] = [
         component: () => import('@/modules/flood_management/infra/pages/RegisterNotification.vue'),
         meta: { requiresAuth: true, role: 'admin' },
       },
+      {
+        path: '/admin/graficos',
+        name: '',
+        component: () => import('@/modules/flood_management/infra/pages/Charts.vue'),
+      },
+      {
+        path: '/admin/registrar-ponto',
+        name: 'Cadastrar um novo ponto',
+        component: () => import('@/modules/flood_management/infra/pages/RegisterPoint.vue'),
+      },
     ],
   },
   {
