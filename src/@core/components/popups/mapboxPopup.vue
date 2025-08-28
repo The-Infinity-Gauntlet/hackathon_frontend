@@ -8,8 +8,9 @@ import { useNeighborhood } from '@/@core/composables/neighborhood'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 
-const { loadNeighborhoods, getNeighborhood } = useNeighborhood()
+const { loadNeighborhoods, getLocalization } = useNeighborhood()
 const neighborhood = ref<string | null>(null)
+const city = ref<string | null>(null)
 const showPopup = ref(false)
 const togglePopup = () => (showPopup.value = !showPopup.value)
 const emit = defineEmits(['close'])
@@ -67,8 +68,10 @@ onMounted(async () => {
   map.on('click', (e) => {
     togglePopup()
     const { lng, lat } = e.lngLat
-    neighborhood.value = getNeighborhood(lng, lat)
-    console.log('Bairro encontrado:', neighborhood.value)
+    const localization = getLocalization(lng, lat)
+    neighborhood.value = localization.neighborhood
+    city.value = localization.city
+    // console.log(neighborhood.value, city.value)
     // const elevation = map.queryTerrainElevation([e.lngLat.lng, e.lngLat.lat])
     // new mapboxgl.Popup()
     //   .setLngLat(e.lngLat)
@@ -112,7 +115,7 @@ const handleOverlayClick = (event: MouseEvent) => {
 
       <div class="relative mt-3 h-[700px] overflow-hidden rounded-2xl">
         <div id="map-popup" class="h-full w-full"></div>
-        <DataMapboxPopup :neighborhood="neighborhood" v-if="showPopup" />
+        <DataMapboxPopup :neighborhood="neighborhood" :city="city" v-if="showPopup" />
       </div>
     </div>
   </div>

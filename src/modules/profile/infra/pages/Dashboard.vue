@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { FloodAlert } from '@/@core/components'
-import Chart from 'primevue/chart'
+import { BaseChart, FloodAlert } from '@/@core/components'
 
 const location = ref({
   neighborhood: 'Floresta',
@@ -17,53 +16,73 @@ const location = ref({
     { name: 'Vazão do rio', icon: '/weather_information/river_discharge.svg', scale: 46 },
   ] as const,
 })
-const chartData = ref({
-  labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
-  datasets: [
-    {
-      label: 'Vendas',
-      data: [12, 19, 3, 5, 2],
-      backgroundColor: 'rgba(54, 162, 235, 0.5)',
-      borderColor: 'rgba(54, 162, 235, 1)',
-      borderWidth: 1,
-    },
-  ],
-})
-const chartOptions = ref({
-  responsive: true,
-  plugins: {
-    legend: {
-      labels: {
-        color: '#495057',
-      },
+const charts = [
+  {
+    type: 'bar',
+    data: {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+      datasets: [
+        {
+          label: 'Precipitação',
+          data: [12, 19, 3, 5, 2],
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
     },
   },
-  scales: {
-    x: {
-      ticks: {
-        color: '#495057',
-      },
-      grid: {
-        color: '#ebedef',
-      },
-    },
-    y: {
-      ticks: {
-        color: '#495057',
-      },
-      grid: {
-        color: '#ebedef',
-      },
+  {
+    type: 'bar',
+    data: {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+      datasets: [
+        {
+          label: 'Vazão do rio',
+          data: [12, 19, 3, 5, 2],
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
     },
   },
-})
+  {
+    type: 'bar',
+    data: {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+      datasets: [
+        {
+          label: 'Umidade do ar',
+          data: [12, 19, 3, 5, 2],
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+  },
+  {
+    type: 'doughnut',
+    data: {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+      datasets: [
+        {
+          label: 'Pressão atmosférica',
+          data: [12, 19, 3, 5, 2],
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+  },
+]
 </script>
 
 <template>
   <div class="grid justify-center px-5 pb-20">
     <FloodAlert :alert="location.data[1].message" />
-    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
-    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
-    <Chart type="doughnut" :data="chartData" :options="chartOptions" class="mb-10" />
+    <BaseChart v-for="(chart, index) in charts" :key="index" :item="chart" />
   </div>
 </template>

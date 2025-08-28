@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import Chart from 'primevue/chart'
-import { FloodAlert, WeatherStatus, MapboxPopup } from '@/@core/components'
+import { BaseChart, FloodAlert, WeatherStatus, MapboxPopup } from '@/@core/components'
 import { BlogPost, Mapbox } from '../components'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 
@@ -11,7 +10,7 @@ const geolocation = useGeolocationStore()
 
 const location = ref({
   neighborhood: null as string | null,
-  city: 'Joinville',
+  city: null as string | null,
   data: [
     { name: 'Temperatura', icon: '/weather_information/cloud.svg', scale: 23 },
     {
@@ -23,49 +22,73 @@ const location = ref({
     { name: 'Vazão do rio', icon: '/weather_information/river_discharge.svg', scale: 46 },
   ] as const,
 })
-const chartData = ref({
-  labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
-  datasets: [
-    {
-      label: 'Vendas',
-      data: [12, 19, 3, 5, 2],
-      backgroundColor: 'rgba(54, 162, 235, 0.5)',
-      borderColor: 'rgba(54, 162, 235, 1)',
-      borderWidth: 1,
-    },
-  ],
-})
-const chartOptions = ref({
-  responsive: true,
-  plugins: {
-    legend: {
-      labels: {
-        color: '#495057',
-      },
+const charts = [
+  {
+    type: 'bar',
+    data: {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+      datasets: [
+        {
+          label: 'Precipitação',
+          data: [12, 19, 3, 5, 2],
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
     },
   },
-  scales: {
-    x: {
-      ticks: {
-        color: '#495057',
-      },
-      grid: {
-        color: '#ebedef',
-      },
-    },
-    y: {
-      ticks: {
-        color: '#495057',
-      },
-      grid: {
-        color: '#ebedef',
-      },
+  {
+    type: 'bar',
+    data: {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+      datasets: [
+        {
+          label: 'Vazão do rio',
+          data: [12, 19, 3, 5, 2],
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
     },
   },
-})
+  {
+    type: 'bar',
+    data: {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+      datasets: [
+        {
+          label: 'Umidade do ar',
+          data: [12, 19, 3, 5, 2],
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+  },
+  {
+    type: 'bar',
+    data: {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+      datasets: [
+        {
+          label: 'Pressão atmosférica',
+          data: [12, 19, 3, 5, 2],
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+  },
+]
 
 onMounted(async () => {
-  location.value.neighborhood = await geolocation.findNeighborhood()
+  const currentLocation = await geolocation.findNeighborhood()
+  location.value.neighborhood = currentLocation.neighborhood
+  location.value.city = currentLocation.city
 })
 </script>
 
@@ -76,10 +99,10 @@ onMounted(async () => {
     </section>
 
     <section>
-      <div class="flex items-center justify-center gap-1 p-5" @click="togglePopup">
+      <div class="flex items-center justify-center py-5" @click="togglePopup">
         <img src="/icons/location.svg" alt="Localização" />
         <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
-        <span class="material-symbols-outlined text-[#999999]">edit_square</span>
+        <span class="material-symbols-outlined pl-2 text-[#999999]">edit_square</span>
       </div>
       <MapboxPopup v-if="showPopup" @close="showPopup = false" />
 
@@ -88,12 +111,7 @@ onMounted(async () => {
     </section>
 
     <Mapbox />
-
-    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
-    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
-    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
-    <Chart type="bar" :data="chartData" :options="chartOptions" class="mb-10" />
-
+    <BaseChart v-for="(chart, index) in charts" :key="index" :item="chart" />
     <BlogPost />
   </div>
 </template>
