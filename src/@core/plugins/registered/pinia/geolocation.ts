@@ -5,9 +5,10 @@ import { useNeighborhood } from '@/@core/composables/neighborhood'
 export const useGeolocationStore = defineStore('geolocation', () => {
   const latitude = ref<number | null>(null)
   const longitude = ref<number | null>(null)
-  let watchId: number | null = null
+  let watchId: number | null
   const neighborhood = ref<string | null>(null)
-  const { loadNeighborhoods, getNeighborhood } = useNeighborhood()
+  const city = ref<string | null>(null)
+  const { loadNeighborhoods, getLocalization } = useNeighborhood()
 
   function startTracking() {
     if (!('geolocation' in navigator)) {
@@ -61,14 +62,25 @@ export const useGeolocationStore = defineStore('geolocation', () => {
         ([lat, lng], _, onCleanup) => {
           if (lat != null && lng != null) {
             try {
-              neighborhood.value = getNeighborhood(lng, lat)
-              console.log('latitude: ', lat, 'longitude: ', lng)
-              console.log('Bairro atual: ', neighborhood.value)
-              resolve(neighborhood.value)
+              const result = getLocalization(lng, lat)
+
+              if (result) {
+                neighborhood.value = result.neighborhood
+                city.value = result.city
+              } else {
+                neighborhood.value = null
+                city.value = null
+              }
+
+              // console.log('latitude: ', lat, 'longitude: ', lng)
+              // console.log('Bairro atual: ', neighborhood.value, ', ', city.value)
+              resolve({
+                neighborhood: neighborhood.value,
+                city: city.value,
+              })
               onCleanup(() => stop())
             } catch (error) {
               console.error('Erro ao buscar bairro:', error)
-              neighborhood.value = null
               resolve(null)
               onCleanup(() => stop())
             }
@@ -83,6 +95,7 @@ export const useGeolocationStore = defineStore('geolocation', () => {
     latitude,
     longitude,
     neighborhood,
+    city,
     startTracking,
     stopTracking,
     findNeighborhood,

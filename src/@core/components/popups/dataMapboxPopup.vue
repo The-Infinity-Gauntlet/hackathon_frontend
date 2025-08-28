@@ -4,11 +4,12 @@ import WeatherStatsMapbox from './floodMapbox/weatherStatsMapbox.vue'
 
 const props = defineProps<{
   neighborhood: string
+  city: string
 }>()
 
 const location = {
   neighborhood: props.neighborhood,
-  city: 'Joinville',
+  city: props.city,
   data: [
     {
       name: 'Probabilidade de enchente',
