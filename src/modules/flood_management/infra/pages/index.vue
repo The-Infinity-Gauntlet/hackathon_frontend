@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { WeatherPanel } from '../components'
-import { BaseCarousel, FloodAlert } from '@/@core/components'
+import { ref, onMounted } from 'vue'
+import { BaseCarousel } from '@/@core/components'
+import { SelectFloodAlert, WeatherPanel } from '../components'
+import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
+
+const geolocation = useGeolocationStore()
 
 const menu = {
   id: 'menu',
@@ -72,8 +75,8 @@ const data = {
   ],
 }
 const location = ref({
-  neighborhood: 'Floresta',
-  city: 'Joinville',
+  neighborhood: null as string | null,
+  city: null as string | null,
   data: [
     { name: 'Temperatura', icon: '/weather_information/cloud.svg', scale: 23 },
     {
@@ -86,6 +89,12 @@ const location = ref({
   ] as const,
   date: 'Seg, 22:00',
 })
+
+onMounted(async () => {
+  const currentLocation = await geolocation.findNeighborhood()
+  location.value.neighborhood = currentLocation.neighborhood
+  location.value.city = currentLocation.city
+})
 </script>
 
 <template>
@@ -95,7 +104,7 @@ const location = ref({
     </section>
 
     <section>
-      <FloodAlert :alert="location.data[1].message" />
+      <SelectFloodAlert :alert="location.data[1].message" />
       <BaseCarousel :items="menu" />
     </section>
 

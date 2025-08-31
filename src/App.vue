@@ -2,11 +2,9 @@
 import 'reflect-metadata'
 
 import { onMounted } from 'vue'
-import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 import { useInAppMessagingStore } from '@/@core/plugins/registered/pinia/inAppMessaging'
 import { InAppMessages } from '@/@core/components'
 
-const geolocation = useGeolocationStore()
 const notification = useInAppMessagingStore()
 
 onMounted(async () => {
@@ -18,8 +16,6 @@ onMounted(async () => {
       notification.messages = notification.messages.filter((m) => m.id !== id)
     }, 5000)
   }
-
-  await geolocation.findNeighborhood()
 })
 </script>
 
