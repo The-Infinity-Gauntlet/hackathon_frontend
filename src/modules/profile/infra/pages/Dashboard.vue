@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import { BaseChart, FloodAlert } from '@/@core/components'
 
 const location = ref({
-  neighborhood: 'Floresta',
-  city: 'Joinville',
+  neighborhood: null as string | null,
+  city: null as string | null,
   data: [
     { name: 'Temperatura', icon: '/weather_information/cloud.svg', scale: 23 },
     {
