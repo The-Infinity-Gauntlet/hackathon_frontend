@@ -19,6 +19,7 @@ const routes: IRoutes[] = [
         path: '/recuperacao',
         name: 'Recuperação',
         component: () => import('@/modules/auth/infra/pages/Recovery.vue'),
+        meta: { requiresAuth: true },
       },
     ],
   },

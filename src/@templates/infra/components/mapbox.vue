@@ -324,7 +324,7 @@ const fields = [
           <li
             v-for="filter in filters"
             :key="filter.name"
-            class="rounded-lg bg-[#2768CA] py-2 text-xs hover:bg-[#263e61]"
+            class="rounded-lg bg-[#2768CA] py-2 text-xs font-semibold text-white hover:bg-[#263e61]"
           >
             {{ filter.name }}
           </li>

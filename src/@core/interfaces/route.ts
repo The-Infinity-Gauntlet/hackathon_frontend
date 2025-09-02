@@ -6,6 +6,11 @@
  *
  * @interface IRoutes
  */
+
+interface RouteMeta {
+  requiresAuth?: boolean
+  role?: string
+}
 export interface IRoutes {
   /**
    * Caminho da URL que será associado à rota.
@@ -57,4 +62,5 @@ export interface IRoutes {
    * @optional
    */
   props?: boolean
+  meta?: RouteMeta
 }

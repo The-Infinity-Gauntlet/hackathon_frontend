@@ -17,7 +17,7 @@ const location = ref({
       name: 'Probabilidade de enchente',
       icon: '/weather_information/danger.svg',
       scale: 59,
-      message: 'NORMALIDADE!',
+      message: 'CRISE!',
     },
     { name: 'Vazão do rio', icon: '/weather_information/river_discharge.svg', scale: 46 },
   ] as const,
