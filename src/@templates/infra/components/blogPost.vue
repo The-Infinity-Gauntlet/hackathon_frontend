@@ -31,9 +31,11 @@ const posts = [
       <h3 class="text-center text-lg font-semibold">{{ post.title }}</h3>
       <p class="text-xs text-[#999999]">{{ post.description }}</p>
       <img :src="post.icon" :alt="post.title" class="mx-auto" />
-      <RouterLink :to="post.link" class="rounded-2xl bg-[#2768CA] py-1.5 text-center">{{
-        post.btnMessage
-      }}</RouterLink>
+      <RouterLink
+        :to="post.link"
+        class="rounded-2xl bg-[#2768CA] py-1.5 text-center font-semibold text-white"
+        >{{ post.btnMessage }}</RouterLink
+      >
     </div>
   </section>
 </template>
