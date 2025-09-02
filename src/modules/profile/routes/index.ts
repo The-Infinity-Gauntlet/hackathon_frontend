@@ -39,11 +39,13 @@ const routes: IRoutes[] = [
         path: '/suporte/registro',
         name: 'Registrar Dúvida',
         component: () => import('@/modules/profile/infra/pages/RegisterTicket.vue'),
+        meta: { requiresAuth: true },
       },
       {
         path: '/suporte/enviar-mensagem',
         name: 'Enviar Mensagem',
         component: () => import('@/modules/profile/infra/pages/SendMessage.vue'),
+        meta: { requiresAuth: true },
       },
     ],
   },
