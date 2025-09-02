@@ -92,19 +92,31 @@ const handleOverlayClick = (event: MouseEvent) => {
 </script>
 
 <template>
-  <div id="overlay" class="fixed inset-0 z-20 flex items-center justify-center bg-black/80" @click="handleOverlayClick">
+  <div
+    id="overlay"
+    class="fixed inset-0 z-20 flex items-center justify-center bg-black/80"
+    @click="handleOverlayClick"
+  >
     <div
-      class="flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]">
+      class="flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]"
+    >
       <div class="flex items-center justify-between gap-3">
-        <input type="text" placeholder="Buscar localização"
-          class="w-full rounded-2xl border border-[#7AA6C8] px-3 py-2 text-xs outline-none" />
+        <input
+          type="text"
+          placeholder="Buscar localização"
+          class="w-full rounded-2xl border border-[#7AA6C8] px-3 py-2 text-xs outline-none"
+        />
         <span class="material-symbols-outlined text-[#7AA6C8]">search</span>
       </div>
 
       <div class="relative mt-3 h-[700px] overflow-hidden rounded-2xl">
         <div id="map-popup" class="h-full w-full"></div>
-        <button class="absolute left-3 top-3 rounded-full bg-blue-600 py-1 px-3 text-white"
-          @click="emit('close')">x</button>
+        <button
+          class="absolute top-3 left-3 rounded-full bg-blue-600 px-3 py-1 text-white"
+          @click="emit('close')"
+        >
+          x
+        </button>
         <DataMapboxPopup v-if="showPopup" />
       </div>
     </div>
