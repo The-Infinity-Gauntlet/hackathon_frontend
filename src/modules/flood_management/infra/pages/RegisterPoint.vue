@@ -91,7 +91,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="grid justify-center px-5 pt-10 pb-20">
+  <div class="grid justify-center px-5 pt-5 pb-20">
     <div class="h-[350px] overflow-hidden rounded-2xl">
       <div id="map-register_point" class="h-full w-full"></div>
     </div>

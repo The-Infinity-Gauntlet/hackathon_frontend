@@ -1,79 +1,117 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
+const props = defineProps<{ alert: AlertKey }>()
+
 type AlertKey = 'CRISE!' | 'ALERTA!' | 'ATENÇÃO!' | 'MOBILIZAÇÃO!' | 'NORMALIDADE!'
+
 interface AlertInfo {
-  bgClass: string
+  id: number
+  title: AlertKey
   description: string
+  bgClass: string
+  textClass?: string
 }
 
-const ALERTS: Record<AlertKey, AlertInfo> = {
-  'CRISE!': {
-    bgClass: 'bg-[#6326CC]',
+const ALERTS: AlertInfo[] = [
+  {
+    id: 0,
+    title: 'CRISE!',
     description: 'Probabilidade muito alta de alagamento.',
+    bgClass: 'bg-[#6326CC] text-white',
   },
-  'ALERTA!': {
-    bgClass: 'bg-[#FF0A0A]',
+  {
+    id: 1,
+    title: 'ALERTA!',
     description: 'Probabilidade alta de alagamento.',
+    bgClass: 'bg-[#FF0A0A] text-white',
   },
-  'ATENÇÃO!': {
-    bgClass: 'bg-[#F87400]',
+  {
+    id: 2,
+    title: 'ATENÇÃO!',
     description: 'Probabilidade moderada de alagamento.',
+    bgClass: 'bg-[#F87400] text-black',
   },
-  'MOBILIZAÇÃO!': {
-    bgClass: 'bg-[#FFE101]',
+  {
+    id: 3,
+    title: 'MOBILIZAÇÃO!',
     description: 'Probabilidade baixa de alagamento.',
+    bgClass: 'bg-[#FFE101] text-black',
   },
-  'NORMALIDADE!': {
-    bgClass: 'bg-[#00D42E]',
+  {
+    id: 4,
+    title: 'NORMALIDADE!',
     description: 'Probabilidade muito baixa de alagamento.',
+    bgClass: 'bg-[#00D42E] text-black',
   },
-} as const
+]
 
-const props = defineProps<{
-  alert: keyof typeof ALERTS
-}>()
+const currentAlert = computed(() => ALERTS.find((a) => a.title === props.alert) ?? ALERTS[0])
 
-const alertInfo = computed(() => ALERTS[props.alert])
+const showAll = ref(false)
+const toggle = () => (showAll.value = !showAll.value)
+const otherAlerts = computed(() => ALERTS.filter((a) => a.title !== currentAlert.value.title))
 
-const alerts = {
-  'CRISE!': {
-    bgClass: 'bg-[#6326CC]',
-    description: 'Probabilidade muito alta de alagamento.',
-  },
-  'ALERTA!': {
-    bgClass: 'bg-[#FF0A0A]',
-    description: 'Probabilidade alta de alagamento.',
-  },
-  'ATENÇÃO!': {
-    bgClass: 'bg-[#F87400]',
-    description: 'Probabilidade moderada de alagamento.',
-  },
-  'MOBILIZAÇÃO!': {
-    bgClass: 'bg-[#FFE101]',
-    description: 'Probabilidade baixa de alagamento.',
-  },
-  'NORMALIDADE!': {
-    bgClass: 'bg-[#00D42E]',
-    description: 'Probabilidade muito baixa de alagamento.',
-  },
+const selected = ref<AlertInfo | null>(null)
+
+const confirmSelection = () => {
+  if (selected.value) {
+    showAll.value = false
+  }
 }
-
-const showPopup = ref(false)
-const togglePopup = () => (showPopup.value = !showPopup.value)
 </script>
 
 <template>
-  <div class="my-5 grid gap-3">
-    <div
-      v-if="alertInfo"
-      @click="togglePopup"
-      class="relative grid rounded-lg p-1 text-center text-sm text-black"
-      :class="alertInfo.bgClass"
+  <div class="mb-5 w-full rounded-2xl bg-white shadow-lg dark:bg-[#000D19]">
+    <p
+      class="relative grid cursor-pointer rounded-lg p-1 text-center text-sm"
+      :class="currentAlert.bgClass"
+      @click="toggle"
     >
-      <span class="text-md font-semibold">{{ props.alert }}</span>
-      {{ alertInfo.description }}
-      <span class="material-symbols-outlined absolute top-4 right-1">keyboard_arrow_down</span>
-    </div>
+      <span class="text-md font-semibold">{{ currentAlert.title }}</span>
+      {{ currentAlert.description }}
+      <span class="material-symbols-outlined absolute top-3 right-2">keyboard_arrow_down</span>
+    </p>
+
+    <transition name="fade">
+      <div v-if="showAll" class="mt-3 grid gap-2 px-5 pb-3">
+        <label v-for="alert in otherAlerts" :key="alert.id" class="cursor-pointer">
+          <input type="radio" name="alert" :value="alert" v-model="selected" class="peer sr-only" />
+          <p class="grid rounded-lg p-1 text-center text-sm" :class="alert.bgClass">
+            <span class="text-md font-semibold">{{ alert.title }}</span>
+            {{ alert.description }}
+          </p>
+        </label>
+
+        <div v-if="selected" class="pt-5">
+          <p class="mb-1 text-xs">Nível selecionado:</p>
+          <p class="grid rounded-lg p-1 text-center text-sm" :class="selected.bgClass">
+            <span class="text-md font-semibold">{{ selected.title }}</span>
+            {{ selected.description }}
+          </p>
+
+          <div class="px-5">
+            <button
+              class="mx-auto mt-3 w-full rounded-lg bg-blue-500 p-2 font-semibold text-white shadow-xl"
+              @click="confirmSelection"
+            >
+              Confirmar
+            </button>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

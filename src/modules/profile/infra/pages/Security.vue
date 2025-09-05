@@ -50,7 +50,7 @@ const fields = [
     buttonText: 'Atualizar data',
   },
   {
-    id: 'password',
+    id: 'update-password',
     label: 'Atualizar senha',
     fields: [
       {

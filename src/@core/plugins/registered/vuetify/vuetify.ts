@@ -1,20 +1,19 @@
 // // Importação dos estilos do Vuetify
-// import 'vuetify/styles';
+// import 'vuetify/styles'
 
 // // Importação dos ícones da biblioteca Material Design Icons (MDI)
-// import '@mdi/font/css/materialdesignicons.css';
+// import '@mdi/font/css/materialdesignicons.css'
 
 // // Função de criação da instância do Vuetify
-// import { createVuetify } from 'vuetify';
+// import { createVuetify } from 'vuetify'
 
 // // Importação dos pacotes de localização (idiomas) para suporte multilíngue
-// import { pt, en } from 'vuetify/locale';
+// import { pt, en } from 'vuetify/locale'
 
 // // Tipo da instância principal da aplicação Vue
-// import type { App } from 'vue';
+// import type { App } from 'vue'
 
-// // Importação dos componentes laboratoriais do Vuetify (ainda em estágio experimental)
-// import { VCalendar, VDateInput, VTimePicker } from 'vuetify/labs/components';
+// import * as components from 'vuetify/components'
 
 // /**
 //  * Instância do Vuetify configurada com tema, idioma e componentes personalizados.
@@ -27,8 +26,7 @@
 //  */
 // const vuetify = createVuetify({
 //   theme: {
-//     /** Define o tema escuro como o tema padrão da aplicação */
-//     defaultTheme: 'dark',
+//     defaultTheme: 'light',
 //   },
 //   locale: {
 //     /** Define o idioma padrão da interface do Vuetify */
@@ -41,16 +39,9 @@
 //     messages: { pt, en },
 //   },
 //   components: {
-//     /** Componente de calendário experimental */
-//     VCalendar,
-
-//     /** Componente de entrada de data (datepicker) experimental */
-//     VDateInput,
-
-//     /** Componente de seleção de horário experimental */
-//     VTimePicker,
+//     ...components,
 //   },
-// });
+// })
 
 // /**
 //  * Função de instalação do Vuetify na instância principal do Vue.
@@ -69,5 +60,5 @@
 //  * app.mount('#app');
 //  */
 // export default function installVuetify(app: App) {
-//   app.use(vuetify);
+//   app.use(vuetify)
 // }

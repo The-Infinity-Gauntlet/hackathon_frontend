@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { BaseCarousel } from '@/@core/components'
-import { SelectFloodAlert, WeatherPanel } from '../components'
+import { CurrentWeatherPanel, ForecastWeatherPanel, SelectFloodAlert } from '../components'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 
 const geolocation = useGeolocationStore()
@@ -16,9 +16,14 @@ const menu = {
       link: '/admin/mapa-de-alagamento',
     },
     { id: 1, label: 'Gráficos', icon: 'bar_chart_4_bars', link: '/admin/graficos' },
-    { id: 2, label: 'Visão Geral', icon: 'travel_explore', link: '/admin' },
-    { id: 3, label: 'Histórico de cadastros', icon: 'schedule', link: '/admin' },
-    { id: 4, label: 'Emitir Notificação', icon: 'notifications_active', link: '/admin' },
+    { id: 2, label: 'Cadastrar ocorrência', icon: 'report', link: '/admin/registrar-ocorrencia' },
+    { id: 3, label: 'Histórico de cadastros', icon: 'schedule', link: '/admin/historico' },
+    {
+      id: 4,
+      label: 'Emitir Notificação',
+      icon: 'notifications_active',
+      link: '/admin/registrar-notificacao',
+    },
   ],
 }
 const data = {
@@ -108,6 +113,7 @@ onMounted(async () => {
       <BaseCarousel :items="menu" />
     </section>
 
-    <WeatherPanel :data="data" :location="location" />
+    <CurrentWeatherPanel :data="data" :location="location" />
+    <ForecastWeatherPanel :data="data" :location="location" />
   </div>
 </template>
