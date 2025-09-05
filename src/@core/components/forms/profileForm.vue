@@ -76,6 +76,9 @@ const getFieldComponent = (field: IFormField) => {
     <li class="my-1 grid w-[332px]">
       <FieldGroup :fields="formFields.filter((f) => ['height'].includes(f.id))" />
     </li>
+    <li class="my-3 grid">
+      <FieldGroup :fields="formFields.filter((f) => ['height'].includes(f.id))" />
+    </li>
   </ul>
 
   <button :class="formFields.some((f) => f.id === 'delete') ? 'bg-red-500' : 'bg-blue-500'"
