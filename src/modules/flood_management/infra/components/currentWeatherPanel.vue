@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BaseCarousel, FloodAlert, WeatherStatus } from '@/@core/components'
+import { BaseCarousel, WeatherStatus } from '@/@core/components'
 
 defineProps<{
   data: object

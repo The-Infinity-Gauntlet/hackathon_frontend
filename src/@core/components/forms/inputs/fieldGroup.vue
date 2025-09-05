@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="flex gap-3">
+  <div class="flex justify-center gap-3">
     <TextField v-for="field in fields" :key="field.id" :field="field" />
   </div>
 </template>
