@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ThemeSwitcher } from '@/@core/components'
-import Menu from './menu.vue'
 import { useNavigation } from '@/@core/composables/navigation'
 
 defineProps<{ title?: string }>()

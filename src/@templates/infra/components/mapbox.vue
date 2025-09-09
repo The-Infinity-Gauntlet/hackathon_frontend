@@ -117,6 +117,22 @@ onMounted(() => {
       addCustomMarker(camera.lng, camera.lat, `cameras/${camera.id}`)
     })
   })
+
+  function addCustomMarker(lng, lat) {
+    const el = document.createElement('div')
+    el.className = 'custom-marker'
+    el.style.backgroundImage = 'url("/weather_information/camera.svg")'
+    el.style.width = '80px'
+    el.style.height = '80px'
+    el.style.backgroundSize = 'contain'
+    el.style.backgroundRepeat = 'no-repeat'
+
+    new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map)
+  }
+
+  map.on('load', () => {
+    addCustomMarker(-48.7376082, -26.3950226)
+  })
 })
 
 // onMounted(() => {

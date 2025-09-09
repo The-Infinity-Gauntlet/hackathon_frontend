@@ -81,12 +81,6 @@ onMounted(async () => {
   location.value.neighborhood = currentLocation.neighborhood
   location.value.city = currentLocation.city
 })
-
-onMounted(async () => {
-  const currentLocation = await geolocation.findNeighborhood()
-  location.value.neighborhood = currentLocation.neighborhood
-  location.value.city = currentLocation.city
-})
 </script>
 
 <template>

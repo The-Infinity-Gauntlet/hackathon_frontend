@@ -263,8 +263,8 @@ const floodPoints = ref([
     <div
       class="absolute bottom-0 left-0 z-10 w-full rounded-t-2xl bg-white p-4 shadow-lg transition-transform duration-300 lg:top-0 lg:right-0 lg:bottom-0 lg:left-auto lg:h-full lg:w-[380px] lg:rounded-none lg:rounded-l-2xl dark:bg-[#00182F]"
       :class="isOpen
-          ? 'translate-y-0 lg:translate-x-0'
-          : 'translate-y-[73%] lg:translate-x-0 lg:translate-y-0'
+        ? 'translate-y-0 lg:translate-x-0'
+        : 'translate-y-[73%] lg:translate-x-0 lg:translate-y-0'
         ">
       <div class="grid gap-3" @click="toggleSheet">
         <div class="mx-auto h-1.5 w-12 rounded-full bg-gray-400 lg:hidden"></div>
