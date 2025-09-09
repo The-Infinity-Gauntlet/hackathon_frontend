@@ -64,7 +64,7 @@ const confirmSelection = () => {
 <template>
   <div class="mb-5 w-full rounded-2xl bg-white shadow-lg dark:bg-[#000D19]">
     <p
-      class="relative grid cursor-pointer rounded-lg p-1 text-center text-sm"
+      class="relative grid cursor-pointer rounded-lg p-1 text-center text-sm lg:rounded-md"
       :class="currentAlert.bgClass"
       @click="toggle"
     >
@@ -74,10 +74,10 @@ const confirmSelection = () => {
     </p>
 
     <transition name="fade">
-      <div v-if="showAll" class="mt-3 grid gap-2 px-5 pb-3">
+      <div v-if="showAll" class="mt-3 grid gap-2 px-5 pb-3 sm:px-10 md:px-15 lg:px-20 xl:px-25">
         <label v-for="alert in otherAlerts" :key="alert.id" class="cursor-pointer">
           <input type="radio" name="alert" :value="alert" v-model="selected" class="peer sr-only" />
-          <p class="grid rounded-lg p-1 text-center text-sm" :class="alert.bgClass">
+          <p class="grid rounded-lg p-1 text-center text-sm lg:rounded-md" :class="alert.bgClass">
             <span class="text-md font-semibold">{{ alert.title }}</span>
             {{ alert.description }}
           </p>

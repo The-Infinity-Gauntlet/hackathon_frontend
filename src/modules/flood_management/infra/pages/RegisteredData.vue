@@ -1,54 +1,170 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const information = ref({
-  date: {
-    day: 'Sáb, 30 nov 2025',
-    hour: '12:06',
+const props = defineProps<{ id: string }>()
+const informations = [
+  {
+    id: 'joao-costa',
+    data: '06/09/2025',
+    category: 'Pontos de riscos',
+    neighborhood: 'João Costa',
+    info: {
+      date: {
+        day: 'Sáb, 30 nov 2025',
+        hour: '12:06',
+      },
+      data: [
+        {
+          group: 'Localização',
+          icon: '/icons/admin/global.svg',
+          items: [
+            { label: 'Latitude', value: '12.4567' },
+            { label: 'Longitude', value: '-47.8912' },
+          ],
+        },
+        {
+          group: 'Endereço',
+          icon: '/icons/admin/localization.svg',
+          items: [
+            { label: 'Cidade', value: 'Joinville' },
+            { label: 'Bairro', value: 'Floresta' },
+          ],
+        },
+        {
+          group: 'Clima',
+          icon: '/icons/admin/rain.svg',
+          items: [
+            { label: 'Chuva', value: '7mm' },
+            { label: 'Umidade', value: '68%' },
+          ],
+        },
+        {
+          group: 'Rio',
+          icon: '/icons/admin/river.svg',
+          items: [
+            { label: 'Pressão', value: '1015 hPa' },
+            { label: 'Vazão do rio', value: '0,8 m' },
+          ],
+        },
+        {
+          group: 'Previsão',
+          icon: '/icons/admin/forecast.svg',
+          items: [
+            { label: 'Probabilidade', value: '20%' },
+            { label: 'Duração', value: '3h' },
+          ],
+        },
+      ],
+    },
   },
-  data: [
-    {
-      group: 'Localização',
-      icon: '/icons/admin/global.svg',
-      items: [
-        { label: 'Latitude', value: '12.4567' },
-        { label: 'Longitude', value: '-47.8912' },
+  {
+    id: 'floresta',
+    data: '06/09/2025',
+    category: 'Pontos de riscos',
+    neighborhood: 'Floresta',
+    info: {
+      date: {
+        day: 'Sáb, 30 nov 2025',
+        hour: '12:06',
+      },
+      data: [
+        {
+          group: 'Localização',
+          icon: '/icons/admin/global.svg',
+          items: [
+            { label: 'Latitude', value: '12.4567' },
+            { label: 'Longitude', value: '-47.8912' },
+          ],
+        },
+        {
+          group: 'Endereço',
+          icon: '/icons/admin/localization.svg',
+          items: [
+            { label: 'Cidade', value: 'Joinville' },
+            { label: 'Bairro', value: 'Floresta' },
+          ],
+        },
+        {
+          group: 'Clima',
+          icon: '/icons/admin/rain.svg',
+          items: [
+            { label: 'Chuva', value: '7mm' },
+            { label: 'Umidade', value: '68%' },
+          ],
+        },
+        {
+          group: 'Rio',
+          icon: '/icons/admin/river.svg',
+          items: [
+            { label: 'Pressão', value: '1015 hPa' },
+            { label: 'Vazão do rio', value: '0,8 m' },
+          ],
+        },
+        {
+          group: 'Previsão',
+          icon: '/icons/admin/forecast.svg',
+          items: [
+            { label: 'Probabilidade', value: '20%' },
+            { label: 'Duração', value: '3h' },
+          ],
+        },
       ],
     },
-    {
-      group: 'Endereço',
-      icon: '/icons/admin/localization.svg',
-      items: [
-        { label: 'Cidade', value: 'Joinville' },
-        { label: 'Bairro', value: 'Floresta' },
+  },
+  {
+    id: 'aventureiro',
+    data: '06/09/2025',
+    category: 'Pontos de riscos',
+    neighborhood: 'Aventureiro',
+    info: {
+      date: {
+        day: 'Sáb, 30 nov 2025',
+        hour: '12:06',
+      },
+      data: [
+        {
+          group: 'Localização',
+          icon: '/icons/admin/global.svg',
+          items: [
+            { label: 'Latitude', value: '12.4567' },
+            { label: 'Longitude', value: '-47.8912' },
+          ],
+        },
+        {
+          group: 'Endereço',
+          icon: '/icons/admin/localization.svg',
+          items: [
+            { label: 'Cidade', value: 'Joinville' },
+            { label: 'Bairro', value: 'Floresta' },
+          ],
+        },
+        {
+          group: 'Clima',
+          icon: '/icons/admin/rain.svg',
+          items: [
+            { label: 'Chuva', value: '7mm' },
+            { label: 'Umidade', value: '68%' },
+          ],
+        },
+        {
+          group: 'Rio',
+          icon: '/icons/admin/river.svg',
+          items: [
+            { label: 'Pressão', value: '1015 hPa' },
+            { label: 'Vazão do rio', value: '0,8 m' },
+          ],
+        },
+        {
+          group: 'Previsão',
+          icon: '/icons/admin/forecast.svg',
+          items: [
+            { label: 'Probabilidade', value: '20%' },
+            { label: 'Duração', value: '3h' },
+          ],
+        },
       ],
     },
-    {
-      group: 'Clima',
-      icon: '/icons/admin/rain.svg',
-      items: [
-        { label: 'Chuva', value: '7mm' },
-        { label: 'Umidade', value: '68%' },
-      ],
-    },
-    {
-      group: 'Rio',
-      icon: '/icons/admin/river.svg',
-      items: [
-        { label: 'Pressão', value: '1015 hPa' },
-        { label: 'Vazão do rio', value: '0,8 m' },
-      ],
-    },
-    {
-      group: 'Previsão',
-      icon: '/icons/admin/forecast.svg',
-      items: [
-        { label: 'Probabilidade', value: '20%' },
-        { label: 'Duração', value: '3h' },
-      ],
-    },
-  ],
-})
+  },
+]
+const information = informations.find((i) => i.id === props.id)
 </script>
 
 <template>

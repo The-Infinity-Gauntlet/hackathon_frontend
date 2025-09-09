@@ -3,11 +3,11 @@
 <template>
   <div class="grid justify-center px-5 pb-20">
     <section class="my-7 grid gap-5">
-      <h2 class="text-center font-semibold">A nossa história</h2>
+      <h2 class="text-center font-semibold lg:text-2xl">A nossa história</h2>
       <img
-        src="/icons/logo.svg"
+        src=""
         alt="História"
-        class="w-full rounded-2xl bg-[#D9D9D9] object-cover"
+        class="w-full rounded-2xl bg-[#D9D9D9] object-cover lg:mx-auto lg:w-[70%]"
       />
       <p>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odit, corporis! Mollitia pariatur,
@@ -17,11 +17,11 @@
     </section>
 
     <section class="my-7 grid gap-5">
-      <h2 class="text-center font-semibold">Nossos objetivos</h2>
+      <h2 class="text-center font-semibold lg:text-2xl">Nossos objetivos</h2>
       <img
-        src="/icons/logo.svg"
+        src=""
         alt="Objetivos"
-        class="w-full rounded-2xl bg-[#D9D9D9] object-cover"
+        class="w-full rounded-2xl bg-[#D9D9D9] object-cover lg:mx-auto lg:w-[70%]"
       />
       <p>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odit, corporis! Mollitia pariatur,
