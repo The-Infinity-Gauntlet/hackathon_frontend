@@ -36,9 +36,10 @@ const routes: IRoutes[] = [
         meta: { requiresAuth: true, role: 'admin' },
       },
       {
-        path: '/admin/dados-cadastrados',
+        path: '/admin/dados-cadastrados/:id',
         name: '',
         component: () => import('@/modules/flood_management/infra/pages/RegisteredData.vue'),
+        props: true,
         meta: { requiresAuth: true, role: 'admin' },
       },
       {

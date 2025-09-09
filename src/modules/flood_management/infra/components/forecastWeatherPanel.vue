@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BaseCarousel, WeatherStatus, SelectField } from '@/@core/components'
+import { BaseCarousel, ChartItems, WeatherStatus, SelectField } from '@/@core/components'
 
 defineProps<{
   data: object
@@ -31,6 +31,9 @@ const field = {
     </select>
 
     <WeatherStatus :weatherStatus="location.data" />
-    <BaseCarousel :items="data" />
+    <BaseCarousel :items="data" class="lg:hidden" />
+    <div class="hidden space-x-5 overflow-x-auto pr-5 lg:grid lg:grid-cols-2 lg:justify-center">
+      <ChartItems v-for="item in data.options" :key="item.id" :item="item" />
+    </div>
   </section>
 </template>

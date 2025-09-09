@@ -242,8 +242,8 @@ const floodPoints = ref([
 </script>
 
 <template>
-  <div class="relative h-screen w-full">
-    <div class="absolute top-5 left-0 z-10 flex w-full items-center gap-2 px-4">
+  <div class="relative h-screen w-screen overflow-hidden">
+    <div class="absolute top-5 left-0 z-10 flex w-[50vw] items-center gap-2 px-4">
       <button
         class="flex h-8 w-8 items-center justify-center rounded-full bg-[#2768CA] pl-2 text-white dark:bg-[#000D19]"
         @click="routerBack"
@@ -267,8 +267,12 @@ const floodPoints = ref([
     <div id="map-admin" class="h-[100vh] w-full"></div>
 
     <div
-      class="absolute bottom-0 left-0 z-10 w-full rounded-t-2xl bg-white p-4 shadow-lg transition-transform duration-300 dark:bg-[#00182F]"
-      :class="isOpen ? 'translate-y-0' : 'translate-y-55'"
+      class="absolute bottom-0 left-0 z-10 w-full rounded-t-2xl bg-white p-4 shadow-lg transition-transform duration-300 lg:h-full dark:bg-[#00182F]"
+      :class="
+        isOpen
+          ? 'translate-y-0 lg:translate-x-400'
+          : 'translate-y-55 lg:translate-x-300 lg:translate-y-0'
+      "
     >
       <div class="grid gap-3" @click="toggleSheet">
         <div class="mx-auto h-1.5 w-12 rounded-full bg-gray-400"></div>

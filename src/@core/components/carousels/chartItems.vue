@@ -37,7 +37,7 @@ const chartOptions = {
 
 <template>
   <div class="my-10 grid rounded-2xl bg-[#E5E5E5] p-5 dark:bg-[#00182F]">
-    <h3 class="font-semibold">{{ item.datasets[0].label }}</h3>
+    <h3 class="mb-2 font-semibold">{{ item.datasets[0].label }}</h3>
     <Chart type="bar" :data="item" :options="chartOptions" />
   </div>
 </template>

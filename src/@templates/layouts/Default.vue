@@ -5,7 +5,7 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
 <template>
   <div>
     <HeaderComp :title="$route.name" />
-    <RouterView v-slot="{ Component }">
+    <RouterView v-slot="{ Component }" class="mt-8">
       <Transition
         mode="out-in"
         enter-active-class="transition duration-300 ease-out"
@@ -18,6 +18,6 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
         <component :is="Component" :key="$route.fullPath" />
       </Transition>
     </RouterView>
-    <MobileMenu class="fixed bottom-0" />
+    <MobileMenu class="fixed bottom-0 lg:hidden" />
   </div>
 </template>

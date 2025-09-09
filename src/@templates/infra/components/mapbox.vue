@@ -63,6 +63,22 @@ onMounted(() => {
   map.on('fullscreenchange', () => {
     isFullscreen.value = document.fullscreenElement !== null
   })
+
+  function addCustomMarker(lng, lat) {
+    const el = document.createElement('div')
+    el.className = 'custom-marker'
+    el.style.backgroundImage = 'url("/weather_information/camera.svg")'
+    el.style.width = '80px'
+    el.style.height = '80px'
+    el.style.backgroundSize = 'contain'
+    el.style.backgroundRepeat = 'no-repeat'
+
+    new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map)
+  }
+
+  map.on('load', () => {
+    addCustomMarker(-48.7376082, -26.3950226)
+  })
 })
 
 // import { onMounted } from 'vue'
@@ -297,7 +313,7 @@ const fields = [
 
 <template>
   <section class="mb-20">
-    <div class="h-[500px] overflow-hidden rounded-2xl">
+    <div class="h-[500px] overflow-hidden rounded-2xl lg:h-[750px]">
       <div id="map-fixed" class="h-full w-full"></div>
       <MapboxFilters v-if="isFullscreen" class="absolute right-4 bottom-4" />
     </div>

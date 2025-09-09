@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { BaseCarousel } from '@/@core/components'
+import { BaseCarousel, MenuItems } from '@/@core/components'
 import { CurrentWeatherPanel, ForecastWeatherPanel, SelectFloodAlert } from '../components'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 
@@ -103,14 +103,17 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="grid justify-center px-5 pb-20">
+  <div class="grid px-5 pb-20 sm:px-10 md:px-15 lg:px-20 xl:px-25">
     <section class="p-5">
       <h1 class="grid gap-3 text-4xl font-semibold">Área de <span>Administração</span></h1>
     </section>
 
     <section>
       <SelectFloodAlert :alert="location.data[1].message" />
-      <BaseCarousel :items="menu" />
+      <BaseCarousel :items="menu" class="lg:hidden" />
+      <div class="hidden space-x-5 overflow-x-auto pr-5 lg:flex lg:justify-center">
+        <MenuItems v-for="item in menu.options" :key="item.id" :item="item" />
+      </div>
     </section>
 
     <CurrentWeatherPanel :data="data" :location="location" />
