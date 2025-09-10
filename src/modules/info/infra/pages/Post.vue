@@ -12,7 +12,7 @@ const post = {
 </script>
 
 <template>
-  <div class="grid justify-center gap-8 px-5 pb-20">
+  <div class="grid gap-8 px-5 sm:px-10 md:px-15 lg:px-20 xl:px-25">
     <div class="grid gap-1 pt-8">
       <h2 class="text-2xl font-semibold">{{ post.title }}</h2>
       <p class="text-[#0453AF]">{{ post.author }}</p>

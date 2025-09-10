@@ -168,9 +168,9 @@ const floodPoints = ref([
 </script>
 
 <template>
-  <div class="grid justify-center px-5 pt-5 pb-20">
+  <div class="grid px-5 pb-20 sm:px-10 md:px-15 lg:px-20 xl:px-25">
     <button
-      class="flex items-center justify-center gap-3 rounded-2xl bg-[#2768CA] px-18 py-2 font-semibold text-white"
+      class="mx-auto flex items-center justify-center gap-3 rounded-2xl bg-[#2768CA] px-25 py-2 font-semibold text-white"
     >
       <span class="material-symbols-outlined">tune</span>Filtrar dados
     </button>
@@ -188,12 +188,12 @@ const floodPoints = ref([
         <tr
           v-for="point in floodPoints"
           :key="point.id"
-          class="rounded-2xl border border-[#999999] text-center text-xs"
+          class="rounded-2xl border border-[#999999] text-center text-xs lg:text-lg"
         >
           <td class="py-5">{{ point.data }}</td>
           <td class="grid py-5">
             {{ point.category }}
-            <button class="mt-5 rounded-2xl bg-[#2768CA] py-1 text-white">
+            <button class="mx-auto mt-5 rounded-2xl bg-[#2768CA] px-10 py-1 text-white">
               <RouterLink
                 :to="{ path: `/admin/dados-cadastrados/${point.id}`, params: { id: point.id } }"
                 >Ver mais

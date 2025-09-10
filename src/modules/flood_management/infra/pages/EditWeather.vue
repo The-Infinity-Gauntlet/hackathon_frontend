@@ -38,7 +38,7 @@ const fields: IFormField[] = [
 </script>
 
 <template>
-  <div class="grid justify-center px-5 pt-5 pb-20">
+  <div class="grid px-5 pb-20 sm:px-10 md:px-15 lg:px-20 xl:px-25">
     <ProfileForm :formFields="fields" buttonText="Cadastrar" />
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { BaseChart } from '@/@core/components'
+import { ChartItems } from '@/@core/components'
 
 const location = ref({
   neighborhood: null as string | null,
@@ -17,10 +17,10 @@ const location = ref({
   ] as const,
   date: 'Seg, 22:00',
 })
-const charts = [
-  {
-    type: 'bar',
-    data: {
+const data = {
+  id: 'charts',
+  options: [
+    {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
       datasets: [
         {
@@ -32,10 +32,7 @@ const charts = [
         },
       ],
     },
-  },
-  {
-    type: 'bar',
-    data: {
+    {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
       datasets: [
         {
@@ -47,10 +44,7 @@ const charts = [
         },
       ],
     },
-  },
-  {
-    type: 'bar',
-    data: {
+    {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
       datasets: [
         {
@@ -62,10 +56,7 @@ const charts = [
         },
       ],
     },
-  },
-  {
-    type: 'bar',
-    data: {
+    {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
       datasets: [
         {
@@ -77,9 +68,8 @@ const charts = [
         },
       ],
     },
-  },
-]
-
+  ],
+}
 const field = {
   id: 'forecast',
   options: ['1 hora', '3 horas', '6 horas', '12 horas', '1 dia', '2 dias', '3 dias', '7 dias'],
@@ -89,7 +79,7 @@ const field = {
 <template>
   <div class="grid px-5 pb-20">
     <section class="p-5">
-      <h1 class="grid gap-3 text-4xl font-semibold">Gráficos</h1>
+      <h1 class="grid gap-3 text-4xl font-semibold lg:text-5xl">Gráficos</h1>
     </section>
 
     <section>
@@ -99,7 +89,10 @@ const field = {
       </p>
 
       <div class="mt-5">
-        <BaseChart v-for="(chart, index) in charts" :key="index" :item="chart" />
+        <ChartItems v-for="item in data.options" :key="item" :item="item" class="lg:hidden" />
+        <div class="hidden space-x-5 overflow-x-auto pr-5 lg:grid lg:grid-cols-2 lg:justify-center">
+          <ChartItems v-for="item in data.options" :key="item.id" :item="item" />
+        </div>
       </div>
     </section>
 
@@ -121,7 +114,10 @@ const field = {
       </select>
 
       <div class="mt-5">
-        <BaseChart v-for="(chart, index) in charts" :key="index" :item="chart" />
+        <ChartItems v-for="item in data.options" :key="item" :item="item" class="lg:hidden" />
+        <div class="hidden space-x-5 overflow-x-auto pr-5 lg:grid lg:grid-cols-2 lg:justify-center">
+          <ChartItems v-for="item in data.options" :key="item.id" :item="item" />
+        </div>
       </div>
     </section>
   </div>

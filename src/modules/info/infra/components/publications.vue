@@ -19,7 +19,10 @@ defineProps<{
   <h2 class="py-5 font-semibold">Publicações</h2>
   <ul>
     <li v-for="post in posts" :key="post.id">
-      <RouterLink :to="post.link" class="my-5 flex h-auto items-center justify-between gap-5">
+      <RouterLink
+        :to="post.link"
+        class="my-5 flex h-auto items-center justify-start gap-5 lg:gap-10"
+      >
         <img
           :src="post.image"
           :alt="post.title"

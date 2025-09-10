@@ -99,7 +99,7 @@ const handleOverlayClick = (event: MouseEvent) => {
     @click="handleOverlayClick"
   >
     <div
-      class="flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]"
+      class="flex max-h-[90vh] w-[90%] flex-col overflow-y-auto rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]"
     >
       <div class="flex items-center justify-between gap-3">
         <button class="material-symbols-outlined text-[#999999]" @click="emit('close')">
@@ -113,7 +113,7 @@ const handleOverlayClick = (event: MouseEvent) => {
         <span class="material-symbols-outlined text-[#7AA6C8]">search</span>
       </div>
 
-      <div class="relative mt-3 h-[700px] overflow-hidden rounded-2xl">
+      <div class="relative mt-3 h-[70vh] overflow-hidden rounded-2xl">
         <div id="map-popup" class="h-full w-full"></div>
         <DataMapboxPopup :neighborhood="neighborhood" :city="city" v-if="showPopup" />
       </div>

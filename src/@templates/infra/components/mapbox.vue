@@ -313,7 +313,7 @@ const fields = [
 
 <template>
   <section class="mb-20">
-    <div class="h-[500px] overflow-hidden rounded-2xl lg:h-[750px]">
+    <div class="h-[40vw] min-h-[500px] overflow-hidden rounded-2xl">
       <div id="map-fixed" class="h-full w-full"></div>
       <MapboxFilters v-if="isFullscreen" class="absolute right-4 bottom-4" />
     </div>
