@@ -31,7 +31,7 @@ const user = ref({
       <button
         class="mx-auto mt-5 w-[250px] rounded-2xl bg-blue-500 p-2 font-semibold text-white shadow-xl"
       >
-        Editar informações
+        <RouterLink to="/seguranca" class="h-full w-full"> Editar informações </RouterLink>
       </button>
     </div>
   </div>

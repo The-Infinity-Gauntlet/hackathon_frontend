@@ -58,7 +58,7 @@ const posts = [
 <template>
   <div class="grid justify-center px-5 pb-20">
     <section class="p-5">
-      <h1 class="grid gap-3 text-4xl font-semibold">
+      <h1 class="grid gap-3 text-4xl font-semibold lg:text-6xl">
         Blog <span class="text-[#2768CA]">Informativo</span>
       </h1>
       <p class="w-[90%] py-5 text-sm text-[#999999]">

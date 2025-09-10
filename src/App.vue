@@ -5,21 +5,15 @@ import { onMounted } from 'vue'
 import { useInAppMessagingStore } from '@/@core/plugins/registered/pinia/inAppMessaging'
 import { InAppMessages } from '@/@core/components'
 
-const store = useInAppMessagingStore()
+const notification = useInAppMessagingStore()
 
-onMounted(() => {
+onMounted(async () => {
   if (!sessionStorage.getItem('welcomeNotificationShown')) {
     const id = Date.now()
-
-    store.messages.push({
-      id,
-      text: 'Bem-vindo(a) ao site! 🎉',
-    })
-
+    notification.messages.push({ id, text: 'Bem-vindo(a) ao site! 🎉' })
     sessionStorage.setItem('welcomeNotificationShown', 'true')
-
     setTimeout(() => {
-      store.messages = store.messages.filter((m) => m.id !== id)
+      notification.messages = notification.messages.filter((m) => m.id !== id)
     }, 5000)
   }
 })

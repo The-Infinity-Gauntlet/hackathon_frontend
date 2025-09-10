@@ -59,6 +59,7 @@ const handleOverlayClick = (event: MouseEvent) => {
           {{ title }}
         </h2>
         <img v-if="gifUrl" :src="gifUrl" alt="gif" class="max-w-full rounded-md" />
+        <p class="font-semibold text-gray-900 dark:text-white">{{ text }}</p>
       </div>
 
       <ButtonGlassmorphism buttonText="Continuar" @click="goHome" />

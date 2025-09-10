@@ -9,6 +9,7 @@ const routes: IRoutes[] = [
         path: '/pagamento',
         name: 'Pagamento',
         component: () => import('@/modules/payment/infra/pages/index.vue'),
+        meta: { requiresAuth: true },
       },
     ],
   },

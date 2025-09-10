@@ -2,11 +2,14 @@
 import FloodAlertMapbox from './floodMapbox/floodAlertMapbox.vue'
 import WeatherStatsMapbox from './floodMapbox/weatherStatsMapbox.vue'
 
-// import { FloodAlertMapbox, WeatherStatsMapbox } from './floodMapbox'
+const props = defineProps<{
+  neighborhood: string
+  city: string
+}>()
 
 const location = {
-  neighborhood: 'Floresta',
-  city: 'Joinville',
+  neighborhood: props.neighborhood,
+  city: props.city,
   data: [
     {
       name: 'Probabilidade de enchente',
@@ -20,11 +23,11 @@ const location = {
 
 <template>
   <div
-    class="absolute bottom-2 left-4 z-3 w-[90%] rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]"
+    class="absolute right-4 bottom-2 z-3 w-[96%] rounded-2xl bg-white p-4 shadow-lg lg:w-[36.458vw] dark:bg-[#000d19]"
   >
     <div>
-      <h4>Boa Vista</h4>
-      <p class="text-xs text-[#999999]">Joinville, Brasil</p>
+      <h4>{{ location.neighborhood }}</h4>
+      <p class="text-xs text-[#999999]">{{ location.city }}, Brasil</p>
     </div>
 
     <div class="my-2 flex items-center justify-between">

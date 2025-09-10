@@ -19,7 +19,12 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
       </Transition>
     </RouterView>
 
-    <img src="/layouts/waves.svg" alt="Ondas" class="w-full" />
-    <MobileMenu class="fixed bottom-0" />
+    <img src="/layouts/wavesMobile.svg" alt="Ondas" class="w-full lg:hidden" />
+    <img
+      src="/layouts/wavesAuth.svg"
+      alt="Ondas"
+      class="absolute inset-0 hidden h-full w-full object-cover lg:block"
+    />
+    <MobileMenu class="fixed bottom-0 lg:hidden" />
   </div>
 </template>

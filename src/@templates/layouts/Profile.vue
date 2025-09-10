@@ -6,9 +6,14 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
   <div>
     <div class="relative mb-8 h-40">
       <img
-        src="/layouts/waves.svg"
+        src="/layouts/wavesMobile.svg"
         alt="Ondas"
-        class="absolute inset-0 h-full w-full object-cover"
+        class="absolute inset-0 h-full w-full object-cover lg:hidden"
+      />
+      <img
+        src="/layouts/wavesProfile.svg"
+        alt="Ondas"
+        class="absolute inset-0 hidden h-full w-full object-cover lg:block"
       />
       <HeaderComp :title="$route.name" />
     </div>
@@ -26,6 +31,6 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
         <component :is="Component" :key="$route.fullPath" />
       </Transition>
     </RouterView>
-    <MobileMenu class="fixed bottom-0" />
+    <MobileMenu class="fixed bottom-0 lg:hidden" />
   </div>
 </template>

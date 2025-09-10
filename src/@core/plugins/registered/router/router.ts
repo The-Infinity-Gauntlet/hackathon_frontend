@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { App } from 'vue'
+import { useAuthStore } from '@/@core/plugins/registered/pinia/auth'
 
 /*
  * Módulos de rotas carregados dinamicamente.
@@ -51,6 +52,21 @@ const router = createRouter({
   scrollBehavior() {
     return { top: 0 }
   },
+})
+
+router.beforeEach((to) => {
+  const auth = useAuthStore()
+  const userRole = localStorage.getItem('role')
+
+  // 1. Usuário não autenticado e rota exige login
+  if (to.meta.requiresAuth && !auth.isAuthenticated) {
+    return { name: 'Login' }
+  }
+
+  // 2. Usuário autenticado mas sem permissão de acesso
+  if (to.meta.role && to.meta.role !== userRole) {
+    return { name: 'NotFound' }
+  }
 })
 
 /**

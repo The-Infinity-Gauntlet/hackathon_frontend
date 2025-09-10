@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ProfileForm } from '../components'
+import { ProfileForm } from '@/@core/components'
 
 const fields = [
   {
@@ -50,7 +50,7 @@ const fields = [
     buttonText: 'Atualizar data',
   },
   {
-    id: 'password',
+    id: 'update-password',
     label: 'Atualizar senha',
     fields: [
       {
