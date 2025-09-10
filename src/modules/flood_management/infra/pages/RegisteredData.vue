@@ -171,15 +171,15 @@ const information = informations.find((i) => i.id === props.id)
   <div class="grid justify-center px-5 pt-10 pb-20">
     <h1 class="text-center text-3xl font-semibold">Dados Cadastrados</h1>
     <p class="mt-3 grid text-center font-semibold text-[#999999]">
-      {{ information.date.day }}
-      <span>{{ information.date.hour }}</span>
+      {{ information.info.date.day }}
+      <span>{{ information.info.date.hour }}</span>
     </p>
 
-    <ul class="mt-5 grid gap-5">
+    <ul class="mt-5 grid w-[50vw] gap-5">
       <li
-        v-for="group in information.data"
+        v-for="group in information.info.data"
         :key="group.group"
-        class="rounded-xl bg-[#E5E5E5] p-3 dark:bg-[#00182F]"
+        class="rounded-xl bg-[#E5E5E5] p-3 lg:p-5 dark:bg-[#00182F]"
       >
         <img :src="group.icon" :alt="group.group" class="mt-1 mb-3 h-7 w-7 object-cover" />
         <div

@@ -92,7 +92,7 @@ onMounted(async () => {
 
 <template>
   <div class="grid justify-center px-5 pt-5 pb-20">
-    <div class="h-[350px] overflow-hidden rounded-2xl">
+    <div class="h-[350px] overflow-hidden rounded-2xl lg:w-[50vw]">
       <div id="map-register_point" class="h-full w-full"></div>
     </div>
     <ProfileForm :formFields="fields" buttonText="Cadastrar" />

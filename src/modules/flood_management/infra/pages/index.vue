@@ -105,7 +105,9 @@ onMounted(async () => {
 <template>
   <div class="grid px-5 pb-20 sm:px-10 md:px-15 lg:px-20 xl:px-25">
     <section class="p-5">
-      <h1 class="grid gap-3 text-4xl font-semibold">Área de <span>Administração</span></h1>
+      <h1 class="grid gap-3 text-4xl font-semibold lg:text-5xl">
+        Área de <span>Administração</span>
+      </h1>
     </section>
 
     <section>

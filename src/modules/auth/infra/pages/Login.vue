@@ -15,6 +15,8 @@ const fields: IFormField[] = [
 
     <p class="my-3 text-center font-semibold">ou</p>
     <GoogleAuthButton />
-    <RouterLink to="/cadastrar" class="my-3 text-center text-xs">Você ainda não tem conta? Crie uma conta</RouterLink>
+    <RouterLink to="/cadastrar" class="my-3 text-center text-xs"
+      >Você ainda não tem conta? Crie uma conta</RouterLink
+    >
   </div>
 </template>

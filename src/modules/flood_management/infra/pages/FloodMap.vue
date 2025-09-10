@@ -267,20 +267,23 @@ const floodPoints = ref([
     <div id="map-admin" class="h-[100vh] w-full"></div>
 
     <div
-      class="absolute bottom-0 left-0 z-10 w-full rounded-t-2xl bg-white p-4 shadow-lg transition-transform duration-300 lg:h-full dark:bg-[#00182F]"
+      class="absolute bottom-0 left-0 z-10 w-full rounded-t-2xl bg-white p-4 shadow-lg transition-transform duration-300 lg:top-0 lg:right-0 lg:bottom-0 lg:left-auto lg:h-full lg:w-[380px] lg:rounded-none lg:rounded-l-2xl dark:bg-[#00182F]"
       :class="
         isOpen
-          ? 'translate-y-0 lg:translate-x-400'
-          : 'translate-y-55 lg:translate-x-300 lg:translate-y-0'
+          ? 'translate-y-0 lg:translate-x-0'
+          : 'translate-y-[73%] lg:translate-x-0 lg:translate-y-0'
       "
     >
       <div class="grid gap-3" @click="toggleSheet">
-        <div class="mx-auto h-1.5 w-12 rounded-full bg-gray-400"></div>
+        <div class="mx-auto h-1.5 w-12 rounded-full bg-gray-400 lg:hidden"></div>
+
         <RouterLink
           to="/admin/registrar-ponto"
-          class="mx-auto rounded-xl bg-[#2768CA] px-15 py-2 font-semibold text-white dark:bg-[#000D19]"
-          >Inserir novo ponto</RouterLink
+          class="mx-auto rounded-xl bg-[#2768CA] px-6 py-2 font-semibold text-white dark:bg-[#000D19]"
         >
+          Inserir novo ponto
+        </RouterLink>
+
         <h3 class="mx-auto mt-5 mb-3 font-semibold">Pontos atuais</h3>
         <Table :points="floodPoints" />
       </div>

@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="grid justify-center px-5 pb-20">
+  <div class="grid gap-8 px-5 sm:px-10 md:px-15 lg:px-20 xl:px-25">
     <section class="my-7 grid gap-5">
       <h2 class="text-center font-semibold lg:text-2xl">A nossa história</h2>
       <img
