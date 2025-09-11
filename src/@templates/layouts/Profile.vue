@@ -28,7 +28,11 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
         leave-from-class="opacity-100 translate-y-0"
         leave-to-class="opacity-0 translate-y-4"
       >
-        <component :is="Component" :key="$route.fullPath" />
+        <component
+          :is="Component"
+          :key="$route.fullPath"
+          class="grid px-5 pb-20 sm:px-10 md:px-15 lg:px-20 xl:px-25"
+        />
       </Transition>
     </RouterView>
     <MobileMenu class="fixed bottom-0 lg:hidden" />

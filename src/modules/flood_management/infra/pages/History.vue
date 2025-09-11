@@ -168,7 +168,7 @@ const floodPoints = ref([
 </script>
 
 <template>
-  <div class="grid px-5 pb-20 sm:px-10 md:px-15 lg:px-20 xl:px-25">
+  <div>
     <button
       class="mx-auto flex items-center justify-center gap-3 rounded-2xl bg-[#2768CA] px-25 py-2 font-semibold text-white"
     >

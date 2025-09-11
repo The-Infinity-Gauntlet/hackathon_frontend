@@ -77,8 +77,8 @@ const field = {
 </script>
 
 <template>
-  <div class="grid px-5 pb-20">
-    <section class="p-5">
+  <div>
+    <section class="py-5">
       <h1 class="grid gap-3 text-4xl font-semibold lg:text-5xl">Gráficos</h1>
     </section>
 
