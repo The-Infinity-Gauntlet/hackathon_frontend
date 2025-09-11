@@ -3,11 +3,14 @@ import { ref, onMounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+import { useRouter } from 'vue-router'
+import cameras from '@/@core/controllers/FloodCameraMonitoringController'
 import { MapboxFilters } from '../components'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 
 const isFullscreen = ref(false)
+const router = useRouter()
 
 onMounted(() => {
   const map = new mapboxgl.Map({
@@ -25,17 +28,14 @@ onMounted(() => {
 
   map.on('load', async () => {
     try {
-      // Carregar floodGeojson via fetch (não como import)
       const response = await fetch('/flooding.json')
       const floodGeojson = await response.json()
 
-      // Adicionar fonte de dados do flood
       map.addSource('flood-area', {
         type: 'geojson',
         data: floodGeojson,
       })
 
-      // Camada 3D para simular volume/profundidade de alagamento
       map.addLayer({
         id: 'flood-area-volume',
         type: 'fill-extrusion',
@@ -46,9 +46,9 @@ onMounted(() => {
             ['linear'],
             ['get', 'risk_level'],
             0.0,
-            '#add8e6', // lightblue
+            '#add8e6',
             1.0,
-            '#00008b', // darkblue
+            '#00008b',
           ],
           'fill-extrusion-height': ['get', 'depth'],
           'fill-extrusion-base': 0,
@@ -64,7 +64,7 @@ onMounted(() => {
     isFullscreen.value = document.fullscreenElement !== null
   })
 
-  function addCustomMarker(lng, lat) {
+  function addCustomMarker(lng: number, lat: number, url: string) {
     const el = document.createElement('div')
     el.className = 'custom-marker'
     el.style.backgroundImage = 'url("/weather_information/camera.svg")'
@@ -72,12 +72,20 @@ onMounted(() => {
     el.style.height = '80px'
     el.style.backgroundSize = 'contain'
     el.style.backgroundRepeat = 'no-repeat'
+    el.style.cursor = 'pointer'
+
+    el.addEventListener('click', () => {
+      router.push(url)
+    })
 
     new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map)
   }
 
   map.on('load', () => {
-    addCustomMarker(-48.7376082, -26.3950226)
+    // addCustomMarker(-48.84799478818965, -26.301488088946193, 'cameras/avenida-jk')
+    cameras.forEach((camera) => {
+      addCustomMarker(camera.lng, camera.lat, `cameras/${camera.id}`)
+    })
   })
 })
 
