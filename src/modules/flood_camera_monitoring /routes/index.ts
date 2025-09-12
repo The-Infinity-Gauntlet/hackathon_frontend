@@ -3,7 +3,7 @@ import { IRoutes } from '@/@core/interfaces/route'
 const routes: IRoutes[] = [
   {
     path: '/',
-    component: () => import('@/@templates/layouts/Default.vue'),
+    component: () => import('@/@templates/layouts/Waves.vue'),
     children: [
       {
         path: '/cameras',

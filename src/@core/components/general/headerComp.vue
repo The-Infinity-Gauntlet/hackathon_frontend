@@ -67,7 +67,7 @@ const desktopMenu: MenuItem[] = [
             <button
               @click="toggleMenu(item.id)"
               :aria-expanded="openMenuId === item.id"
-              class="flex items-center"
+              class="flex cursor-pointer items-center"
             >
               {{ item.label }}
               <span

@@ -84,12 +84,19 @@ function displayFloodPercent(cam: CameraWithPrediction): number {
           </div>
 
           <div class="flex items-center justify-center gap-1.5">
-            <p class="grid text-right text-xs">Porcentagem de <span>alagamento</span></p>
-            <p
-              class="text-2xl font-semibold"
-              :class="cam.prediction?.is_flooded ? 'text-[#CA2727]' : 'text-[#27CA2C]'"
-            >
-              {{ displayFloodPercent(cam) }}%
+            <p class="flex items-center gap-2 text-right text-xs">
+              Porcentagem de alagamento:
+              <span
+                class="text-2xl font-semibold"
+                :class="
+                  cam.flood_percentage <= 40
+                    ? 'text-[#27CA2C]'
+                    : cam.flood_percentage <= 70
+                      ? 'text-[#F87400]'
+                      : 'text-[#FF0A0A]'
+                "
+                >{{ displayFloodPercent(cam) }}%</span
+              >
             </p>
           </div>
 

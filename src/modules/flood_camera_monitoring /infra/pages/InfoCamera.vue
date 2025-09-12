@@ -21,7 +21,7 @@ onMounted(async () => {
   <div v-if="camera" class="px-10 pb-20">
     <h1 class="mb-10 text-center text-2xl font-semibold">{{ camera.name }}</h1>
 
-    <div class="mx-auto h-[35vw] w-[70%] overflow-hidden rounded-2xl bg-transparent">
+    <div class="mx-auto h-[45vw] w-[80vw] overflow-hidden rounded-2xl bg-transparent">
       <EmbedStreamPlayer
         v-if="modes[camera.id] === 'embed' && camera.embed_url"
         :src="camera.embed_url"
@@ -39,7 +39,7 @@ onMounted(async () => {
       />
     </div>
 
-    <div class="flex gap-1">
+    <div class="my-5 flex justify-end gap-1">
       <button
         type="button"
         class="rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-slate-300 dark:ring-slate-600"
@@ -68,18 +68,33 @@ onMounted(async () => {
         HLS
       </button>
     </div>
-    <p>Situação: {{ camera.prediction?.is_flooded ? 'Alagado' : 'Normal' }}</p>
-    <p>Status: {{ camera.status }}</p>
-    <p>
-      Porcentagem de alagamento:
-      {{
-        camera.prediction
-          ? Math.min(100, Math.max(0, Number(camera.prediction.probabilities.flooded.toFixed(2))))
-          : camera.flood_percentage
-      }}%
-    </p>
-    <p>Última atualização:</p>
+
+    <div class="grid">
+      <p>
+        Status:
+        <span
+          class="font-semibold"
+          :class="camera.status == 'Online' ? 'text-[#27CA2C]' : 'text-[#FF0A0A]'"
+          >{{ camera.status }}</span
+        >
+      </p>
+      <p>
+        Porcentagem de alagamento:
+        <span
+          class="font-semibold"
+          :class="
+            camera.flood_percentage <= 40
+              ? 'text-[#27CA2C]'
+              : camera.flood_percentage <= 70
+                ? 'text-[#F87400]'
+                : 'text-[#FF0A0A]'
+          "
+          >{{ camera.flood_percentage }}%</span
+        >
+      </p>
+    </div>
   </div>
+
   <div v-else>
     <p>Câmera não encontrada</p>
   </div>

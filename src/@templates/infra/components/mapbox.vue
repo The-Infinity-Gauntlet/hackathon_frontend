@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-import { useRouter } from 'vue-router'
 import cameras from '@/@core/controllers/FloodCameraMonitoringController'
 import { MapboxFilters } from '../components'
 
@@ -26,40 +26,6 @@ onMounted(() => {
   map.addControl(new mapboxgl.NavigationControl(), 'top-right')
   map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
 
-  map.on('load', async () => {
-    try {
-      const response = await fetch('/flooding.json')
-      const floodGeojson = await response.json()
-
-      map.addSource('flood-area', {
-        type: 'geojson',
-        data: floodGeojson,
-      })
-
-      map.addLayer({
-        id: 'flood-area-volume',
-        type: 'fill-extrusion',
-        source: 'flood-area',
-        paint: {
-          'fill-extrusion-color': [
-            'interpolate',
-            ['linear'],
-            ['get', 'risk_level'],
-            0.0,
-            '#add8e6',
-            1.0,
-            '#00008b',
-          ],
-          'fill-extrusion-height': ['get', 'depth'],
-          'fill-extrusion-base': 0,
-          'fill-extrusion-opacity': 0.5,
-        },
-      })
-    } catch (error) {
-      console.error('Erro ao carregar floodGeojson:', error)
-    }
-  })
-
   map.on('fullscreenchange', () => {
     isFullscreen.value = document.fullscreenElement !== null
   })
@@ -81,146 +47,82 @@ onMounted(() => {
     new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map)
   }
 
-  map.on('load', () => {
-    // addCustomMarker(-48.84799478818965, -26.301488088946193, 'cameras/avenida-jk')
+  map.on('load', async () => {
+    map.addSource('mapbox-dem', {
+      type: 'raster-dem',
+      url: 'mapbox://mapbox.terrain-rgb',
+      tileSize: 512,
+      maxzoom: 14,
+    })
+    map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+
+    map.addLayer({
+      id: 'hillshade-layer',
+      type: 'hillshade',
+      source: 'mapbox-dem',
+      layout: { visibility: 'visible' },
+      paint: {
+        'hillshade-exaggeration': 0.5,
+      },
+    })
+
+    map.addLayer(
+      {
+        id: '3d-buildings',
+        source: 'composite',
+        'source-layer': 'building',
+        filter: ['==', 'extrude', 'true'],
+        type: 'fill-extrusion',
+        minzoom: 15,
+        paint: {
+          'fill-extrusion-color': '#aaa',
+          'fill-extrusion-height': ['get', 'height'],
+          'fill-extrusion-base': ['get', 'min_height'],
+          'fill-extrusion-opacity': 0.6,
+        },
+      },
+      'waterway-label',
+    )
+
+    try {
+      const response = await fetch('/flooding.json')
+      const floodGeojson = await response.json()
+
+      map.addSource('flood-area', {
+        type: 'geojson',
+        data: floodGeojson,
+      })
+
+      map.addLayer({
+        id: 'flood-area-volume',
+        type: 'fill-extrusion',
+        source: 'flood-area',
+        paint: {
+          'fill-extrusion-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'risk_level'],
+            0.0,
+            '#add8e6', // lightblue
+            1.0,
+            '#00008b', // darkblue
+          ],
+          'fill-extrusion-height': ['get', 'depth'],
+          'fill-extrusion-base': 0,
+          'fill-extrusion-opacity': 0.5,
+        },
+      })
+    } catch (error) {
+      console.error('Erro ao carregar floodGeojson:', error)
+    }
+
     cameras.forEach((camera) => {
       addCustomMarker(camera.lng, camera.lat, `cameras/${camera.id}`)
     })
   })
 })
 
-// import { onMounted } from 'vue'
-// import mapboxgl from 'mapbox-gl'
-// import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
-// import MapboxDraw from '@mapbox/mapbox-gl-draw'
-// import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
-// import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-
-// mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
-
 // onMounted(() => {
-//   const map = new mapboxgl.Map({
-//     container: 'map',
-//     style: 'mapbox://styles/mapbox/outdoors-v12',
-//     center: [-48.8464, -26.3044],
-//     zoom: 13,
-//     pitch: 60,
-//     bearing: -30,
-//     antialias: true,
-//   })
-
-//   map.addControl(new mapboxgl.NavigationControl(), 'top-right')
-
-//   const geocoder = new MapboxGeocoder({
-//     accessToken: mapboxgl.accessToken,
-//     mapboxgl,
-//     marker: true,
-//     placeholder: 'Buscar local...',
-//   })
-//   map.addControl(geocoder, 'top-left')
-
-//   const draw = new MapboxDraw({
-//     displayControlsDefault: false,
-//     controls: {
-//       polygon: true,
-//       trash: true,
-//     },
-//     defaultMode: 'draw_polygon',
-//   })
-//   map.addControl(draw, 'top-left')
-
-//   map.on('draw.create', () => {
-//     const data = draw.getAll()
-//     console.log('Polígono criado:', data)
-//   })
-
-//   map.on('draw.update', () => {
-//     const data = draw.getAll()
-//     console.log('Polígono atualizado:', data)
-//   })
-
-//   map.on('draw.delete', () => {
-//     console.log('Polígono removido')
-//   })
-
-//   map.on('load', async () => {
-//     // Fonte de elevação
-//     map.addSource('mapbox-dem', {
-//       type: 'raster-dem',
-//       url: 'mapbox://mapbox.terrain-rgb',
-//       tileSize: 512,
-//       maxzoom: 14,
-//     })
-
-//     // Ativa terreno com exagero
-//     map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
-
-//     // Hillshade para sombra do relevo
-//     map.addLayer({
-//       id: 'hillshade-layer',
-//       type: 'hillshade',
-//       source: 'mapbox-dem',
-//       layout: { visibility: 'visible' },
-//       paint: {
-//         'hillshade-exaggeration': 0.5,
-//       },
-//     })
-
-//     // Prédios 3D
-//     map.addLayer(
-//       {
-//         id: '3d-buildings',
-//         source: 'composite',
-//         'source-layer': 'building',
-//         filter: ['==', 'extrude', 'true'],
-//         type: 'fill-extrusion',
-//         minzoom: 15,
-//         paint: {
-//           'fill-extrusion-color': '#aaa',
-//           'fill-extrusion-height': ['get', 'height'],
-//           'fill-extrusion-base': ['get', 'min_height'],
-//           'fill-extrusion-opacity': 0.6,
-//         },
-//       },
-//       'waterway-label',
-//     )
-
-//     try {
-//       // Carregar floodGeojson via fetch (não como import)
-//       const response = await fetch('/flooding.json')
-//       const floodGeojson = await response.json()
-
-//       // Adicionar fonte de dados do flood
-//       map.addSource('flood-area', {
-//         type: 'geojson',
-//         data: floodGeojson,
-//       })
-
-//       // Camada 3D para simular volume/profundidade de alagamento
-//       map.addLayer({
-//         id: 'flood-area-volume',
-//         type: 'fill-extrusion',
-//         source: 'flood-area',
-//         paint: {
-//           'fill-extrusion-color': [
-//             'interpolate',
-//             ['linear'],
-//             ['get', 'risk_level'],
-//             0.0,
-//             '#add8e6', // lightblue
-//             1.0,
-//             '#00008b', // darkblue
-//           ],
-//           'fill-extrusion-height': ['get', 'depth'],
-//           'fill-extrusion-base': 0,
-//           'fill-extrusion-opacity': 0.5,
-//         },
-//       })
-//     } catch (error) {
-//       console.error('Erro ao carregar floodGeojson:', error)
-//     }
-//   })
-
 //   map.on('click', (e) => {
 //     const { lng, lat } = e.lngLat // Obtém as coordenadas (longitude e latitude)
 //     const elevation = map.queryTerrainElevation([e.lngLat.lng, e.lngLat.lat])
@@ -274,38 +176,6 @@ onMounted(() => {
 //       'circle-stroke-color': '#ff0000',
 //     },
 //   })
-// })
-
-// import { onMounted, onBeforeUnmount, ref } from 'vue'
-// import mapboxgl from 'mapbox-gl'
-
-// mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
-
-// let map = null
-
-// onMounted(() => {
-//   if (map) return
-
-//   map = new mapboxgl.Map({
-//     container: 'map',
-//     style: 'mapbox://styles/mapbox/streets-v12', // estilo padrão
-//     center: [-48.8464, -26.3044],
-//     maxBounds: [
-//       [-48.95, -26.45],
-//       [-48.7, -26.15],
-//     ],
-//     zoom: 13,
-//   })
-
-//   map.addControl(new mapboxgl.NavigationControl(), 'top-right')
-//   map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
-// })
-
-// onBeforeUnmount(() => {
-//   if (map) {
-//     map.remove()
-//     map = null
-//   }
 // })
 
 const filters = [{ name: 'Geral' }, { name: 'IA' }, { name: 'Especialista' }]
