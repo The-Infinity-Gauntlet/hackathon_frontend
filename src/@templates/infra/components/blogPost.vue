@@ -22,7 +22,7 @@ const posts = [
 </script>
 
 <template>
-  <section class="mt-10 mb-30 flex justify-center gap-5">
+  <section class="mt-10 flex justify-center gap-5">
     <div
       v-for="post in posts"
       :key="post.id"

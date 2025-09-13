@@ -48,7 +48,7 @@ const getFieldComponent = (field: IFormField) => {
 </script>
 
 <template>
-  <ul class="mx-auto mt-5">
+  <ul class="mx-auto mt-5 lg:bg-white lg:dark:bg-[#000d19]">
     <li
       v-for="field in formFields.filter(
         (f) =>
@@ -63,9 +63,9 @@ const getFieldComponent = (field: IFormField) => {
           ].includes(f.id),
       )"
       :key="field.id"
-      class="my-3 grid"
+      class="my-3 grid w-[332px]"
     >
-      <component :is="getFieldComponent(field)" :field="field" class="w-[332px]" />
+      <component :is="getFieldComponent(field)" :field="field" />
     </li>
     <li class="my-3 grid w-[332px]">
       <FieldGroup :fields="formFields.filter((f) => ['rain', 'humidity'].includes(f.id))" />

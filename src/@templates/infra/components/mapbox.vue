@@ -9,7 +9,6 @@ import { MapboxFilters } from '../components'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 
-const isFullscreen = ref(false)
 const router = useRouter()
 
 onMounted(() => {
@@ -24,11 +23,9 @@ onMounted(() => {
   })
 
   map.addControl(new mapboxgl.NavigationControl(), 'top-right')
-  map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
-
-  map.on('fullscreenchange', () => {
-    isFullscreen.value = document.fullscreenElement !== null
-  })
+  if (window.matchMedia('(max-width: 1023px)').matches) {
+    map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
+  }
 
   function addCustomMarker(lng: number, lat: number, url: string) {
     const el = document.createElement('div')
@@ -48,41 +45,41 @@ onMounted(() => {
   }
 
   map.on('load', async () => {
-    map.addSource('mapbox-dem', {
-      type: 'raster-dem',
-      url: 'mapbox://mapbox.terrain-rgb',
-      tileSize: 512,
-      maxzoom: 14,
-    })
-    map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+    // map.addSource('mapbox-dem', {
+    //   type: 'raster-dem',
+    //   url: 'mapbox://mapbox.terrain-rgb',
+    //   tileSize: 512,
+    //   maxzoom: 14,
+    // })
+    // map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
 
-    map.addLayer({
-      id: 'hillshade-layer',
-      type: 'hillshade',
-      source: 'mapbox-dem',
-      layout: { visibility: 'visible' },
-      paint: {
-        'hillshade-exaggeration': 0.5,
-      },
-    })
+    // map.addLayer({
+    //   id: 'hillshade-layer',
+    //   type: 'hillshade',
+    //   source: 'mapbox-dem',
+    //   layout: { visibility: 'visible' },
+    //   paint: {
+    //     'hillshade-exaggeration': 0.5,
+    //   },
+    // })
 
-    map.addLayer(
-      {
-        id: '3d-buildings',
-        source: 'composite',
-        'source-layer': 'building',
-        filter: ['==', 'extrude', 'true'],
-        type: 'fill-extrusion',
-        minzoom: 15,
-        paint: {
-          'fill-extrusion-color': '#aaa',
-          'fill-extrusion-height': ['get', 'height'],
-          'fill-extrusion-base': ['get', 'min_height'],
-          'fill-extrusion-opacity': 0.6,
-        },
-      },
-      'waterway-label',
-    )
+    // map.addLayer(
+    //   {
+    //     id: '3d-buildings',
+    //     source: 'composite',
+    //     'source-layer': 'building',
+    //     filter: ['==', 'extrude', 'true'],
+    //     type: 'fill-extrusion',
+    //     minzoom: 15,
+    //     paint: {
+    //       'fill-extrusion-color': '#aaa',
+    //       'fill-extrusion-height': ['get', 'height'],
+    //       'fill-extrusion-base': ['get', 'min_height'],
+    //       'fill-extrusion-opacity': 0.6,
+    //     },
+    //   },
+    //   'waterway-label',
+    // )
 
     try {
       const response = await fetch('/flooding.json')
@@ -177,53 +174,15 @@ onMounted(() => {
 //     },
 //   })
 // })
-
-const filters = [{ name: 'Geral' }, { name: 'IA' }, { name: 'Especialista' }]
-
-const fields = [
-  { start: '81%', end: '100%' },
-  { start: '61%', end: '80%' },
-  { start: '41%', end: '60%' },
-  { start: '21%', end: '40%' },
-  { start: '0%', end: '20%' },
-]
 </script>
 
 <template>
   <section class="mb-20">
-    <div class="h-[40vw] min-h-[500px] overflow-hidden rounded-2xl">
+    <div class="relative h-[40vw] min-h-[500px] overflow-hidden rounded-2xl">
       <div id="map-fixed" class="h-full w-full"></div>
-      <MapboxFilters v-if="isFullscreen" class="absolute right-4 bottom-4" />
+      <MapboxFilters class="hidden lg:block" />
     </div>
 
-    <div class="mt-10 flex justify-center gap-2">
-      <div class="border-r border-[#E5E5E5] px-5 text-center dark:border-[#00182F]">
-        <h3 class="text-lg font-semibold">Legendas</h3>
-        <p class="text-xs font-semibold">Probabilidade de alagamento</p>
-
-        <div class="mt-5 flex gap-3">
-          <div class="h-30 w-5 rounded-lg bg-gradient-to-b from-[#0047AB] to-[#00B2A9]"></div>
-          <ul class="grid h-32 justify-between">
-            <li v-for="field in fields" :key="field.start" class="text-left text-xs">
-              {{ field.end }} - {{ field.start }}
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="px-5 text-center">
-        <h3 class="text-lg font-semibold">Camadas</h3>
-        <p class="text-xs font-semibold">Aperte para mudar a camada</p>
-        <ul class="mt-5 grid gap-3">
-          <li
-            v-for="filter in filters"
-            :key="filter.name"
-            class="rounded-lg bg-[#2768CA] py-2 text-xs font-semibold text-white hover:bg-[#263e61]"
-          >
-            {{ filter.name }}
-          </li>
-        </ul>
-      </div>
-    </div>
+    <MapboxFilters class="lg:hidden" />
   </section>
 </template>

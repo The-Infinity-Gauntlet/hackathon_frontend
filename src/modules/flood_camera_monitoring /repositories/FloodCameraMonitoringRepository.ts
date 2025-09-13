@@ -16,6 +16,8 @@ export class FloodCameraMonitoringRepository extends BaseRepository<ICamera> {
   async list(): Promise<IGlobalResponse<ICamera>> {
     const { data } = await this.api.get<any>(`${this.basePath}`)
 
+    console.log(data)
+
     const rawResults = Array.isArray(data?.results) ? data.results : []
     const results: ICamera[] = rawResults.map((c: any) => ({
       id: c.id,

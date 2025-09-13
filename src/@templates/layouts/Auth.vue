@@ -3,7 +3,7 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
 </script>
 
 <template>
-  <div class="relative h-screen overflow-hidden">
+  <div class="relative overflow-hidden lg:h-screen">
     <HeaderComp :title="$route.name" />
     <RouterView v-slot="{ Component }">
       <Transition
@@ -24,12 +24,20 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
     </RouterView>
 
     <div
-      class="absolute inset-0 -bottom-180 -z-10 bg-cover bg-center lg:hidden"
+      class="absolute inset-0 -bottom-350 -z-10 bg-cover bg-center lg:hidden"
       style="background-image: url('/layouts/wavesMobile.svg')"
       aria-hidden="true"
     ></div>
 
     <div
+      v-if="$route.name == 'Cadastro'"
+      class="absolute inset-0 -left-400 -z-10 hidden bg-cover bg-center lg:block"
+      style="background-image: url('/layouts/wavesAuth.svg'); transform: scaleX(-1)"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      v-else
       class="absolute inset-0 -right-400 -z-10 hidden bg-cover bg-center lg:block"
       style="background-image: url('/layouts/wavesAuth.svg')"
       aria-hidden="true"

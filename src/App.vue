@@ -14,14 +14,14 @@ onMounted(async () => {
     sessionStorage.setItem('welcomeNotificationShown', 'true')
     setTimeout(() => {
       notification.messages = notification.messages.filter((m) => m.id !== id)
-    }, 5000)
+    }, 7000)
   }
 })
 </script>
 
 <template>
   <RouterView v-slot="{ Component }">
-    <InAppMessages />
+    <InAppMessages class="lg:hidden" />
     <Transition
       mode="out-in"
       enter-active-class="transition duration-300 ease-out"
