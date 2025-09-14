@@ -1,7 +1,7 @@
 export interface ICamera {
   id: string
   name: string
-  url: string
+  hls_url: string
   embed_url?: string
   flood_percentage: number
   status: string

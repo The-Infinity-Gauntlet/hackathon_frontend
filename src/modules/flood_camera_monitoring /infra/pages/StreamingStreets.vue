@@ -1,24 +1,45 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
-import cameras from '../../controller/FloodCameraMonitoringController'
-import { HlsStreamPlayer, EmbedStreamPlayer } from '../components'
+import { reactive, onMounted, computed } from 'vue'
+import type { CameraWithPrediction } from '../../interfaces/predictions'
+import { useFloodCameraMonitoringController } from '../../controller/FloodCameraMonitoringController'
+import { RefreshPredictionsButton } from '../components'
 
 type ViewMode = 'embed' | 'hls'
-const modes = reactive<Record<string, ViewMode>>(
-  Object.fromEntries(
-    cameras.map((c) => [c.url, c.embed_url ? ('embed' as ViewMode) : ('hls' as ViewMode)]),
-  ),
-)
+
+const ctrl = useFloodCameraMonitoringController()
+const cams = computed(() => ctrl.camerasWithPrediction)
+
+const modes = reactive<Record<string, ViewMode>>({})
+
+onMounted(async () => {
+  await ctrl.load()
+  cams.value.forEach((c: any) => {
+    modes[c.id] = c.embed_url ? 'embed' : 'hls'
+  })
+})
+
+function displayFloodPercent(cam: CameraWithPrediction): number {
+  if (cam.prediction && typeof cam.prediction.probabilities?.flooded === 'number') {
+    const v = cam.prediction.probabilities.flooded
+    const clamped = Math.min(100, Math.max(0, v))
+    return Number(clamped.toFixed(2))
+  }
+  return cam.flood_percentage
+}
 </script>
 
 <template>
   <div class="grid justify-center px-5">
+    <RefreshPredictionsButton />
     <h1 class="text-center text-2xl font-semibold">Visão geral das câmeras</h1>
-
-    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+    <div v-if="ctrl.loading" class="mt-10 text-center text-sm opacity-70">Carregando câmeras…</div>
+    <div v-else-if="ctrl.error" class="mt-10 text-center text-sm text-red-600">
+      {{ ctrl.error }}
+    </div>
+    <div v-else class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
       <div
-        v-for="cam in cameras"
-        :key="cam.url"
+        v-for="cam in cams"
+        :key="cam.id"
         class="overflow-hidden rounded-xl bg-white p-5 shadow-sm dark:bg-[#000d19]"
       >
         <!-- <div class="h-[13vw] overflow-hidden rounded-2xl bg-transparent">
@@ -36,12 +57,12 @@ const modes = reactive<Record<string, ViewMode>>(
                 type="button"
                 class="rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-slate-300 dark:ring-slate-600"
                 :class="
-                  modes[cam.url] === 'embed'
+                  modes[cam.id] === 'embed'
                     ? 'bg-emerald-600 text-white ring-emerald-600'
                     : 'bg-transparent text-slate-600 dark:text-slate-300'
                 "
                 :disabled="!cam.embed_url"
-                @click="modes[cam.url] = 'embed'"
+                @click="modes[cam.id] = 'embed'"
                 title="Realtime (Embed)"
               >
                 Realtime
@@ -50,11 +71,11 @@ const modes = reactive<Record<string, ViewMode>>(
                 type="button"
                 class="rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-slate-300 dark:ring-slate-600"
                 :class="
-                  modes[cam.url] === 'hls'
+                  modes[cam.id] === 'hls'
                     ? 'bg-blue-600 text-white ring-blue-600'
                     : 'bg-transparent text-slate-600 dark:text-slate-300'
                 "
-                @click="modes[cam.url] = 'hls'"
+                @click="modes[cam.id] = 'hls'"
                 title="HLS"
               >
                 HLS
@@ -64,7 +85,12 @@ const modes = reactive<Record<string, ViewMode>>(
 
           <div class="flex items-center justify-center gap-1.5">
             <p class="grid text-right text-xs">Porcentagem de <span>alagamento</span></p>
-            <p class="text-2xl font-semibold text-[#27CA2C]">{{ cam.flood_percentage }}%</p>
+            <p
+              class="text-2xl font-semibold"
+              :class="cam.prediction?.is_flooded ? 'text-[#CA2727]' : 'text-[#27CA2C]'"
+            >
+              {{ displayFloodPercent(cam) }}%
+            </p>
           </div>
 
           <p class="text-sm">
@@ -75,7 +101,7 @@ const modes = reactive<Record<string, ViewMode>>(
           </p>
 
           <RouterLink
-            :to="{ path: `/cameras/${cam.id}`, params: { id: cam.id } }"
+            :to="{ path: `/cameras/${cam.id}` }"
             class="mx-auto mt-1 rounded-xl bg-[#0453AF] px-10 py-2 font-semibold text-white shadow-xl"
           >
             Ver mais

@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
-import cameras from '../../controller/FloodCameraMonitoringController'
+import { reactive, onMounted, computed } from 'vue'
+import { useFloodCameraMonitoringController } from '../../controller/FloodCameraMonitoringController'
 import { HlsStreamPlayer, EmbedStreamPlayer } from '../components'
 
 const props = defineProps<{ id: string }>()
-const camera = cameras.find((c) => c.id === props.id)
+const ctrl = useFloodCameraMonitoringController()
+const camera = computed(() => ctrl.camerasWithPrediction.find((c) => c.id === props.id))
 
 type ViewMode = 'embed' | 'hls'
-const modes = reactive<Record<string, ViewMode>>(
-  Object.fromEntries(
-    cameras.map((c) => [c.url, c.embed_url ? ('embed' as ViewMode) : ('hls' as ViewMode)]),
-  ),
-)
+const modes = reactive<Record<string, ViewMode>>({})
+
+onMounted(async () => {
+  await ctrl.load()
+  const c = ctrl.cameras.find((x) => x.id === props.id)
+  if (c) modes[c.id] = c.embed_url ? 'embed' : 'hls'
+})
 </script>
 
 <template>
@@ -20,14 +23,14 @@ const modes = reactive<Record<string, ViewMode>>(
 
     <div class="mx-auto h-[35vw] w-[70%] overflow-hidden rounded-2xl bg-transparent">
       <EmbedStreamPlayer
-        v-if="modes[camera.url] === 'embed' && camera.embed_url"
+        v-if="modes[camera.id] === 'embed' && camera.embed_url"
         :src="camera.embed_url"
         :title="camera.name"
         class="h-full w-full"
       />
       <HlsStreamPlayer
         v-else
-        :src="camera.url"
+        :src="camera.hls_url"
         :muted="true"
         :controls="true"
         :lock-to-live="true"
@@ -41,12 +44,12 @@ const modes = reactive<Record<string, ViewMode>>(
         type="button"
         class="rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-slate-300 dark:ring-slate-600"
         :class="
-          modes[camera.url] === 'embed'
+          modes[camera.id] === 'embed'
             ? 'bg-emerald-600 text-white ring-emerald-600'
             : 'bg-transparent text-slate-600 dark:text-slate-300'
         "
         :disabled="!camera.embed_url"
-        @click="modes[camera.url] = 'embed'"
+        @click="modes[camera.id] = 'embed'"
         title="Realtime (Embed)"
       >
         Realtime
@@ -55,19 +58,27 @@ const modes = reactive<Record<string, ViewMode>>(
         type="button"
         class="rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-slate-300 dark:ring-slate-600"
         :class="
-          modes[camera.url] === 'hls'
+          modes[camera.id] === 'hls'
             ? 'bg-blue-600 text-white ring-blue-600'
             : 'bg-transparent text-slate-600 dark:text-slate-300'
         "
-        @click="modes[camera.url] = 'hls'"
+        @click="modes[camera.id] = 'hls'"
         title="HLS"
       >
         HLS
       </button>
     </div>
-
+    <p>Situação: {{ camera.prediction?.is_flooded ? 'Alagado' : 'Normal' }}</p>
     <p>Status: {{ camera.status }}</p>
-    <p>Porcentagem de alagamento: {{ camera.flood_percentage }}%</p>
+    <p>
+      Porcentagem de alagamento:
+      {{
+        camera.prediction
+          ? Math.min(100, Math.max(0, Number(camera.prediction.probabilities.flooded.toFixed(2))))
+          : camera.flood_percentage
+      }}%
+    </p>
+    <p>Última atualização:</p>
   </div>
   <div v-else>
     <p>Câmera não encontrada</p>
