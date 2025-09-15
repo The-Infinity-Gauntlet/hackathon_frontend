@@ -9,7 +9,7 @@ const routes: IRoutes[] = [
         path: '/admin',
         name: '',
         component: () => import('@/modules/flood_management/infra/pages/index.vue'),
-        meta: { requiresAuth: true, role: 'admin' },
+        //meta: { requiresAuth: true, role: 'admin' },
       },
       {
         path: '/admin/graficos',
@@ -60,7 +60,7 @@ const routes: IRoutes[] = [
     path: '/admin/mapa-de-alagamento',
     name: '',
     component: () => import('@/modules/flood_management/infra/pages/FloodMap.vue'),
-    meta: { requiresAuth: true, role: 'admin' },
+    //meta: { requiresAuth: true, role: 'admin' },
   },
 ]
 
