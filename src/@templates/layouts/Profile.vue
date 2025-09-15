@@ -1,22 +1,45 @@
 <script setup lang="ts">
 import { HeaderComp, MobileMenu } from '@/@core/components'
+
+const menubar = [
+  { label: 'Perfil', link: '/minha-conta/nicolefemello' },
+  { label: 'Dashboard', link: '/dashboard' },
+  { label: 'Segurança', link: '/seguranca' },
+  { label: 'Suporte', link: '/suporte' },
+]
 </script>
 
 <template>
   <div>
-    <div class="relative mb-8 h-40">
+    <div
+      class="relative -z-15 mb-8 h-50 lg:z-0"
+      :class="$route.name == 'Perfil' ? 'bg-[#A0C5E2] lg:bg-transparent' : 'bg-transparent'"
+    >
       <img
         src="/layouts/wavesMobile.svg"
         alt="Ondas"
-        class="absolute inset-0 h-full w-full object-cover lg:hidden"
-      />
-      <img
-        src="/layouts/wavesProfile.svg"
-        alt="Ondas"
-        class="absolute inset-0 hidden h-full w-full object-cover lg:block"
+        v-if="$route.name == 'Perfil'"
+        class="absolute inset-0 -z-10 h-full w-full object-cover lg:hidden"
       />
       <HeaderComp :title="$route.name" />
     </div>
+
+    <div
+      class="absolute inset-0 -top-20 -left-50 -z-10 hidden bg-cover bg-center lg:block"
+      style="background-image: url('/layouts/wavesProfile.svg')"
+      aria-hidden="true"
+    ></div>
+
+    <nav class="absolute top-30 left-10 hidden gap-5 lg:grid">
+      <RouterLink
+        v-for="menu in menubar"
+        :key="menu.label"
+        class="w-[250px] rounded-xl px-5 py-5 text-white shadow-lg"
+        :to="menu.link"
+      >
+        {{ menu.label }}
+      </RouterLink>
+    </nav>
 
     <RouterView v-slot="{ Component }">
       <Transition
@@ -31,7 +54,7 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
         <component
           :is="Component"
           :key="$route.fullPath"
-          class="grid px-5 pb-20 sm:px-10 md:px-15 lg:px-20 xl:px-25"
+          class="grid px-5 sm:px-10 md:px-15 lg:px-20 xl:px-25"
         />
       </Transition>
     </RouterView>

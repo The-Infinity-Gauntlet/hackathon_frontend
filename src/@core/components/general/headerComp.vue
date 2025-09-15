@@ -37,7 +37,7 @@ const desktopMenu: MenuItem[] = [
 </script>
 
 <template>
-  <header class="z-10 bg-white px-7 lg:px-20 lg:shadow-md xl:px-25 dark:bg-[#000d19]">
+  <header class="z-10 px-7 lg:px-20 lg:shadow-md xl:px-25">
     <nav class="lg:flex lg:items-center lg:justify-between">
       <ul class="flex items-center justify-between lg:hidden">
         <li>

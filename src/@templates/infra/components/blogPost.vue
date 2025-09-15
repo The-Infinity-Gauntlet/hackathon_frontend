@@ -22,20 +22,14 @@ const posts = [
 </script>
 
 <template>
-  <section class="mt-10 flex justify-center gap-5">
-    <div
-      v-for="post in posts"
-      :key="post.id"
-      class="grid justify-between gap-3 rounded-2xl bg-[#E5E5E5] p-5 dark:bg-[#00182F]"
-    >
+  <section class="mt-5 flex justify-center gap-5">
+    <div v-for="post in posts" :key="post.id"
+      class="grid justify-between gap-3 rounded-2xl bg-[#E5E5E5] p-5 dark:bg-[#00182F]">
       <h3 class="text-center text-lg font-semibold">{{ post.title }}</h3>
       <p class="text-xs text-[#999999]">{{ post.description }}</p>
       <img :src="post.icon" :alt="post.title" class="mx-auto" />
-      <RouterLink
-        :to="post.link"
-        class="rounded-2xl bg-[#2768CA] py-1.5 text-center font-semibold text-white"
-        >{{ post.btnMessage }}</RouterLink
-      >
+      <RouterLink :to="post.link" class="rounded-2xl bg-[#2768CA] py-1.5 text-center font-semibold text-white">{{
+        post.btnMessage }}</RouterLink>
     </div>
   </section>
 </template>

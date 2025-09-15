@@ -48,7 +48,7 @@ const getFieldComponent = (field: IFormField) => {
 </script>
 
 <template>
-  <ul class="mx-auto mt-5 lg:bg-white lg:dark:bg-[#000d19]">
+  <ul class="mx-auto mt-10">
     <li
       v-for="field in formFields.filter(
         (f) =>
@@ -63,31 +63,31 @@ const getFieldComponent = (field: IFormField) => {
           ].includes(f.id),
       )"
       :key="field.id"
-      class="my-3 grid w-[332px]"
+      class="my-1 grid w-[332px]"
     >
       <component :is="getFieldComponent(field)" :field="field" />
     </li>
-    <li class="my-3 grid w-[332px]">
+    <li class="my-1 grid w-[332px]">
       <FieldGroup :fields="formFields.filter((f) => ['rain', 'humidity'].includes(f.id))" />
     </li>
-    <li class="my-3 grid w-[332px]">
+    <li class="my-1 grid w-[332px]">
       <FieldGroup :fields="formFields.filter((f) => ['probability', 'duration'].includes(f.id))" />
     </li>
-    <li class="my-3 grid w-[332px]">
+    <li class="my-1 grid w-[332px]">
       <FieldGroup
         :fields="
           formFields.filter((f) => ['atmospheric_pressure', 'river_discharge'].includes(f.id))
         "
       />
     </li>
-    <li class="my-3 grid w-[332px]">
+    <li class="my-1 grid w-[332px]">
       <FieldGroup :fields="formFields.filter((f) => ['height'].includes(f.id))" />
     </li>
   </ul>
 
   <button
     :class="formFields.some((f) => f.id === 'delete') ? 'bg-red-500' : 'bg-blue-500'"
-    class="mx-auto mt-5 w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl"
+    class="mx-auto w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl"
   >
     {{ buttonText }}
   </button>

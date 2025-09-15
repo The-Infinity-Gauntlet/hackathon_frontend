@@ -10,7 +10,7 @@ const fields: IFormField[] = [
 </script>
 
 <template>
-  <div class="grid justify-center lg:flex lg:h-screen lg:gap-200">
+  <div class="grid justify-center lg:flex lg:h-screen lg:gap-[40vw]">
     <div class="grid justify-center lg:my-auto">
       <h1 class="hidden text-center text-2xl font-semibold lg:block">Login</h1>
       <BaseForm :form-fields="fields" button-text="Entrar" />

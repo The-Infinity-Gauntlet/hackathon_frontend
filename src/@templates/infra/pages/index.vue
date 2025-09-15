@@ -102,7 +102,7 @@ onMounted(async () => {
     </section>
 
     <Mapbox />
-    <ChartItems v-for="item in data.options" :key="item" :item="item" class="lg:hidden" />
+    <ChartItems v-for="item in data.options" :key="item" :item="item" class="lg:hidden -mt-5" />
     <div class="hidden space-x-5 overflow-x-auto pr-5 lg:grid lg:grid-cols-2 lg:justify-center">
       <ChartItems v-for="item in data.options" :key="item.id" :item="item" />
     </div>
