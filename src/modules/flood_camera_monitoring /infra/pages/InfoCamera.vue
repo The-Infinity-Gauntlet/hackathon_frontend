@@ -79,7 +79,9 @@ onUnmounted(() => {
   <div v-if="camera" class="px-10">
     <h1 class="mb-7 text-center text-2xl font-semibold">{{ camera.name }}</h1>
 
-    <div class="relative mx-auto h-[37.5vw] w-[75vw] overflow-hidden rounded-2xl bg-transparent group">
+    <div
+      class="group relative mx-auto h-[37.5vw] w-[75vw] overflow-hidden rounded-2xl bg-transparent"
+    >
       <EmbedStreamPlayer
         v-if="modes[camera.id] === 'embed' && camera.embed_url"
         :src="camera.embed_url"
@@ -99,7 +101,7 @@ onUnmounted(() => {
       <button
         v-if="canNext"
         @click.stop="goNext"
-        class="absolute right-3 top-3 rounded-md bg-blue-600/80 px-3 py-1 text-sm font-semibold text-white shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-white/60 opacity-0 group-hover:opacity-100 transition-opacity"
+        class="absolute top-3 right-3 rounded-md bg-blue-600/80 px-3 py-1 text-sm font-semibold text-white opacity-0 shadow transition-opacity group-hover:opacity-100 hover:bg-blue-600 focus:ring-2 focus:ring-white/60 focus:outline-none"
         title="Próxima câmera (→)"
       >
         Próxima ▶
@@ -107,7 +109,7 @@ onUnmounted(() => {
       <button
         v-if="canPrev"
         @click.stop="goPrev"
-        class="absolute left-3 top-3 rounded-md bg-blue-600/80 px-3 py-1 text-sm font-semibold text-white shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-white/60 opacity-0 group-hover:opacity-100 transition-opacity"
+        class="absolute top-3 left-3 rounded-md bg-blue-600/80 px-3 py-1 text-sm font-semibold text-white opacity-0 shadow transition-opacity group-hover:opacity-100 hover:bg-blue-600 focus:ring-2 focus:ring-white/60 focus:outline-none"
         title="Câmera anterior (←)"
       >
         ◀ Anterior
