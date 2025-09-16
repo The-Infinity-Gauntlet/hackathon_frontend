@@ -5,7 +5,7 @@ import { IApi } from '../interfaces/api'
  * URL base da API utilizada por padrão na instância do cliente Axios.
  * @constant {string}
  */
-const API_URL = 'http://localhost:3000/'
+const API_URL = 'http://localhost:8000/'
 
 /**
  * Classe responsável por encapsular chamadas HTTP usando Axios.

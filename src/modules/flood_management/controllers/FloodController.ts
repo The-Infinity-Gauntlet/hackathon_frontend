@@ -2,7 +2,7 @@ import { computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { container } from 'tsyringe'
 
-import type { IFlood, IFloodControllerState, IFloodIA, IFloodIAControllerState } from '../interfaces/flood'
+import type { IFlood, IFloodControllerState, IFloodIAControllerState } from '../interfaces/flood'
 import { FloodRepository, FloodIARepository } from '../repositories/FloodRepository'
 
 export const useFloodController = defineStore('flood', () => {
@@ -42,9 +42,9 @@ export const useFloodController = defineStore('flood', () => {
     state.pagination = {
       ...state.pagination,
       page: result.page_number,
-      page_size: result.page_size,
-      total: result.total,
-      num_pages: result.num_pages,
+      pageSize: result.page_size,
+      //total: result.total,
+      //num_pages: result.num_pages,
     }
     state.loading = false
   }
