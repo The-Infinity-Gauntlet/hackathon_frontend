@@ -18,7 +18,7 @@ const field = {
     <select
       :name="field.autocomplete"
       :id="field.id"
-      class="mb-5 w-[35%] rounded-lg bg-[#2768CA] p-2 text-xs font-semibold text-white outline-none"
+      class="mb-5 w-[35%] rounded-lg bg-[#2768CA] p-2 text-xs font-semibold text-white outline-none lg:w-[13%] lg:text-lg"
     >
       <option
         v-for="(option, index) in field.options"

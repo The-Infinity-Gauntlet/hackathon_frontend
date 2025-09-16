@@ -257,7 +257,7 @@ const floodPoints = ref([
         <input
           type="text"
           placeholder="Buscar localização"
-          class="w-full text-xs text-[#999999] outline-none"
+          class="w-full min-w-[50vw] text-xs text-[#999999] outline-none lg:min-w-[30vw]"
         />
 
         <span class="material-symbols-outlined text-[#7AA6C8] dark:text-[#000D19]">search</span>

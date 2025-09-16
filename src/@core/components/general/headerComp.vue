@@ -24,13 +24,14 @@ const desktopMenu: MenuItem[] = [
   { id: 1, label: 'Home', link: '/' },
   { id: 2, label: 'Administração', link: '/admin' },
   { id: 3, label: 'Minha conta', link: '/minha-conta' },
+  { id: 4, label: 'Câmeras', link: '/cameras' },
   {
-    id: 4,
+    id: 5,
     label: 'Mais',
     options: [
-      { id: 0, label: 'Home', link: '/' },
-      { id: 1, label: 'Administração', link: '/admin' },
-      { id: 2, label: 'Minha conta', link: '/minha-conta' },
+      { id: 0, label: 'Doação', link: '/pagamento' },
+      { id: 1, label: 'Sobre', link: '/sobre' },
+      { id: 2, label: 'Blog', link: '/blog' },
     ],
   },
 ]
@@ -79,7 +80,7 @@ const desktopMenu: MenuItem[] = [
             <transition name="fade">
               <ul
                 v-if="openMenuId === item.id"
-                class="absolute mt-2 grid w-[15vw] gap-2 rounded-lg bg-white px-5 py-5 shadow-lg dark:bg-[#000d19]"
+                class="absolute -left-5 mt-2 grid w-[10vw] gap-2 rounded-lg bg-white px-5 py-5 shadow-lg dark:bg-[#000d19]"
               >
                 <li
                   v-for="menu in item.options"
