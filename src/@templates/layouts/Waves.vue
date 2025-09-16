@@ -3,11 +3,7 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
 </script>
 
 <template>
-<<<<<<< HEAD
   <div class="relative h-screen overflow-hidden">
-=======
-  <div>
->>>>>>> b7af0da2219448486f2a004193fa7bd39944b902
     <HeaderComp :title="$route.name" />
     <RouterView v-slot="{ Component }">
       <Transition mode="out-in" enter-active-class="transition duration-300 ease-out"
@@ -18,20 +14,11 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
       </Transition>
     </RouterView>
 
-<<<<<<< HEAD
     <div class="absolute inset-0 -bottom-180 -z-10 bg-cover bg-center lg:hidden"
       style="background-image: url('/layouts/wavesMobile.svg')" aria-hidden="true"></div>
 
     <div class="absolute inset-0 -right-400 -z-10 hidden bg-cover bg-center lg:block"
       style="background-image: url('/layouts/wavesAuth.svg')" aria-hidden="true"></div>
-=======
-    <img src="/layouts/wavesMobile.svg" alt="Ondas" class="w-full lg:hidden" />
-    <img
-      src="/layouts/wavesAuth.svg"
-      alt="Ondas"
-      class="absolute inset-0 hidden h-full w-full object-cover lg:block"
-    />
->>>>>>> b7af0da2219448486f2a004193fa7bd39944b902
     <MobileMenu class="fixed bottom-0 lg:hidden" />
   </div>
 </template>
