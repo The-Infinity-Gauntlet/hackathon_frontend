@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { BaseChart, FloodAlert } from '@/@core/components'
+import { ChartItems, FloodAlert } from '@/@core/components'
 
 const location = ref({
   neighborhood: null as string | null,
@@ -16,10 +16,10 @@ const location = ref({
     { name: 'Vazão do rio', icon: '/weather_information/river_discharge.svg', scale: 46 },
   ] as const,
 })
-const charts = [
-  {
-    type: 'bar',
-    data: {
+const data = {
+  id: 'charts',
+  options: [
+    {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
       datasets: [
         {
@@ -31,10 +31,7 @@ const charts = [
         },
       ],
     },
-  },
-  {
-    type: 'bar',
-    data: {
+    {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
       datasets: [
         {
@@ -46,10 +43,7 @@ const charts = [
         },
       ],
     },
-  },
-  {
-    type: 'bar',
-    data: {
+    {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
       datasets: [
         {
@@ -61,10 +55,7 @@ const charts = [
         },
       ],
     },
-  },
-  {
-    type: 'doughnut',
-    data: {
+    {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
       datasets: [
         {
@@ -76,13 +67,18 @@ const charts = [
         },
       ],
     },
-  },
-]
+  ],
+}
 </script>
 
 <template>
-  <div class="grid justify-center px-5 pb-20">
+  <div>
     <FloodAlert :alert="location.data[1].message" />
-    <BaseChart v-for="(chart, index) in charts" :key="index" :item="chart" />
+    <div class="mt-5">
+      <ChartItems v-for="item in data.options" :key="item" :item="item" class="lg:hidden" />
+      <div class="hidden space-x-5 overflow-x-auto pr-5 lg:grid lg:grid-cols-2 lg:justify-center">
+        <ChartItems v-for="item in data.options" :key="item.id" :item="item" />
+      </div>
+    </div>
   </div>
 </template>

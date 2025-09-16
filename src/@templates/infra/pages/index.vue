@@ -90,7 +90,11 @@ onMounted(async () => {
     </section>
 
     <section>
+<<<<<<< HEAD
+      <div class="flex cursor-pointer items-center justify-center py-5" @click="togglePopup">
+=======
       <div class="flex items-center justify-center py-5" @click="togglePopup">
+>>>>>>> b7af0da2219448486f2a004193fa7bd39944b902
         <img src="/icons/location.svg" alt="Localização" />
         <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
         <span class="material-symbols-outlined pl-2 text-[#999999]">edit_square</span>
@@ -102,7 +106,11 @@ onMounted(async () => {
     </section>
 
     <Mapbox />
+<<<<<<< HEAD
+    <ChartItems v-for="item in data.options" :key="item" :item="item" class="-mt-5 lg:hidden" />
+=======
     <ChartItems v-for="item in data.options" :key="item" :item="item" class="lg:hidden" />
+>>>>>>> b7af0da2219448486f2a004193fa7bd39944b902
     <div class="hidden space-x-5 overflow-x-auto pr-5 lg:grid lg:grid-cols-2 lg:justify-center">
       <ChartItems v-for="item in data.options" :key="item.id" :item="item" />
     </div>

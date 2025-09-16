@@ -175,12 +175,8 @@ const handleFinish = () => {
     </template>
 
     <template #finish-message>
-      <QrCode
-        :showPopup="showPopup"
-        @close="closePopup"
-        code="00020126520014BR.GOV.BCB.PIX0120A8f3Zr3P1xY6L0uN"
-        time="90"
-      />
+      <QrCode :showPopup="showPopup" @close="closePopup" code="00020126520014BR.GOV.BCB.PIX0120A8f3Zr3P1xY6L0uN"
+        time="90" />
       <h2 class="mb-4 text-xl font-semibold text-green-500">Concluído!</h2>
       <p class="text-gray-600 dark:text-gray-400">Doação paga com sucesso.</p>
     </template>

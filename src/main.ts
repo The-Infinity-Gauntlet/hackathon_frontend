@@ -2,6 +2,7 @@ import '@/@core/assets/main.css'
 import 'reflect-metadata'
 import '@mdi/font/css/materialdesignicons.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import 'vue3-toastify/dist/index.css'
 
 import registerServices from './@core/di/registerServices'
 import { registerPlugins } from './@core/plugins/registerPlugins'

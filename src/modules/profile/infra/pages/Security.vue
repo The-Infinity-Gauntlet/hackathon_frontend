@@ -88,12 +88,10 @@ const fields = [
 </script>
 
 <template>
-  <div class="grid justify-center px-5 pb-20">
-    <ProfileForm
-      v-for="field in fields"
-      :key="field.id"
-      :form-fields="[field]"
-      :buttonText="field.buttonText"
-    />
+  <div class="-mt-30 grid justify-center px-5">
+    <div class="grid justify-center lg:relative lg:-right-[25vw]">
+      <h1 class="hidden text-center text-4xl font-semibold lg:block">Segurança</h1>
+      <ProfileForm v-for="field in fields" :key="field.id" :form-fields="[field]" :buttonText="field.buttonText" />
+    </div>
   </div>
 </template>
