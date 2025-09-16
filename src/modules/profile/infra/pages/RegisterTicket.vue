@@ -94,10 +94,13 @@ const fields = [
 
     <div class="flex gap-3">
       <button
-        class="mx-auto mt-2 w-full rounded-lg border border-blue-500 px-2 py-1 font-semibold text-blue-500 shadow-xl">
+        class="mx-auto mt-2 w-full rounded-lg border border-blue-500 px-2 py-1 font-semibold text-blue-500 shadow-xl"
+      >
         Cancelar
       </button>
-      <button class="mx-auto mt-2 w-full rounded-lg bg-blue-500 px-2 py-1 font-semibold text-white shadow-xl">
+      <button
+        class="mx-auto mt-2 w-full rounded-lg bg-blue-500 px-2 py-1 font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
+      >
         Confirmar
       </button>
     </div>

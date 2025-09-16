@@ -15,7 +15,7 @@ defineProps({
     <label :for="field.id">{{ field.label }}</label>
 
     <label
-      class="mx-auto flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-2 font-semibold text-white"
+      class="mx-auto flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-blue-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600"
     >
       <span>Selecionar arquivo</span>
       <input

@@ -119,8 +119,10 @@ const tickets = [
 
 <template>
   <div class="mb-10 grid justify-center px-5 pt-5 pb-10">
-    <RouterLink to="/suporte/registro"
-      class="mx-auto w-full rounded-2xl bg-blue-500 p-2 text-center text-sm font-semibold text-white shadow-xl">
+    <RouterLink
+      to="/suporte/registro"
+      class="mx-auto w-full rounded-2xl bg-blue-500 p-2 text-center text-sm font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
+    >
       Precisa de Ajuda? Clique Aqui
     </RouterLink>
 
@@ -132,7 +134,9 @@ const tickets = [
     </div>
 
     <SupportTicket v-for="(ticket, index) in tickets" :key="index" :ticket="ticket" />
-    <button class="mx-auto mt-2 w-[250px] rounded-2xl bg-blue-500 p-2 font-semibold text-white shadow-xl">
+    <button
+      class="mx-auto mt-2 w-[250px] rounded-2xl bg-blue-500 p-2 font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
+    >
       Ver mais
     </button>
   </div>

@@ -245,14 +245,20 @@ const floodPoints = ref([
   <div class="relative h-screen w-screen overflow-hidden">
     <div class="absolute top-5 left-0 z-10 flex w-[50vw] items-center gap-2 px-4">
       <button
-        class="flex h-8 w-8 items-center justify-center rounded-full bg-[#2768CA] pl-2 text-white dark:bg-[#000D19]"
-        @click="routerBack">
+        class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 pl-2 text-white transition-colors duration-300 hover:bg-blue-600 dark:bg-[#000D19]"
+        @click="routerBack"
+      >
         <span class="material-symbols-outlined">arrow_back_ios</span>
       </button>
 
       <div
-        class="flex flex-1 items-center rounded-full border border-[#7AA6C8] bg-white px-3 py-2 text-sm dark:border-[#000D19]">
-        <input type="text" placeholder="Buscar localização" class="w-full text-xs text-[#999999] outline-none" />
+        class="flex flex-1 items-center rounded-full border border-[#7AA6C8] bg-white px-3 py-2 text-sm dark:border-[#000D19]"
+      >
+        <input
+          type="text"
+          placeholder="Buscar localização"
+          class="w-full text-xs text-[#999999] outline-none"
+        />
 
         <span class="material-symbols-outlined text-[#7AA6C8] dark:text-[#000D19]">search</span>
       </div>
@@ -262,15 +268,19 @@ const floodPoints = ref([
 
     <div
       class="absolute bottom-0 left-0 z-10 w-full rounded-t-2xl bg-white p-4 shadow-lg transition-transform duration-300 lg:top-0 lg:right-0 lg:bottom-0 lg:left-auto lg:h-full lg:w-[380px] lg:rounded-none lg:rounded-l-2xl dark:bg-[#00182F]"
-      :class="isOpen
-        ? 'translate-y-0 lg:translate-x-0'
-        : 'translate-y-[73%] lg:translate-x-0 lg:translate-y-0'
-        ">
+      :class="
+        isOpen
+          ? 'translate-y-0 lg:translate-x-0'
+          : 'translate-y-[73%] lg:translate-x-0 lg:translate-y-0'
+      "
+    >
       <div class="grid gap-3" @click="toggleSheet">
         <div class="mx-auto h-1.5 w-12 rounded-full bg-gray-400 lg:hidden"></div>
 
-        <RouterLink to="/admin/registrar-ponto"
-          class="mx-auto rounded-xl bg-[#2768CA] px-6 py-2 font-semibold text-white dark:bg-[#000D19]">
+        <RouterLink
+          to="/admin/registrar-ponto"
+          class="mx-auto rounded-xl bg-blue-500 px-6 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600 dark:bg-[#000D19]"
+        >
           Inserir novo ponto
         </RouterLink>
 

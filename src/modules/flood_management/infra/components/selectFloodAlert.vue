@@ -63,8 +63,11 @@ const confirmSelection = () => {
 
 <template>
   <div class="mb-5 w-full rounded-2xl bg-white shadow-lg dark:bg-[#000D19]">
-    <p class="relative grid cursor-pointer rounded-lg p-1 text-center text-sm lg:rounded-md"
-      :class="currentAlert.bgClass" @click="toggle">
+    <p
+      class="relative grid cursor-pointer rounded-lg p-1 text-center text-sm lg:rounded-md"
+      :class="currentAlert.bgClass"
+      @click="toggle"
+    >
       <span class="text-md font-semibold">{{ currentAlert.title }}</span>
       {{ currentAlert.description }}
       <span class="material-symbols-outlined absolute top-3 right-2">keyboard_arrow_down</span>
@@ -88,8 +91,10 @@ const confirmSelection = () => {
           </p>
 
           <div class="px-5">
-            <button class="mx-auto mt-3 w-full rounded-lg bg-blue-500 p-2 font-semibold text-white shadow-xl"
-              @click="confirmSelection">
+            <button
+              class="mx-auto mt-3 w-full rounded-lg bg-blue-500 p-2 font-semibold text-white shadow-xl"
+              @click="confirmSelection"
+            >
               Confirmar
             </button>
           </div>

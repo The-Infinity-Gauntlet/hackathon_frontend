@@ -28,7 +28,7 @@ const refresh = async () => {
   <div class="inline-flex items-center gap-2">
     <button
       type="button"
-      class="rounded-md bg-blue-600 px-3 py-1.5 text-white disabled:opacity-60"
+      class="rounded-md bg-blue-500 px-3 py-1.5 text-white transition-colors duration-300 hover:bg-blue-600 disabled:opacity-60"
       :disabled="loading"
       @click="refresh"
     >

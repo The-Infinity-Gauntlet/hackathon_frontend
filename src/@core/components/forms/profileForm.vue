@@ -49,18 +49,22 @@ const getFieldComponent = (field: IFormField) => {
 
 <template>
   <ul class="mx-auto mt-10">
-    <li v-for="field in formFields.filter(
-      (f) =>
-        ![
-          'rain',
-          'humidity',
-          'probability',
-          'duration',
-          'atmospheric_pressure',
-          'river_discharge',
-          'height',
-        ].includes(f.id),
-    )" :key="field.id" class="my-1 grid w-[332px]">
+    <li
+      v-for="field in formFields.filter(
+        (f) =>
+          ![
+            'rain',
+            'humidity',
+            'probability',
+            'duration',
+            'atmospheric_pressure',
+            'river_discharge',
+            'height',
+          ].includes(f.id),
+      )"
+      :key="field.id"
+      class="my-1 grid w-[332px]"
+    >
       <component :is="getFieldComponent(field)" :field="field" />
     </li>
     <li class="my-1 grid w-[332px]">
@@ -70,8 +74,11 @@ const getFieldComponent = (field: IFormField) => {
       <FieldGroup :fields="formFields.filter((f) => ['probability', 'duration'].includes(f.id))" />
     </li>
     <li class="my-1 grid w-[332px]">
-      <FieldGroup :fields="formFields.filter((f) => ['atmospheric_pressure', 'river_discharge'].includes(f.id))
-        " />
+      <FieldGroup
+        :fields="
+          formFields.filter((f) => ['atmospheric_pressure', 'river_discharge'].includes(f.id))
+        "
+      />
     </li>
     <li class="my-1 grid w-[332px]">
       <FieldGroup :fields="formFields.filter((f) => ['height'].includes(f.id))" />
@@ -81,8 +88,14 @@ const getFieldComponent = (field: IFormField) => {
     </li>
   </ul>
 
-  <button :class="formFields.some((f) => f.id === 'delete') ? 'bg-red-500' : 'bg-blue-500'"
-    class="mx-auto w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl">
+  <button
+    :class="
+      formFields.some((f) => f.id === 'delete')
+        ? 'bg-red-500 hover:bg-blue-600'
+        : 'bg-blue-500 hover:bg-blue-600'
+    "
+    class="mx-auto w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl transition-colors duration-300"
+  >
     {{ buttonText }}
   </button>
 </template>

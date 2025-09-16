@@ -38,7 +38,12 @@ const handleFinish = () => {
 
 <template>
   <div class="grid justify-center lg:min-h-screen lg:justify-start">
-    <StepByStep :total-steps="2" finish-button-text="Recuperar" @finish="handleFinish" class="lg:my-auto">
+    <StepByStep
+      :total-steps="2"
+      finish-button-text="Recuperar"
+      @finish="handleFinish"
+      class="lg:my-auto"
+    >
       <template #step-1>
         <BaseForm :form-fields="fields" />
       </template>
@@ -48,7 +53,12 @@ const handleFinish = () => {
       </template>
 
       <template #finish-message>
-        <BasePopup title="Sua conta foi recuperada!" :showPopup="showPopup" @close="closePopup" class="lg:hidden" />
+        <BasePopup
+          title="Sua conta foi recuperada!"
+          :showPopup="showPopup"
+          @close="closePopup"
+          class="lg:hidden"
+        />
       </template>
     </StepByStep>
   </div>

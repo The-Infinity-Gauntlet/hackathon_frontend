@@ -64,17 +64,28 @@ const desktopMenu: MenuItem[] = [
           </RouterLink>
 
           <div v-else>
-            <button @click="toggleMenu(item.id)" :aria-expanded="openMenuId === item.id"
-              class="flex cursor-pointer items-center">
+            <button
+              @click="toggleMenu(item.id)"
+              :aria-expanded="openMenuId === item.id"
+              class="flex cursor-pointer items-center"
+            >
               {{ item.label }}
-              <span class="material-symbols-outlined transition-all duration-300 ease-out"
-                :class="openMenuId === item.id ? 'rotate-180' : 'rotate-0'">keyboard_arrow_down</span>
+              <span
+                class="material-symbols-outlined transition-all duration-300 ease-out"
+                :class="openMenuId === item.id ? 'rotate-180' : 'rotate-0'"
+                >keyboard_arrow_down</span
+              >
             </button>
             <transition name="fade">
-              <ul v-if="openMenuId === item.id"
-                class="absolute mt-2 grid w-[15vw] gap-2 rounded-lg bg-white px-5 py-5 shadow-lg dark:bg-[#000d19]">
-                <li v-for="menu in item.options" :key="menu.id"
-                  class="border-b border-[#000D19] p-2 text-center dark:border-white">
+              <ul
+                v-if="openMenuId === item.id"
+                class="absolute mt-2 grid w-[15vw] gap-2 rounded-lg bg-white px-5 py-5 shadow-lg dark:bg-[#000d19]"
+              >
+                <li
+                  v-for="menu in item.options"
+                  :key="menu.id"
+                  class="border-b border-[#000D19] p-2 text-center dark:border-white"
+                >
                   <RouterLink :to="menu.link">{{ menu.label }}</RouterLink>
                 </li>
               </ul>
