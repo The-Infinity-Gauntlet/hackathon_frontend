@@ -84,13 +84,16 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="grid justify-center px-5">
+  <div class="">
     <section class="p-5">
       <h1 class="text-4xl font-semibold lg:text-5xl">Bem-vindo ao AQUA!</h1>
     </section>
 
     <section>
-      <div class="flex cursor-pointer items-center justify-center py-5" @click="togglePopup">
+      <div
+        class="flex cursor-pointer items-center justify-center py-5 lg:text-xl"
+        @click="togglePopup"
+      >
         <img src="/icons/location.svg" alt="Localização" />
         <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
         <span class="material-symbols-outlined pl-2 text-[#999999]">edit_square</span>

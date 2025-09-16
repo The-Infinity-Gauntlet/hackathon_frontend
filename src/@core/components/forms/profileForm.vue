@@ -91,7 +91,7 @@ const getFieldComponent = (field: IFormField) => {
   <button
     :class="
       formFields.some((f) => f.id === 'delete')
-        ? 'bg-red-500 hover:bg-blue-600'
+        ? 'bg-red-500 hover:bg-red-600'
         : 'bg-blue-500 hover:bg-blue-600'
     "
     class="mx-auto w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl transition-colors duration-300"

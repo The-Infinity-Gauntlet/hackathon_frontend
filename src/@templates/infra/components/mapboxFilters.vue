@@ -39,7 +39,7 @@ const fields = [
         <li
           v-for="filter in filters"
           :key="filter.name"
-          class="cursor-pointer rounded-lg bg-[#2768CA] py-2 text-xs text-white hover:bg-[#263e61]"
+          class="cursor-pointer rounded-lg bg-blue-500 py-2 text-xs text-white transition-colors duration-300 hover:bg-blue-600"
         >
           {{ filter.name }}
         </li>

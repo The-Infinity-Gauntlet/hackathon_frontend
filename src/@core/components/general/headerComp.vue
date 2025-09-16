@@ -23,22 +23,35 @@ const desktopMenu: MenuItem[] = [
   { id: 0, img: '/icons/logo.svg', label: 'Aqua', link: '/' },
   { id: 1, label: 'Home', link: '/' },
   { id: 2, label: 'Administração', link: '/admin' },
-  { id: 3, label: 'Minha conta', link: '/minha-conta' },
-  { id: 4, label: 'Câmeras', link: '/cameras' },
+  { id: 3, label: 'Câmeras', link: '/cameras' },
   {
-    id: 5,
+    id: 4,
     label: 'Mais',
     options: [
-      { id: 0, label: 'Doação', link: '/pagamento' },
-      { id: 1, label: 'Sobre', link: '/sobre' },
-      { id: 2, label: 'Blog', link: '/blog' },
+      { id: 0, label: 'Blog', link: '/blog' },
+      { id: 1, label: 'Doar', link: '/pagamento' },
+      { id: 2, label: 'Suporte', link: '/suporte' },
     ],
   },
 ]
+const desktopMenuAccount: MenuItem[] = [
+  { id: 0, label: 'Entrar', link: '/entrar' },
+  { id: 1, label: 'Criar conta', link: '/cadastrar' },
+  { id: 2, icon: 'person', link: '/minha-conta' },
+]
+
+const token = localStorage.getItem('token')
+if (token) {
+  desktopMenuAccount.splice(0, 2)
+} else {
+  desktopMenuAccount.splice(2, 1)
+}
 </script>
 
 <template>
-  <header class="z-10 px-7 lg:px-20 lg:shadow-md xl:px-25">
+  <header
+    class="z-10 bg-transparent px-7 lg:bg-white lg:px-20 lg:shadow-sm xl:px-25 lg:dark:bg-[#000d19]"
+  >
     <nav class="lg:flex lg:items-center lg:justify-between">
       <ul class="flex items-center justify-between lg:hidden">
         <li>
@@ -94,7 +107,28 @@ const desktopMenu: MenuItem[] = [
           </div>
         </li>
       </ul>
-      <ThemeSwitcher class="hidden lg:block" />
+      <ul class="hidden items-center gap-7 lg:flex">
+        <li v-for="item in desktopMenuAccount" :key="item.id" class="cursor-pointer">
+          <RouterLink v-if="item.icon" :to="item.link">
+            <span class="material-symbols-outlined lg:scale-140">{{ item.icon }}</span>
+          </RouterLink>
+
+          <RouterLink
+            v-else
+            :to="item.link"
+            :class="
+              item.label == 'Criar conta'
+                ? 'rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600'
+                : ''
+            "
+          >
+            {{ item.label }}
+          </RouterLink>
+        </li>
+        <li>
+          <ThemeSwitcher class="hidden lg:block" />
+        </li>
+      </ul>
     </nav>
   </header>
 

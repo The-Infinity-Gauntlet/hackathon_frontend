@@ -51,7 +51,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="grid justify-center bg-white dark:bg-[#000d19]">
+  <div class="grid justify-center lg:bg-white lg:dark:bg-[#000d19]">
     <div class="mt-8 flex justify-center gap-10">
       <div v-for="step in totalSteps" :key="step" class="flex items-center">
         <div
@@ -84,7 +84,7 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <div class="mt-8 flex justify-between">
+    <div class="flex justify-between">
       <button
         @click="prevStep"
         :disabled="currentStep === 1"

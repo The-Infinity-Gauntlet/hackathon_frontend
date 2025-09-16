@@ -15,12 +15,12 @@ const closePopup = () => {
   showPopup.value = false
 }
 
-const sucess = ref(false)
+const success = ref(false)
 
 const handleFinish = () => {
   showPopup.value = true
-  sucess.value = true
-  if (sucess.value) {
+  success.value = true
+  if (success.value) {
     toast.success('Conta recuperada com sucesso!', {
       autoClose: 2000,
       position: 'top-right',
@@ -38,28 +38,26 @@ const handleFinish = () => {
 
 <template>
   <div class="grid justify-center lg:min-h-screen lg:justify-start">
-    <StepByStep
-      :total-steps="2"
-      finish-button-text="Recuperar"
-      @finish="handleFinish"
-      class="lg:my-auto"
-    >
-      <template #step-1>
-        <BaseForm :form-fields="fields" />
-      </template>
+    <div class="lg:my-[30vh] lg:ml-[6.25vw]">
+      <h1 class="hidden text-center text-2xl font-semibold lg:block">Recuperação</h1>
+      <StepByStep :total-steps="2" finish-button-text="Recuperar" @finish="handleFinish">
+        <template #step-1>
+          <BaseForm :form-fields="fields" />
+        </template>
 
-      <template #step-2>
-        <RecoveryCodeInput />
-      </template>
+        <template #step-2>
+          <RecoveryCodeInput />
+        </template>
 
-      <template #finish-message>
-        <BasePopup
-          title="Sua conta foi recuperada!"
-          :showPopup="showPopup"
-          @close="closePopup"
-          class="lg:hidden"
-        />
-      </template>
-    </StepByStep>
+        <template #finish-message>
+          <BasePopup
+            title="Sua conta foi recuperada!"
+            :showPopup="showPopup"
+            @close="closePopup"
+            class="lg:hidden"
+          />
+        </template>
+      </StepByStep>
+    </div>
   </div>
 </template>

@@ -76,8 +76,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div v-if="camera" class="px-10">
-    <h1 class="mb-7 text-center text-2xl font-semibold">{{ camera.name }}</h1>
+  <div v-if="camera" class="grid justify-center">
+    <h1 class="mb-7 text-center font-semibold lg:text-2xl">{{ camera.name }}</h1>
 
     <div
       class="group relative mx-auto h-[37.5vw] w-[75vw] overflow-hidden rounded-2xl bg-transparent"
@@ -97,26 +97,9 @@ onUnmounted(() => {
         :live-delay="18"
         class="h-full w-full"
       />
-      <!-- Botão próxima câmera dentro da área interna -->
-      <button
-        v-if="canNext"
-        @click.stop="goNext"
-        class="absolute top-3 right-3 rounded-md bg-blue-600/80 px-3 py-1 text-sm font-semibold text-white opacity-0 shadow transition-opacity group-hover:opacity-100 hover:bg-blue-600 focus:ring-2 focus:ring-white/60 focus:outline-none"
-        title="Próxima câmera (→)"
-      >
-        Próxima ▶
-      </button>
-      <button
-        v-if="canPrev"
-        @click.stop="goPrev"
-        class="absolute top-3 left-3 rounded-md bg-blue-600/80 px-3 py-1 text-sm font-semibold text-white opacity-0 shadow transition-opacity group-hover:opacity-100 hover:bg-blue-600 focus:ring-2 focus:ring-white/60 focus:outline-none"
-        title="Câmera anterior (←)"
-      >
-        ◀ Anterior
-      </button>
     </div>
 
-    <div class="my-5 flex justify-end gap-5">
+    <div class="my-5 flex justify-end gap-2 lg:gap-5">
       <button
         type="button"
         class="rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-slate-300 lg:text-sm dark:ring-slate-600"
@@ -146,12 +129,49 @@ onUnmounted(() => {
       </button>
     </div>
 
-    <div class="mt-5 flex items-center justify-between">
+    <div class="flex items-center justify-between text-sm lg:hidden">
+      <p class="grid text-center font-semibold">
+        Câmera <span>{{ currentIndex + 1 }} de {{ cameras.length }}</span>
+      </p>
+
+      <p class="grid text-center font-semibold">
+        Porcentagem de <span>alagamento:</span>
+        <span
+          class="text-xl"
+          :class="
+            camera.flood_percentage <= 40
+              ? 'text-[#27CA2C]'
+              : camera.flood_percentage <= 70
+                ? 'text-[#F87400]'
+                : 'text-[#FF0A0A]'
+          "
+          >{{ camera.flood_percentage }}%</span
+        >
+      </p>
+    </div>
+
+    <div
+      class="mt-20 flex items-center justify-between rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-8 py-2 text-sm font-semibold shadow-xl backdrop-blur-xs lg:hidden"
+    >
+      <button @click="goPrev" :disabled="!canPrev" class="text-[#1359B9]">
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
+
+      <button class="border-r border-l border-[#1359B9] px-10">
+        <RouterLink to="/cameras">Ver mais</RouterLink>
+      </button>
+
+      <button @click="goNext" :disabled="!canNext" class="text-[#1359B9]">
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    </div>
+
+    <div class="mt-5 hidden items-center justify-between lg:flex">
       <p class="grid text-center text-2xl font-semibold">
         Câmera <span>{{ currentIndex + 1 }} de {{ cameras.length }}</span>
       </p>
 
-      <div class="flex gap-5">
+      <div class="hidden gap-5 lg:flex">
         <button
           @click="goPrev"
           :disabled="!canPrev"
@@ -190,7 +210,17 @@ onUnmounted(() => {
     </div>
   </div>
 
-  <div v-else>
-    <p>Câmera não encontrada</p>
+  <div v-else class="grid items-center justify-center text-center">
+    <h2 class="mb-3 text-2xl font-bold">Câmera não encontrada</h2>
+    <p class="mb-6 max-w-md text-slate-600 dark:text-slate-400">
+      A câmera solicitada não foi encontrada ou pode ter sido removida do sistema.
+    </p>
+
+    <RouterLink
+      to="/cameras"
+      class="rounded-lg bg-blue-500 px-6 py-2 font-semibold text-white shadow-md transition hover:bg-blue-600"
+    >
+      Voltar para todas as câmeras
+    </RouterLink>
   </div>
 </template>
