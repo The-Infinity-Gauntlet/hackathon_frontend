@@ -36,8 +36,16 @@ const handleOverlayClick = (event: MouseEvent) => {
 
       <div v-for="(interaction, index) in ticket.interactions" :key="index" class="px-6 pt-5">
         <div class="flex items-center gap-3">
+<<<<<<< HEAD
           <img :src="interaction.user.picture" :alt="interaction.user.name"
             class="h-10 w-10 rounded-full bg-[#d9d9d9] object-cover" />
+=======
+          <img
+            :src="interaction.user.picture"
+            :alt="interaction.user.name"
+            class="h-10 w-10 rounded-full bg-[#d9d9d9] object-cover"
+          />
+>>>>>>> b7af0da2219448486f2a004193fa7bd39944b902
           <p class="font-semibold">
             {{ interaction.user.name }}
             <span class="text-xs font-normal text-[#999999]">{{ interaction.date }}</span>
@@ -47,12 +55,29 @@ const handleOverlayClick = (event: MouseEvent) => {
         <p class="my-2 text-xs">{{ interaction.details }}</p>
 
         <div v-if="interaction.imgs" class="flex gap-3">
+<<<<<<< HEAD
           <img v-for="img in interaction.imgs" :key="img" :src="img" :alt="img" class="object-cover" />
         </div>
       </div>
 
       <RouterLink to="/suporte/enviar-mensagem"
         class="mx-auto mt-4 w-[250px] rounded-2xl bg-blue-500 p-2 text-center font-semibold text-white shadow-xl">
+=======
+          <img
+            v-for="img in interaction.imgs"
+            :key="img"
+            :src="img"
+            :alt="img"
+            class="object-cover"
+          />
+        </div>
+      </div>
+
+      <RouterLink
+        to="/suporte/enviar-mensagem"
+        class="mx-auto mt-4 w-[250px] rounded-2xl bg-blue-500 p-2 text-center font-semibold text-white shadow-xl"
+      >
+>>>>>>> b7af0da2219448486f2a004193fa7bd39944b902
         Enviar mensagem
       </RouterLink>
     </div>

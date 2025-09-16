@@ -36,10 +36,22 @@ const handleOverlayClick = (event: MouseEvent) => {
 </script>
 
 <template>
+<<<<<<< HEAD
   <div id="overlay" v-if="showPopup" class="fixed inset-0 z-20 flex items-center justify-center bg-black/80"
     @click="handleOverlayClick">
     <div
       class="flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-lg bg-white pt-4 pb-7 shadow-lg dark:bg-[#000d19]">
+=======
+  <div
+    id="overlay"
+    v-if="showPopup"
+    class="fixed inset-0 z-20 flex items-center justify-center bg-black/80"
+    @click="handleOverlayClick"
+  >
+    <div
+      class="flex max-h-[90vh] w-[90%] max-w-md flex-col overflow-y-auto rounded-lg bg-white pt-4 pb-7 shadow-lg dark:bg-[#000d19]"
+    >
+>>>>>>> b7af0da2219448486f2a004193fa7bd39944b902
       <div class="flex justify-between px-5">
         <button class="text-2xl text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" @click="closePopup">
           ×

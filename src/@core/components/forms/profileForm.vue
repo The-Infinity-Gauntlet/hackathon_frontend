@@ -48,6 +48,7 @@ const getFieldComponent = (field: IFormField) => {
 </script>
 
 <template>
+<<<<<<< HEAD
   <ul class="mx-auto mt-10">
     <li v-for="field in formFields.filter(
       (f) =>
@@ -75,14 +76,54 @@ const getFieldComponent = (field: IFormField) => {
     </li>
     <li class="my-1 grid w-[332px]">
       <FieldGroup :fields="formFields.filter((f) => ['height'].includes(f.id))" />
+=======
+  <ul class="mx-auto mt-5">
+    <li
+      v-for="field in formFields.filter(
+        (f) =>
+          ![
+            'rain',
+            'humidity',
+            'probability',
+            'duration',
+            'atmospheric_pressure',
+            'river_discharge',
+            'height',
+          ].includes(f.id),
+      )"
+      :key="field.id"
+      class="my-3 grid"
+    >
+      <component :is="getFieldComponent(field)" :field="field" class="w-[332px]" />
+    </li>
+    <li class="my-3 grid w-[332px]">
+      <FieldGroup :fields="formFields.filter((f) => ['rain', 'humidity'].includes(f.id))" />
+    </li>
+    <li class="my-3 grid w-[332px]">
+      <FieldGroup :fields="formFields.filter((f) => ['probability', 'duration'].includes(f.id))" />
+    </li>
+    <li class="my-3 grid w-[332px]">
+      <FieldGroup
+        :fields="
+          formFields.filter((f) => ['atmospheric_pressure', 'river_discharge'].includes(f.id))
+        "
+      />
+>>>>>>> b7af0da2219448486f2a004193fa7bd39944b902
     </li>
     <li class="my-3 grid w-[332px]">
       <FieldGroup :fields="formFields.filter((f) => ['height'].includes(f.id))" />
     </li>
   </ul>
 
+<<<<<<< HEAD
   <button :class="formFields.some((f) => f.id === 'delete') ? 'bg-red-500' : 'bg-blue-500'"
     class="mx-auto w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl">
+=======
+  <button
+    :class="formFields.some((f) => f.id === 'delete') ? 'bg-red-500' : 'bg-blue-500'"
+    class="mx-auto mt-5 w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl"
+  >
+>>>>>>> b7af0da2219448486f2a004193fa7bd39944b902
     {{ buttonText }}
   </button>
 </template>

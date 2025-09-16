@@ -23,7 +23,12 @@ const location = {
 
 <template>
   <div
+<<<<<<< HEAD
     class="absolute right-4 bottom-2 z-3 w-[96%] rounded-2xl bg-white p-4 shadow-lg lg:w-[36.458vw] dark:bg-[#000d19]">
+=======
+    class="absolute right-4 bottom-2 z-3 w-[96%] rounded-2xl bg-white p-4 shadow-lg lg:w-[36.458vw] dark:bg-[#000d19]"
+  >
+>>>>>>> b7af0da2219448486f2a004193fa7bd39944b902
     <div>
       <h4>{{ location.neighborhood }}</h4>
       <p class="text-xs text-[#999999]">{{ location.city }}, Brasil</p>

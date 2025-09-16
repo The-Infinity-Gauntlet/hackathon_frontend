@@ -15,6 +15,7 @@ onMounted(async () => {
     setTimeout(() => {
       notification.messages = notification.messages.filter((m) => m.id !== id)
     }, 7000)
+
   }
 })
 </script>
