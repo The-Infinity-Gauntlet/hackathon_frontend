@@ -11,13 +11,12 @@ const user = ref({
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col">
+  <div class="grid justify-center lg:justify-end">
     <div
-      class="relative -mt-12 flex-1 rounded-t-3xl bg-white p-5 text-center shadow-lg dark:bg-[#0f172a]"
-    >
+      class="relative -mt-15 h-[332%] flex-1 rounded-t-3xl bg-white p-5 text-center shadow-lg lg:right-[10vw] lg:h-full lg:bg-transparent lg:text-xl lg:shadow-none dark:bg-[#0f172a] lg:dark:bg-transparent">
+      <h1 class="hidden text-center text-4xl font-semibold lg:block">Perfil</h1>
       <div
-        class="absolute -top-12 left-1/2 h-24 w-24 -translate-x-1/2 overflow-hidden rounded-full border-4 border-white bg-[#d9d9d9] dark:border-[#0f172a]"
-      >
+        class="absolute -top-12 left-1/2 h-24 w-24 -translate-x-1/2 overflow-hidden rounded-full border-4 border-white bg-[#d9d9d9] lg:relative lg:top-10 lg:h-35 lg:w-35 dark:border-[#0f172a]">
         <img :src="user.picture" :alt="user.name" class="h-full w-full object-cover" />
       </div>
 
@@ -29,8 +28,7 @@ const user = ref({
       <p>Data da Criação da Conta: {{ user.created }}</p>
 
       <button
-        class="mx-auto mt-5 w-[250px] rounded-2xl bg-blue-500 p-2 font-semibold text-white shadow-xl"
-      >
+        class="mx-auto mt-5 w-[250px] rounded-2xl bg-blue-500 p-2 font-semibold text-white shadow-xl lg:rounded-lg">
         <RouterLink to="/seguranca" class="h-full w-full"> Editar informações </RouterLink>
       </button>
     </div>

@@ -5,7 +5,8 @@ import { IApi } from '../interfaces/api'
  * URL base da API utilizada por padrão na instância do cliente Axios.
  * @constant {string}
  */
-const API_URL = 'http://localhost:3000/'
+
+const API_URL = import.meta.env.VITE_API_URL
 
 /**
  * Classe responsável por encapsular chamadas HTTP usando Axios.
@@ -24,11 +25,11 @@ export class Api implements IApi {
    * @type {import('axios').AxiosInstance}
    */
   client = axios.create({
-    baseURL: `${API_URL}api/`,
+    baseURL: `${API_URL}`,
     headers: {
       'Content-Type': 'application/json',
     },
-    timeout: 30000, // Timeout de 30 segundos para requisições
+    timeout: 10000000, // Timeout de 30 segundos para requisições
   })
 
   /**

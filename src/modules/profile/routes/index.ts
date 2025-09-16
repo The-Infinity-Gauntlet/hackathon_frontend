@@ -18,15 +18,21 @@ const routes: IRoutes[] = [
         meta: { requiresAuth: true },
       },
       {
-        path: '/seguranca',
-        name: 'Segurança',
-        component: () => import('@/modules/profile/infra/pages/Security.vue'),
-        meta: { requiresAuth: true },
-      },
-      {
         path: '/suporte',
         name: 'Suporte',
         component: () => import('@/modules/profile/infra/pages/Support.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/suporte/registro',
+        name: 'Registrar Dúvida',
+        component: () => import('@/modules/profile/infra/pages/RegisterTicket.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/suporte/enviar-mensagem',
+        name: 'Enviar Mensagem',
+        component: () => import('@/modules/profile/infra/pages/SendMessage.vue'),
         meta: { requiresAuth: true },
       },
       {
@@ -51,6 +57,12 @@ const routes: IRoutes[] = [
         path: '/minha-conta/:id',
         name: 'Perfil',
         component: () => import('@/modules/profile/infra/pages/Profile.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/seguranca',
+        name: 'Segurança',
+        component: () => import('@/modules/profile/infra/pages/Security.vue'),
         meta: { requiresAuth: true },
       },
     ],

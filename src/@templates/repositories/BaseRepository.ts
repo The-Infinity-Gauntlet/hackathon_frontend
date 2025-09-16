@@ -22,7 +22,7 @@ export class BaseRepository<T> {
    */
   constructor(
     @inject('ApiService') protected api: Api,
-    private readonly basePath: string,
+    protected readonly basePath: string,
   ) {}
 
   /**

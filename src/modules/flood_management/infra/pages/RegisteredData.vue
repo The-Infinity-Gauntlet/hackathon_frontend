@@ -176,26 +176,17 @@ const information = informations.find((i) => i.id === props.id)
     </p>
 
     <ul class="mt-5 grid w-[50vw] gap-5">
-      <li
-        v-for="group in information.info.data"
-        :key="group.group"
-        class="rounded-xl bg-[#E5E5E5] p-3 lg:p-5 dark:bg-[#00182F]"
-      >
+      <li v-for="group in information.info.data" :key="group.group"
+        class="rounded-xl bg-[#E5E5E5] p-3 lg:p-5 dark:bg-[#00182F]">
         <img :src="group.icon" :alt="group.group" class="mt-1 mb-3 h-7 w-7 object-cover" />
-        <div
-          v-for="item in group.items"
-          :key="item.label"
-          class="flex justify-between font-semibold"
-        >
+        <div v-for="item in group.items" :key="item.label" class="flex justify-between font-semibold">
           <p class="text-[#999999]">{{ item.label }}:</p>
           <p>{{ item.value }}</p>
         </div>
       </li>
     </ul>
 
-    <button
-      class="mx-auto mt-10 w-[250px] rounded-xl bg-blue-500 p-2 font-semibold text-white shadow-xl"
-    >
+    <button class="mx-auto mt-10 w-[250px] rounded-xl bg-blue-500 p-2 font-semibold text-white shadow-xl">
       <RouterLink to="/admin/editar-clima" class="h-full w-full"> Editar </RouterLink>
     </button>
   </div>
