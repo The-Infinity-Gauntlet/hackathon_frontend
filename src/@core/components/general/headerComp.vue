@@ -93,7 +93,7 @@ if (token) {
             <transition name="fade">
               <ul
                 v-if="openMenuId === item.id"
-                class="absolute -left-5 mt-2 grid w-[10vw] gap-2 rounded-lg bg-white px-5 py-5 shadow-lg dark:bg-[#000d19]"
+                class="absolute -left-5 z-10 mt-2 grid w-[10vw] gap-2 rounded-lg bg-white px-5 py-5 shadow-lg dark:bg-[#000d19]"
               >
                 <li
                   v-for="menu in item.options"

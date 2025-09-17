@@ -86,7 +86,7 @@ const confirmSelection = () => {
         </label>
 
         <div v-if="selected" class="pt-5">
-          <p class="mb-1 text-xs">Nível selecionado:</p>
+          <p class="mb-1 text-xs lg:text-sm">Nível selecionado:</p>
           <p class="grid rounded-lg p-1 text-center text-sm" :class="selected.bgClass">
             <span class="text-md font-semibold">{{ selected.title }}</span>
             {{ selected.description }}

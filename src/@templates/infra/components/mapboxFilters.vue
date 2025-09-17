@@ -12,10 +12,10 @@ const fields = [
 
 <template>
   <div
-    class="mt-10 flex justify-center gap-2 lg:absolute lg:bottom-8 lg:z-2 lg:mt-0 lg:flex lg:w-full lg:justify-between lg:gap-10 lg:px-15 lg:font-semibold"
+    class="mt-10 flex justify-center gap-2 lg:pointer-events-none lg:absolute lg:bottom-8 lg:z-2 lg:mt-0 lg:flex lg:w-full lg:justify-between lg:gap-10 lg:px-15 lg:font-semibold"
   >
     <div
-      class="border-r border-[#E5E5E5] px-5 text-center lg:rounded-2xl lg:border lg:border-transparent lg:bg-[#7AA6C8]/30 lg:p-5 lg:shadow-xl lg:backdrop-blur-xs dark:border-[#00182F] lg:dark:border-transparent"
+      class="border-r border-[#E5E5E5] px-5 text-center lg:pointer-events-auto lg:rounded-2xl lg:border lg:border-transparent lg:bg-[#7AA6C8]/30 lg:p-5 lg:shadow-xl lg:backdrop-blur-xs dark:border-[#00182F] lg:dark:border-transparent"
     >
       <h3 class="text-lg font-semibold">Legendas</h3>
       <p class="text-xs font-semibold">Probabilidade de alagamento</p>
@@ -31,7 +31,7 @@ const fields = [
     </div>
 
     <div
-      class="px-5 text-center lg:rounded-2xl lg:border lg:border-transparent lg:bg-[#7AA6C8]/30 lg:p-5 lg:shadow-xl lg:backdrop-blur-xs"
+      class="px-5 text-center lg:pointer-events-auto lg:rounded-2xl lg:border lg:border-transparent lg:bg-[#7AA6C8]/30 lg:p-5 lg:shadow-xl lg:backdrop-blur-xs"
     >
       <h3 class="text-lg font-semibold">Camadas</h3>
       <p class="text-xs font-semibold">Aperte para mudar a camada</p>

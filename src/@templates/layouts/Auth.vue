@@ -4,7 +4,9 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
 
 <template>
   <div class="relative overflow-hidden lg:h-screen">
-    <HeaderComp :title="$route.name" />
+    <div class="lg:hidden">
+      <HeaderComp :title="$route.name" />
+    </div>
     <RouterView v-slot="{ Component }">
       <Transition
         mode="out-in"
