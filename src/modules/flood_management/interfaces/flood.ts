@@ -1,9 +1,14 @@
+import type { Feature, Geometry, GeoJsonProperties } from "geojson"
+
 export interface IFlood {
   id: string
-  descricao?: string
-  createdAt?: string
-  updatedAt?: string
-  deletedAt?: string
+  city?: string
+  region?: string
+  neighborhood?: string
+  possibility?: number
+  createdAt?: Date
+  finishedAt?: Date
+  polygon?: Feature<Geometry, GeoJsonProperties> | null
 }
 
 export interface IFloodControllerState {
@@ -15,6 +20,7 @@ export interface IFloodControllerState {
     offset: number
     limit: number
   }
+  polygon: Feature<Geometry, GeoJsonProperties> | null
   loading: boolean
   search: string
 }

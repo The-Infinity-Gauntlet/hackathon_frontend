@@ -7,6 +7,7 @@ import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useNeighborhood } from '@/@core/composables/neighborhood'
 import { useNavigation } from '@/@core/composables/navigation'
 import { useFloodMap } from '@/@core/composables/useFloodMap'
+import { useFloodController } from '../../controllers/FloodController'
 import Table from '../components/table.vue'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
@@ -18,6 +19,7 @@ const toggleSheet = () => {
   isOpen.value = !isOpen.value
 }
 const { points, init, toGeoJson } = useFloodMap()
+const floodStore = useFloodController()
 
 console.log("Pontos de alagamento: ", points.value)
 
@@ -48,7 +50,22 @@ onMounted(async () => {
   map.on('draw.create', () => {
     const data = draw.getAll()
     console.log('Polígono criado:', data)
+    
+    floodStore.setPolygon(data.features[0])
+    console.log("Polígono criado na posição: ", data.features[0])
+    //console.log("Data lenght", data.length)
   })
+
+  floodStore.loadPolygon()
+  console.log(floodStore)
+  if (floodStore.polygon) {
+    console.log("Achou: ", floodStore.polygon)
+    if (floodStore.polygon) draw.add(floodStore.polygon)
+    //draw.add(floodStore.polygon)
+    console.log("Draw add!")
+  } else {
+    console.log("Não add")
+  }
 
   map.on('draw.update', () => {
     const data = draw.getAll()

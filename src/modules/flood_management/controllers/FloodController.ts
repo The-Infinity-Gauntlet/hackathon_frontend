@@ -1,6 +1,7 @@
 import { computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { container } from 'tsyringe'
+import type { Feature } from 'geojson'
 
 import type { IFlood, IFloodControllerState, IFloodIAControllerState } from '../interfaces/flood'
 import { FloodRepository, FloodIARepository } from '../repositories/FloodRepository'
@@ -17,13 +18,23 @@ export const useFloodController = defineStore('flood', () => {
       offset: 0,
       limit: 10,
     },
+    polygon: null as Feature | null,
     loading: false,
     search: '',
   })
 
+  const loadPolygon = () => {
+    const saved = localStorage.getItem('floodPolygon')
+    if (saved) state.polygon = JSON.parse(saved)
+  }
+
   const floods = computed(() => state.floods)
   const currentFlood = computed(() => state.currentFlood)
   const loading = computed(() => state.loading)
+  const polygon = computed({
+    get: () => state.polygon,
+    set: (value) => { state.polygon = value },
+  })
 
   const pagination = computed({
     get: () => state.pagination,
@@ -34,6 +45,14 @@ export const useFloodController = defineStore('flood', () => {
     get: () => state.search,
     set: (value) => (state.search = value),
   })
+
+  const setPolygon = (geojson: any) => {
+    state.polygon = geojson
+  }
+
+  const clearPolygon = () => {
+    state.polygon = null
+  }
 
   const getFloods = async () => {
     state.loading = true
@@ -108,6 +127,10 @@ export const useFloodController = defineStore('flood', () => {
     pagination,
     loading,
     search,
+    polygon,
+    loadPolygon,
+    setPolygon,
+    clearPolygon,
     getFloods,
     getFloodById,
     clearCurrentFlood,

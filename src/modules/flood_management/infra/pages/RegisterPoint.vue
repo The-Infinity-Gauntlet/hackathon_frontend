@@ -1,25 +1,23 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useNeighborhood } from '@/@core/composables/neighborhood'
 import { ProfileForm } from '@/@core/components'
 import type { IFormField } from '@/@core/interfaces/form'
+import { useFloodController } from '../../controllers/FloodController'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 const { loadNeighborhoods, getNeighborhood } = useNeighborhood()
+const floodStore = useFloodController()
 const neighborhood = ref<string | null>(null)
 
 const fields: IFormField[] = [
-  { id: 'latitude', label: 'Latitude', placeholder: 'Digite a latitude aqui', type: 'number' },
-  { id: 'longitude', label: 'Longitude', placeholder: 'Digite a longitude aqui', type: 'number' },
   { id: 'city', label: 'Cidade', placeholder: 'Digite a cidade aqui', type: 'text' },
   { id: 'neighborhood', label: 'Bairro', placeholder: 'Digite o bairro aqui', type: 'text' },
-  { id: 'rain', label: 'Chuva', placeholder: 'xxx', type: 'number' },
-  { id: 'humidity', label: 'Umidade', placeholder: 'xxx', type: 'number' },
-  { id: 'atmospheric_pressure', label: 'Pressão', placeholder: 'xxxxxx', type: 'number' },
-  { id: 'river_discharge', label: 'Vazão do rio', placeholder: 'xxx', type: 'number' },
+  { id: 'probability', label: 'Probabilidade', placeholder: 'xxx', type: 'number' },
+  { id: 'duration', label: 'Duração', placeholder: 'xxx', type: 'time' },
 ]
 
 onMounted(async () => {
@@ -67,6 +65,41 @@ onMounted(async () => {
           'fill-extrusion-opacity': 0.5,
         },
       })
+
+      map.addSource('flood-polygon', {
+        type: 'geojson',
+        data: floodStore.polygon ?? {
+          type: "FeatureCollection",
+          features: []
+        }
+      })
+      map.addLayer({
+        id: 'flood-polygon-volume',
+        type: 'fill-extrusion',
+        source: 'flood-polygon',
+        paint: {
+          'fill-extrusion-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'risk_level'],
+            0.0,
+            '#add8e6', // lightblue
+            1.0,
+            '#00008b', // darkblue
+          ],
+          'fill-extrusion-height': ['get', 'depth'],
+          'fill-extrusion-base': 0,
+          'fill-extrusion-opacity': 0.5,
+        },
+      })
+
+      watch(() => floodStore.polygon, (newPolygon) => {
+        console.log("Watch disparou, polygon:", newPolygon)
+        const source = map.getSource('flood-polygon') as mapboxgl.GeoJSONSource
+        if (source && newPolygon) {
+          source.setData(newPolygon)
+        }
+      }, { deep: true })
     } catch (error) {
       console.error('Erro ao carregar floodGeojson:', error)
     }
