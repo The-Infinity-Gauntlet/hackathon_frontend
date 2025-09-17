@@ -84,7 +84,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="">
+  <div>
     <section class="p-5">
       <h1 class="text-4xl font-semibold lg:text-5xl">Bem-vindo ao AQUA!</h1>
     </section>
