@@ -61,7 +61,14 @@ export default defineConfig({
         target: 'https://aquaapi.fabricadesoftware.ifc.edu.br/',
         // target: http://192.168.7.10:8000/
         changeOrigin: true,
-        secure: true,
+        secure: false,
+      },
+      // Proxy for HLS media to bypass CORS and allow hls.js XHR loads
+      '/hls': {
+        target: 'http://192.168.7.10:8000',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/hls/, ''),
       },
     },
   },
