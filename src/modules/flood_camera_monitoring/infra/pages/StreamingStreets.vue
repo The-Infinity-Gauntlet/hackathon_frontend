@@ -45,7 +45,7 @@ function displayFloodPercent(cam: CameraWithPrediction): number {
       <div
         v-for="cam in cams"
         :key="cam.id"
-        class="overflow-hidden rounded-xl bg-white p-5 shadow-sm dark:bg-[#000d19]"
+        class="grid overflow-hidden rounded-xl bg-white p-5 shadow-sm dark:bg-[#000d19]"
       >
         <div class="overflow-hidden rounded-2xl bg-transparent lg:h-[10vw]">
           <EmbedStreamPlayer
@@ -65,7 +65,7 @@ function displayFloodPercent(cam: CameraWithPrediction): number {
           />
         </div>
 
-        <div class="grid h-auto gap-2 px-4">
+        <div class="flex flex-1 flex-col gap-2 px-4">
           <div class="flex items-start justify-between gap-5 py-3 text-sm lg:text-base">
             <p>{{ cam.name }}</p>
             <div class="flex shrink-0 gap-1">
@@ -118,17 +118,27 @@ function displayFloodPercent(cam: CameraWithPrediction): number {
 
           <p>
             Status:
-            <span :class="cam.status === 'Online' ? 'text-[#27CA2C]' : 'text-[#CA2727]'">
-              {{ cam.status }}
+            <span
+              :class="
+                cam.status.toLowerCase() === 'online'
+                  ? 'text-[#27CA2C]'
+                  : cam.status.toLowerCase() === 'offline'
+                    ? 'text-[#CA2727]'
+                    : 'text-[#999999]'
+              "
+            >
+              {{ cam.status.charAt(0).toUpperCase() + cam.status.slice(1).toLowerCase() }}
             </span>
           </p>
 
-          <RouterLink
-            :to="{ path: `/cameras/${cam.id}` }"
-            class="mx-auto mt-1 rounded-xl bg-blue-500 px-10 py-2 font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
-          >
-            Ver mais
-          </RouterLink>
+          <div class="mt-auto flex justify-center">
+            <RouterLink
+              :to="{ path: `/cameras/${cam.id}` }"
+              class="rounded-xl bg-blue-500 px-10 py-2 font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
+            >
+              Ver mais
+            </RouterLink>
+          </div>
         </div>
       </div>
     </div>

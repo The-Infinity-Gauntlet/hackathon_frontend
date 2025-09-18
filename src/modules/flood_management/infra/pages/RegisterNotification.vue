@@ -47,6 +47,7 @@ const fields: IFormField[] = [
 
 <template>
   <div>
+    <h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Registrar notificação</h1>
     <div class="grid gap-2">
       <p class="text-sm">Situação</p>
       <SelectFloodAlert :alert="location.data[1].message" />

@@ -119,6 +119,7 @@ const tickets = [
 
 <template>
   <div class="mb-10 grid justify-center px-5 pt-5 pb-10">
+    <h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Suporte</h1>
     <RouterLink
       to="/suporte/registro"
       class="mx-auto w-full rounded-2xl bg-blue-500 p-2 text-center text-sm font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"

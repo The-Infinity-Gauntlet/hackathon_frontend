@@ -73,6 +73,7 @@ const data = {
 
 <template>
   <div>
+    <h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Dashboard</h1>
     <FloodAlert :alert="location.data[1].message" />
     <div class="mt-5">
       <ChartItems v-for="item in data.options" :key="item" :item="item" class="lg:hidden" />

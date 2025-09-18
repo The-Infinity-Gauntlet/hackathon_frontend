@@ -4,35 +4,23 @@ import { useRouter } from 'vue-router'
 import { useFloodCameraMonitoringController } from '../../controller/FloodCameraMonitoringController'
 import { HlsStreamPlayer, EmbedStreamPlayer } from '../components'
 
-// Props
 const props = defineProps<{ id: string }>()
-
-// Router
 const router = useRouter()
-
-// Store/controller
 const ctrl = useFloodCameraMonitoringController()
 
-// Computed list of cameras (with prediction)
 const cameras = computed(() => ctrl.camerasWithPrediction)
-
-// Current camera (nullable until load resolves)
 const camera = computed(() => cameras.value.find((c) => c.id === props.id))
 
-// Index helpers
 const currentIndex = computed(() => cameras.value.findIndex((c) => c.id === props.id))
 const canPrev = computed(() => currentIndex.value > 0)
 const canNext = computed(
   () => currentIndex.value >= 0 && currentIndex.value < cameras.value.length - 1,
 )
 
-// View modes per camera id
 type ViewMode = 'embed' | 'hls'
 const modes = reactive<Record<string, ViewMode>>({})
 
-// Initialize data
 onMounted(async () => {
-  // Load cameras & predictions if not yet loaded
   if (!ctrl.cameras.length) {
     await ctrl.load()
   }
@@ -40,25 +28,22 @@ onMounted(async () => {
   if (c && !modes[c.id]) modes[c.id] = c.embed_url ? 'embed' : 'hls'
 })
 
-// When switching camera id (route change), ensure a mode is set
 watch(camera, (c) => {
   if (c && !modes[c.id]) modes[c.id] = c.embed_url ? 'embed' : 'hls'
 })
 
-// Navigation actions
 function goPrev() {
   if (!canPrev.value) return
   const target = cameras.value[currentIndex.value - 1]
-  if (target) router.push({ name: 'camera-info', params: { id: target.id } })
+  if (target) router.push(`/cameras/${target.id}`)
 }
 
 function goNext() {
   if (!canNext.value) return
   const target = cameras.value[currentIndex.value + 1]
-  if (target) router.push({ name: 'camera-info', params: { id: target.id } })
+  if (target) router.push(`/cameras/${target.id}`)
 }
 
-// Keyboard navigation (setas esquerda/direita)
 function handleKey(e: KeyboardEvent) {
   if (e.key === 'ArrowRight') {
     goNext()

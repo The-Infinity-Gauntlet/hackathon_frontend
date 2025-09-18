@@ -92,6 +92,7 @@ onMounted(async () => {
 
 <template>
   <div class="grid justify-center px-5 pt-5 pb-20">
+    <h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Registrar ponto</h1>
     <div class="h-[350px] overflow-hidden rounded-2xl lg:w-[50vw]">
       <div id="map-register_point" class="h-full w-full"></div>
     </div>
