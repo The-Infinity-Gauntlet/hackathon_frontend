@@ -39,6 +39,7 @@ const fields: IFormField[] = [
 
 <template>
   <div>
+    <h1 class="text-center text-2xl font-semibold">Editar clima</h1>
     <ProfileForm :formFields="fields" buttonText="Cadastrar" />
   </div>
 </template>

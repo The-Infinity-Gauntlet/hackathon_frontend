@@ -27,7 +27,9 @@ defineProps<{
         <td class="py-2">
           <div class="flex items-center justify-center gap-2">
             {{ point.duration }}
-            <span class="material-symbols-outlined text-[#999999]">edit_square</span>
+            <RouterLink :to="`/admin/editar-clima/${point.id}`">
+              <span class="material-symbols-outlined text-[#999999]">edit_square</span>
+            </RouterLink>
           </div>
         </td>
       </tr>

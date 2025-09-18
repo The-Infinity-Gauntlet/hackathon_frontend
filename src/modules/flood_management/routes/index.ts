@@ -43,7 +43,7 @@ const routes: IRoutes[] = [
         meta: { requiresAuth: true, role: 'admin' },
       },
       {
-        path: '/admin/editar-clima',
+        path: '/admin/editar-clima/:id',
         name: 'Editar clima',
         component: () => import('@/modules/flood_management/infra/pages/EditWeather.vue'),
         meta: { requiresAuth: true, role: 'admin' },
