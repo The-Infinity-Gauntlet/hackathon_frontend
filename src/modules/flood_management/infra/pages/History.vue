@@ -169,6 +169,8 @@ const floodPoints = ref([
 
 <template>
   <div>
+    <h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Histórico</h1>
+
     <button
       class="mx-auto flex cursor-pointer items-center justify-center gap-3 rounded-2xl bg-blue-500 px-25 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600"
     >

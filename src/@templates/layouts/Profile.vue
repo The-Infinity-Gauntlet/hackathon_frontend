@@ -25,7 +25,7 @@ const menubar = [
     </div>
 
     <div
-      class="absolute inset-0 -top-20 -left-50 -z-10 hidden bg-cover bg-center lg:block"
+      class="fixed inset-0 -z-10 hidden h-screen w-screen bg-cover bg-center lg:block"
       style="background-image: url('/layouts/wavesProfile.svg')"
       aria-hidden="true"
     ></div>
@@ -54,7 +54,7 @@ const menubar = [
         <component
           :is="Component"
           :key="$route.fullPath"
-          class="grid px-5 sm:px-10 md:px-15 lg:px-20 xl:px-25"
+          class="grid px-5 pb-10 sm:px-10 md:px-15 lg:px-20 xl:px-25"
         />
       </Transition>
     </RouterView>

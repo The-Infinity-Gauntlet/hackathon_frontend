@@ -155,6 +155,7 @@ const handleFinish = () => {
 </script>
 
 <template>
+  <h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Doação</h1>
   <StepByStep :total-steps="5" finish-button-text="Doar" @finish="handleFinish">
     <template #step-1>
       <PaymentMethod :form-fields="payForms" />
