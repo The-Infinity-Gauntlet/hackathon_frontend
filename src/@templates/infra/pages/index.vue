@@ -7,12 +7,14 @@ import {
   ForecastWeatherPanel,
   MapboxPopup,
 } from '@/@core/components'
+import { useTheme } from '@/@core/composables/useTheme'
 import { BlogPost, Mapbox } from '../components'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 
 const showPopup = ref(false)
 const togglePopup = () => (showPopup.value = !showPopup.value)
 const geolocation = useGeolocationStore()
+const { isDark } = useTheme()
 
 const location = ref({
   neighborhood: null as string | null,
@@ -93,17 +95,18 @@ onMounted(async () => {
 
 <template>
   <div>
-    <section class="p-5">
-      <h1 class="grid gap-2 text-4xl font-semibold lg:gap-5 lg:text-5xl">
-        Bem-vindo ao <span>AQUA!</span>
-      </h1>
+    <section class="p-5 flex items-center justify-between">
+      <div class="grid gap-2 lg:gap-5 text-4xl font-semibold lg:text-5xl">
+        <h1>Bem-vindo ao</h1>
+        <h1>AQUA!</h1>
+      </div>
+
+      <img v-if="isDark" src="/gifs/home-dark.gif" alt="Animação" class="hidden lg:block w-70 h-70 mr-20">
+      <img v-else src="/gifs/home-light.gif" alt="Animação" class="hidden lg:block w-70 h-70 mr-20">
     </section>
 
     <section>
-      <div
-        class="flex cursor-pointer items-center justify-center py-5 lg:text-xl"
-        @click="togglePopup"
-      >
+      <div class="flex cursor-pointer items-center justify-center py-5 lg:text-xl" @click="togglePopup">
         <img src="/icons/location.svg" alt="Localização" />
         <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
         <span class="material-symbols-outlined pl-2 text-[#999999]">edit_square</span>
