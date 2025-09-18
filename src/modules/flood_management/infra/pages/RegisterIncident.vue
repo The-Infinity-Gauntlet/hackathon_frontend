@@ -50,7 +50,7 @@ const fields: IFormField[] = [
     <h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Registrar ocorrência</h1>
     <div class="grid gap-2">
       <p class="text-sm">Situação</p>
-      <SelectFloodAlert :alert="location.data[1].message" />
+      <SelectFloodAlert v-model:alert="location.data[1].message" />
     </div>
     <ProfileForm :formFields="fields" buttonText="Cadastrar" />
   </div>
