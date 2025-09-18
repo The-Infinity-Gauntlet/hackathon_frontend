@@ -13,7 +13,7 @@ defineProps<{
 <template>
   <table class="w-full table-fixed border-collapse overflow-hidden rounded-t-2xl">
     <thead>
-      <tr class="rounded-t-2xl bg-[#2768CA] text-center text-sm font-semibold text-white">
+      <tr class="rounded-t-2xl bg-blue-500 text-center text-sm font-semibold text-white">
         <th class="py-2">Bairro</th>
         <th class="py-2">Probabilidade</th>
         <th class="py-2">Duração</th>

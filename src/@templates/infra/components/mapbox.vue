@@ -4,14 +4,18 @@ import { useRouter } from 'vue-router'
 import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-import cameras from '@/@core/controllers/FloodCameraMonitoringController'
+import { useFloodCameraMonitoringController } from '@/modules/flood_camera_monitoring/controller/FloodCameraMonitoringController'
+// import cameras from '@/@core/controllers/FloodCameraMonitoringController'
 import { MapboxFilters } from '../components'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 
 const router = useRouter()
+const ctrl = useFloodCameraMonitoringController()
 
-onMounted(() => {
+onMounted(async () => {
+  await ctrl.load()
+
   const map = new mapboxgl.Map({
     container: 'map-fixed',
     style: 'mapbox://styles/mapbox/outdoors-v12',
@@ -113,25 +117,9 @@ onMounted(() => {
       console.error('Erro ao carregar floodGeojson:', error)
     }
 
-    cameras.forEach((camera) => {
+    ctrl.cameras.forEach((camera) => {
       addCustomMarker(camera.lng, camera.lat, `cameras/${camera.id}`)
     })
-  })
-
-  function addCustomMarker(lng, lat) {
-    const el = document.createElement('div')
-    el.className = 'custom-marker'
-    el.style.backgroundImage = 'url("/weather_information/camera.svg")'
-    el.style.width = '80px'
-    el.style.height = '80px'
-    el.style.backgroundSize = 'contain'
-    el.style.backgroundRepeat = 'no-repeat'
-
-    new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map)
-  }
-
-  map.on('load', () => {
-    addCustomMarker(-48.7376082, -26.3950226)
   })
 })
 
@@ -193,7 +181,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="mb-20">
+  <section class="mb-10">
     <div class="relative h-[40vw] min-h-[500px] overflow-hidden rounded-2xl">
       <div id="map-fixed" class="h-full w-full"></div>
       <MapboxFilters class="hidden lg:block" />

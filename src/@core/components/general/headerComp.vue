@@ -23,21 +23,35 @@ const desktopMenu: MenuItem[] = [
   { id: 0, img: '/icons/logo.svg', label: 'Aqua', link: '/' },
   { id: 1, label: 'Home', link: '/' },
   { id: 2, label: 'Administração', link: '/admin' },
-  { id: 3, label: 'Minha conta', link: '/minha-conta' },
-  {
-    id: 4,
-    label: 'Mais',
-    options: [
-      { id: 0, label: 'Home', link: '/' },
-      { id: 1, label: 'Administração', link: '/admin' },
-      { id: 2, label: 'Minha conta', link: '/minha-conta' },
-    ],
-  },
+  { id: 3, label: 'Câmeras', link: '/cameras' },
+  // {
+  //   id: 4,
+  //   label: 'Mais',
+  //   options: [
+  //     { id: 0, label: 'Blog', link: '/blog' },
+  //     { id: 1, label: 'Doar', link: '/pagamento' },
+  //     { id: 2, label: 'Suporte', link: '/suporte' },
+  //   ],
+  // },
 ]
+const desktopMenuAccount: MenuItem[] = [
+  { id: 0, label: 'Entrar', link: '/entrar' },
+  { id: 1, label: 'Criar conta', link: '/cadastrar' },
+  { id: 2, icon: 'person', link: '/minha-conta' },
+]
+
+const token = localStorage.getItem('token')
+if (token) {
+  desktopMenuAccount.splice(0, 2)
+} else {
+  desktopMenuAccount.splice(2, 1)
+}
 </script>
 
 <template>
-  <header class="z-10 px-7 lg:px-20 lg:shadow-md xl:px-25">
+  <header
+    class="z-10 bg-transparent px-7 lg:bg-white lg:px-20 lg:shadow-sm xl:px-25 lg:dark:bg-[#000d19]"
+  >
     <nav class="lg:flex lg:items-center lg:justify-between">
       <ul class="flex items-center justify-between lg:hidden">
         <li>
@@ -64,17 +78,28 @@ const desktopMenu: MenuItem[] = [
           </RouterLink>
 
           <div v-else>
-            <button @click="toggleMenu(item.id)" :aria-expanded="openMenuId === item.id"
-              class="flex cursor-pointer items-center">
+            <button
+              @click="toggleMenu(item.id)"
+              :aria-expanded="openMenuId === item.id"
+              class="flex cursor-pointer items-center"
+            >
               {{ item.label }}
-              <span class="material-symbols-outlined transition-all duration-300 ease-out"
-                :class="openMenuId === item.id ? 'rotate-180' : 'rotate-0'">keyboard_arrow_down</span>
+              <span
+                class="material-symbols-outlined transition-all duration-300 ease-out"
+                :class="openMenuId === item.id ? 'rotate-180' : 'rotate-0'"
+                >keyboard_arrow_down</span
+              >
             </button>
             <transition name="fade">
-              <ul v-if="openMenuId === item.id"
-                class="absolute mt-2 grid w-[15vw] gap-2 rounded-lg bg-white px-5 py-5 shadow-lg dark:bg-[#000d19]">
-                <li v-for="menu in item.options" :key="menu.id"
-                  class="border-b border-[#000D19] p-2 text-center dark:border-white">
+              <ul
+                v-if="openMenuId === item.id"
+                class="absolute -left-5 z-10 mt-2 grid w-[10vw] gap-2 rounded-lg bg-white px-5 py-5 shadow-lg dark:bg-[#000d19]"
+              >
+                <li
+                  v-for="menu in item.options"
+                  :key="menu.id"
+                  class="border-b border-[#000D19] p-2 text-center dark:border-white"
+                >
                   <RouterLink :to="menu.link">{{ menu.label }}</RouterLink>
                 </li>
               </ul>
@@ -82,7 +107,28 @@ const desktopMenu: MenuItem[] = [
           </div>
         </li>
       </ul>
-      <ThemeSwitcher class="hidden lg:block" />
+      <ul class="hidden items-center gap-7 lg:flex">
+        <li v-for="item in desktopMenuAccount" :key="item.id" class="cursor-pointer">
+          <RouterLink v-if="item.icon" :to="item.link">
+            <span class="material-symbols-outlined lg:scale-140">{{ item.icon }}</span>
+          </RouterLink>
+
+          <RouterLink
+            v-else
+            :to="item.link"
+            :class="
+              item.label == 'Criar conta'
+                ? 'rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600'
+                : ''
+            "
+          >
+            {{ item.label }}
+          </RouterLink>
+        </li>
+        <li>
+          <ThemeSwitcher class="hidden lg:block" />
+        </li>
+      </ul>
     </nav>
   </header>
 

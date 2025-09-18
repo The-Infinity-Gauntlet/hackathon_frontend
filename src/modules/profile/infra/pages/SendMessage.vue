@@ -30,7 +30,7 @@ const fields = [
         Cancelar
       </button>
       <button
-        class="mx-auto mt-2 w-full rounded-lg bg-blue-500 px-2 py-1 font-semibold text-white shadow-xl"
+        class="mx-auto mt-2 w-full rounded-lg bg-blue-500 px-2 py-1 font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
       >
         Confirmar
       </button>

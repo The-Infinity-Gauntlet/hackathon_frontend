@@ -83,8 +83,8 @@ const field = {
     </section>
 
     <section>
-      <h2 class="text-2xl font-semibold">Dados atuais</h2>
-      <p class="my-2 flex items-center gap-3 text-xs text-[#999999]">
+      <h2 class="text-2xl font-semibold lg:text-3xl">Dados atuais</h2>
+      <p class="my-2 flex items-center gap-3 text-xs text-[#999999] lg:text-lg">
         <span class="material-symbols-outlined">update</span> {{ location.date }}
       </p>
 
@@ -98,10 +98,17 @@ const field = {
 
     <section>
       <h2 class="mb-2 text-2xl font-semibold">Previsão</h2>
-      <select :name="field.autocomplete" :id="field.id"
-        class="mb-5 w-[35%] rounded-lg bg-[#2768CA] p-2 text-xs font-semibold text-white outline-none">
-        <option v-for="(option, index) in field.options" :key="option" :value="field.id === 'year' ? option : index + 1"
-          class="bg-white font-semibold text-black dark:bg-[#00182F] dark:text-white">
+      <select
+        :name="field.autocomplete"
+        :id="field.id"
+        class="mb-5 w-[35%] rounded-lg bg-[#2768CA] p-2 text-xs font-semibold text-white outline-none lg:w-[13%] lg:text-lg"
+      >
+        <option
+          v-for="(option, index) in field.options"
+          :key="option"
+          :value="field.id === 'year' ? option : index + 1"
+          class="bg-white font-semibold text-black dark:bg-[#00182F] dark:text-white"
+        >
           {{ option }}
         </option>
       </select>

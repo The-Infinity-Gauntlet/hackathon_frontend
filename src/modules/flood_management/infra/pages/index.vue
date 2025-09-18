@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { BaseCarousel, MenuItems } from '@/@core/components'
-import { CurrentWeatherPanel, ForecastWeatherPanel, SelectFloodAlert } from '../components'
+import {
+  BaseCarousel,
+  CurrentWeatherPanel,
+  ForecastWeatherPanel,
+  MenuItems,
+} from '@/@core/components'
+import { SelectFloodAlert } from '../components'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 
 const geolocation = useGeolocationStore()
@@ -118,6 +123,10 @@ onMounted(async () => {
       </div>
     </section>
 
+    <div class="mt-10 flex items-center justify-center py-5 lg:text-xl" @click="togglePopup">
+      <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
+      <span class="material-symbols-outlined pl-2 text-[#999999]">edit_square</span>
+    </div>
     <CurrentWeatherPanel :data="data" :location="location" />
     <ForecastWeatherPanel :data="data" :location="location" />
   </div>

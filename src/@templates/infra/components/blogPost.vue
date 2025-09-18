@@ -33,8 +33,9 @@ const posts = [
       <img :src="post.icon" :alt="post.title" class="mx-auto" />
       <RouterLink
         :to="post.link"
-        class="rounded-2xl bg-[#2768CA] py-1.5 text-center font-semibold text-white"
-        >{{ post.btnMessage }}</RouterLink
+        class="rounded-2xl bg-blue-500 py-1.5 text-center font-semibold text-white transition-colors duration-300 hover:bg-blue-600"
+      >
+        {{ post.btnMessage }}</RouterLink
       >
     </div>
   </section>

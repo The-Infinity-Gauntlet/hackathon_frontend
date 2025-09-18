@@ -1,25 +1,5 @@
 <script setup lang="ts">
-import { ButtonGlassmorphism } from '@/@core/components'
 import { useNavigation } from '@/@core/composables/navigation'
-
-const props = defineProps({
-  title: {
-    type: String,
-    default: '',
-  },
-  text: {
-    type: String,
-    default: '',
-  },
-  gifUrl: {
-    type: String,
-    default: '/icons/logo.svg',
-  },
-  showPopup: {
-    type: Boolean,
-    default: false,
-  },
-})
 
 const emit = defineEmits(['close'])
 const { goHome } = useNavigation()
@@ -38,7 +18,6 @@ const handleOverlayClick = (event: MouseEvent) => {
 <template>
   <div
     id="overlay"
-    v-if="showPopup"
     class="fixed inset-0 z-20 flex items-center justify-center bg-black/80"
     @click="handleOverlayClick"
   >
@@ -50,19 +29,27 @@ const handleOverlayClick = (event: MouseEvent) => {
           class="text-2xl text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
           @click="closePopup"
         >
-          ×
+          <span class="material-symbols-outlined">chevron_left</span>
         </button>
       </div>
 
-      <div class="flex flex-col items-center gap-4 p-5 pt-3">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-          {{ title }}
-        </h2>
-        <img v-if="gifUrl" :src="gifUrl" alt="gif" class="max-w-full rounded-md" />
-        <p class="font-semibold text-gray-900 dark:text-white">{{ text }}</p>
-      </div>
+      <div
+        class="grid items-center justify-center gap-4 px-10 pt-3 pb-5 text-center font-semibold text-gray-900 lg:text-lg dark:text-white"
+      >
+        <h2>Baixe nosso app e tenha a melhor experiência com o Aqua!</h2>
 
-      <ButtonGlassmorphism buttonText="Continuar" @click="goHome" />
+        <img src="/icons/logo.svg" alt="Aqua" class="mx-auto mt-5 rounded-3xl shadow-lg" />
+        <a
+          href="/Aqua.apk"
+          download
+          class="mx-auto mb-5 flex items-center gap-1 rounded-2xl bg-blue-500 px-10 py-2 text-base font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
+        >
+          Baixe o nosso App
+          <span class="material-symbols-outlined">download</span>
+        </a>
+
+        <p>Tudo o que você já gosta no nosso site, agora na palma da sua mão!</p>
+      </div>
     </div>
   </div>
 </template>
