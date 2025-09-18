@@ -25,11 +25,11 @@ onMounted(async () => {
     await ctrl.load()
   }
   const c = ctrl.cameras.find((x) => x.id === props.id)
-  if (c && !modes[c.id]) modes[c.id] = c.embed_url ? 'embed' : 'hls'
+  if (c && !modes[c.id]) modes[c.id] = 'hls' // Set HLS as default for all cameras
 })
 
 watch(camera, (c) => {
-  if (c && !modes[c.id]) modes[c.id] = c.embed_url ? 'embed' : 'hls'
+  if (c && !modes[c.id]) modes[c.id] = 'hls' // Set HLS as default for all cameras
 })
 
 function goPrev() {
@@ -64,52 +64,26 @@ onUnmounted(() => {
   <div v-if="camera" class="grid justify-center">
     <h1 class="mb-7 text-center font-semibold lg:text-2xl">{{ camera.name }}</h1>
 
-    <div
-      class="group relative mx-auto h-[37.5vw] w-[75vw] overflow-hidden rounded-2xl bg-transparent"
-    >
-      <EmbedStreamPlayer
-        v-if="modes[camera.id] === 'embed' && camera.embed_url"
-        :src="camera.embed_url"
-        :title="camera.name"
-        class="h-full w-full"
-      />
-      <HlsStreamPlayer
-        v-else
-        :src="camera.hls_url"
-        :muted="true"
-        :controls="true"
-        :lock-to-live="true"
-        :live-delay="18"
-        class="h-full w-full"
-      />
+    <div class="group relative mx-auto h-[37.5vw] w-[75vw] overflow-hidden rounded-2xl bg-transparent">
+      <EmbedStreamPlayer v-if="modes[camera.id] === 'embed' && camera.embed_url" :src="camera.embed_url"
+        :title="camera.name" class="h-full w-full" />
+      <HlsStreamPlayer v-else :src="camera.hls_url" :muted="true" :controls="true" :lock-to-live="true" :live-delay="18"
+        class="h-full w-full" />
     </div>
 
     <div class="my-5 flex justify-end gap-2 lg:gap-5">
-      <button
-        type="button"
-        class="rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-slate-300 lg:text-sm dark:ring-slate-600"
-        :class="
-          modes[camera.id] === 'embed'
+      <button type="button"
+        class="rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-slate-300 lg:text-sm dark:ring-slate-600" :class="modes[camera.id] === 'embed'
             ? 'bg-emerald-600 text-white ring-emerald-600'
             : 'bg-transparent text-slate-600 dark:text-slate-300'
-        "
-        :disabled="!camera.embed_url"
-        @click="modes[camera.id] = 'embed'"
-        title="Realtime (Embed)"
-      >
+          " :disabled="!camera.embed_url" @click="modes[camera.id] = 'embed'" title="Realtime (Embed)">
         Realtime
       </button>
-      <button
-        type="button"
-        class="rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-slate-300 lg:text-sm dark:ring-slate-600"
-        :class="
-          modes[camera.id] === 'hls'
+      <button type="button"
+        class="rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-slate-300 lg:text-sm dark:ring-slate-600" :class="modes[camera.id] === 'hls'
             ? 'bg-blue-600 text-white ring-blue-600'
             : 'bg-transparent text-slate-600 dark:text-slate-300'
-        "
-        @click="modes[camera.id] = 'hls'"
-        title="HLS"
-      >
+          " @click="modes[camera.id] = 'hls'" title="HLS">
         HLS
       </button>
     </div>
@@ -121,23 +95,17 @@ onUnmounted(() => {
 
       <p class="grid text-center font-semibold">
         Porcentagem de <span>alagamento:</span>
-        <span
-          class="text-xl"
-          :class="
-            camera.flood_percentage <= 40
-              ? 'text-[#27CA2C]'
-              : camera.flood_percentage <= 70
-                ? 'text-[#F87400]'
-                : 'text-[#FF0A0A]'
-          "
-          >{{ camera.flood_percentage }}%</span
-        >
+        <span class="text-xl" :class="camera.flood_percentage <= 40
+            ? 'text-[#27CA2C]'
+            : camera.flood_percentage <= 70
+              ? 'text-[#F87400]'
+              : 'text-[#FF0A0A]'
+          ">{{ camera.flood_percentage }}%</span>
       </p>
     </div>
 
     <div
-      class="mt-20 flex items-center justify-between rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-8 py-2 text-sm font-semibold shadow-xl backdrop-blur-xs lg:hidden"
-    >
+      class="mt-20 flex items-center justify-between rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-8 py-2 text-sm font-semibold shadow-xl backdrop-blur-xs lg:hidden">
       <button @click="goPrev" :disabled="!canPrev" class="text-[#1359B9]">
         <span class="material-symbols-outlined">chevron_left</span>
       </button>
@@ -157,40 +125,29 @@ onUnmounted(() => {
       </p>
 
       <div class="hidden gap-5 lg:flex">
-        <button
-          @click="goPrev"
-          :disabled="!canPrev"
-          class="cursor-pointer rounded-lg bg-blue-500 px-10 py-2 font-semibold text-white shadow-xl disabled:bg-gray-400"
-        >
+        <button @click="goPrev" :disabled="!canPrev"
+          class="cursor-pointer rounded-lg bg-blue-500 px-10 py-2 font-semibold text-white shadow-xl disabled:bg-gray-400">
           Anterior
         </button>
 
         <button class="rounded-lg bg-blue-500 px-10 py-2 font-semibold text-white shadow-xl">
-          <RouterLink to="/cameras">Todas as câmeras</RouterLink>
+          <RouterLink :to="{ name: 'cameras' }">Todas as câmeras</RouterLink>
         </button>
 
-        <button
-          @click="goNext"
-          :disabled="!canNext"
-          class="cursor-pointer rounded-lg bg-blue-500 px-10 py-2 font-semibold text-white shadow-xl disabled:bg-gray-400"
-        >
+        <button @click="goNext" :disabled="!canNext"
+          class="cursor-pointer rounded-lg bg-blue-500 px-10 py-2 font-semibold text-white shadow-xl disabled:bg-gray-400">
           Próxima
         </button>
       </div>
 
       <p class="grid text-center font-semibold">
         Porcentagem de <span>alagamento:</span>
-        <span
-          class="text-4xl"
-          :class="
-            camera.flood_percentage <= 40
-              ? 'text-[#27CA2C]'
-              : camera.flood_percentage <= 70
-                ? 'text-[#F87400]'
-                : 'text-[#FF0A0A]'
-          "
-          >{{ camera.flood_percentage }}%</span
-        >
+        <span class="text-4xl" :class="camera.flood_percentage <= 40
+            ? 'text-[#27CA2C]'
+            : camera.flood_percentage <= 70
+              ? 'text-[#F87400]'
+              : 'text-[#FF0A0A]'
+          ">{{ camera.flood_percentage }}%</span>
       </p>
     </div>
   </div>
@@ -201,10 +158,8 @@ onUnmounted(() => {
       A câmera solicitada não foi encontrada ou pode ter sido removida do sistema.
     </p>
 
-    <RouterLink
-      to="/cameras"
-      class="rounded-lg bg-blue-500 px-6 py-2 font-semibold text-white shadow-md transition hover:bg-blue-600"
-    >
+    <RouterLink to="/cameras"
+      class="rounded-lg bg-blue-500 px-6 py-2 font-semibold text-white shadow-md transition hover:bg-blue-600">
       Voltar para todas as câmeras
     </RouterLink>
   </div>

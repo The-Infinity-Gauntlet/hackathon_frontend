@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -31,7 +31,7 @@ onMounted(async () => {
     map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
   }
 
-  function addCustomMarker(lng: number, lat: number, url: string) {
+  function addCustomMarker(lng: number, lat: number, cameraId: string) {
     const el = document.createElement('div')
     el.className = 'custom-marker'
     el.style.backgroundImage = 'url("/weather_information/camera.svg")'
@@ -42,7 +42,7 @@ onMounted(async () => {
     el.style.cursor = 'pointer'
 
     el.addEventListener('click', () => {
-      router.push(url)
+      router.push({ name: 'camera-info', params: { id: cameraId } })
     })
 
     new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map)
@@ -117,8 +117,8 @@ onMounted(async () => {
       console.error('Erro ao carregar floodGeojson:', error)
     }
 
-    ctrl.cameras.forEach((camera) => {
-      addCustomMarker(camera.lng, camera.lat, `cameras/${camera.id}`)
+    cameras.forEach((camera) => {
+      addCustomMarker(camera.lng, camera.lat, camera.id)
     })
   })
 })
