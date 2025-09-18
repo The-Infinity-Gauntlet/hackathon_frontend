@@ -23,6 +23,7 @@ defineProps({
     required: false,
   },
 })
+const emit = defineEmits(['send'])
 
 const getFieldComponent = (field: IFormField) => {
   switch (field.id) {
@@ -95,6 +96,7 @@ const getFieldComponent = (field: IFormField) => {
         : 'bg-blue-500 hover:bg-blue-600'
     "
     class="mx-auto w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl transition-colors duration-300"
+    @click="emit('send')"
   >
     {{ buttonText }}
   </button>

@@ -54,8 +54,13 @@ const otherAlerts = computed(() => ALERTS.filter((a) => a.title !== currentAlert
 
 const selected = ref<AlertInfo | null>(null)
 
+const emit = defineEmits<{
+  (e: 'update:alert', value: AlertInfo): void
+}>()
+
 const confirmSelection = () => {
   if (selected.value) {
+    emit('update:alert', selected.value.title)
     showAll.value = false
   }
 }

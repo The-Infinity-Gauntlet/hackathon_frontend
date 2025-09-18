@@ -95,18 +95,31 @@ onMounted(async () => {
 
 <template>
   <div>
-    <section class="p-5 flex items-center justify-between">
-      <div class="grid gap-2 lg:gap-5 text-4xl font-semibold lg:text-5xl">
+    <section class="flex items-center justify-between p-5">
+      <div class="grid gap-2 text-4xl font-semibold lg:gap-5 lg:text-5xl">
         <h1>Bem-vindo ao</h1>
         <h1>AQUA!</h1>
       </div>
 
-      <img v-if="isDark" src="/gifs/home-dark.gif" alt="Animação" class="hidden lg:block w-70 h-70 mr-20">
-      <img v-else src="/gifs/home-light.gif" alt="Animação" class="hidden lg:block w-70 h-70 mr-20">
+      <img
+        v-if="isDark"
+        src="/gifs/home-dark.gif"
+        alt="Animação"
+        class="mr-20 hidden h-70 w-70 lg:block"
+      />
+      <img
+        v-else
+        src="/gifs/home-light.gif"
+        alt="Animação"
+        class="mr-20 hidden h-70 w-70 lg:block"
+      />
     </section>
 
     <section>
-      <div class="flex cursor-pointer items-center justify-center py-5 lg:text-xl" @click="togglePopup">
+      <div
+        class="flex cursor-pointer items-center justify-center py-5 lg:text-xl"
+        @click="togglePopup"
+      >
         <img src="/icons/location.svg" alt="Localização" />
         <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
         <span class="material-symbols-outlined pl-2 text-[#999999]">edit_square</span>
