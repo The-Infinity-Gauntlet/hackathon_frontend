@@ -25,8 +25,26 @@ export class FloodDemoRepository extends BaseRepository<any> {
       }
       const raw = data.hls_url || ''
       // Em dev, roteia via proxy /hls para evitar CORS e bloqueios
-      const proxied = raw.replace(/^https?:\/\/192\.168\.7\.10:8000/i, '/hls')
-      return proxied || raw
+      // Aceita IPs locais comuns (192.168.x.x, 10.x.x.x) e hostname configurável
+      const hlsTarget = (import.meta as any)?.env?.VITE_HLS_TARGET as string | undefined
+      const targetHost = hlsTarget ? hlsTarget.replace(/^https?:\/\//i, '') : '192.168.7.10:8000'
+      const ipPattern =
+        /^(https?:\/\/)(?:localhost:\d+|127\.0\.0\.1:\d+|10\.\d+\.\d+\.\d+:\d+|192\.168\.\d+\.\d+:\d+|\[::1\]:\d+|[a-zA-Z0-9.-]+:\d+)/
+
+      // Já proxied?
+      if (raw.startsWith('/hls/')) return raw
+
+      // Se for a partir do target configurado ou IP local, reescreve para /hls
+      try {
+        const url = new URL(raw)
+        if (url.host === targetHost || ipPattern.test(raw)) {
+          return `/hls${url.pathname}${url.search}${url.hash}`
+        }
+      } catch {
+        // raw pode não ser uma URL absoluta; mantém como está
+      }
+      // fallback
+      return raw
     })()
     try {
       const url = await this._getPromise

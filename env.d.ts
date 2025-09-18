@@ -1,6 +1,8 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
+  readonly VITE_API_URL: string
+  readonly VITE_HLS_TARGET?: string
   readonly VITE_MAPBOX_API_KEY: string
   readonly VITE_PUBLIC_VAPID_KEY: string
   readonly VITE_FIREBASE_API_KEY: string
