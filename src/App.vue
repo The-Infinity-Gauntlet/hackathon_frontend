@@ -4,7 +4,7 @@ import 'reflect-metadata'
 import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useInAppMessagingStore } from '@/@core/plugins/registered/pinia/inAppMessaging'
-import { DownloadApp, InAppMessages } from '@/@core/components'
+import { DownloadApp, InAppMessages, Loading } from '@/@core/components'
 
 const notification = useInAppMessagingStore()
 const { messages } = storeToRefs(notification)
@@ -25,6 +25,7 @@ onMounted(async () => {
   <RouterView v-slot="{ Component }">
     <InAppMessages class="lg:hidden" />
     <DownloadApp v-if="messages.length > 0" @close="notification.messages = []" />
+    <Loading />
     <Transition
       mode="out-in"
       enter-active-class="transition duration-300 ease-out"

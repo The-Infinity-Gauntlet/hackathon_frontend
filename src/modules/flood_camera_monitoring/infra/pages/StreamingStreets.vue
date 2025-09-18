@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, onMounted, computed } from 'vue'
+import { useLoadingStore } from '@/@core/plugins/registered/pinia/loading'
 import type { CameraWithPrediction } from '../../interfaces/predictions'
 import { useFloodCameraMonitoringController } from '../../controller/FloodCameraMonitoringController'
 import { EmbedStreamPlayer, HlsPlayer } from '../components'
@@ -8,14 +9,17 @@ type ViewMode = 'embed' | 'hls'
 
 const ctrl = useFloodCameraMonitoringController()
 const cams = computed(() => ctrl.camerasWithPrediction)
+const loadingStore = useLoadingStore()
 
 const modes = reactive<Record<string, ViewMode>>({})
 
 onMounted(async () => {
+  loadingStore.start()
   await ctrl.load()
   cams.value.forEach((c: any) => {
     modes[c.id] = c.embed_url ? 'embed' : 'hls'
   })
+  loadingStore.stop()
 })
 
 function displayFloodPercent(cam: CameraWithPrediction): number {
