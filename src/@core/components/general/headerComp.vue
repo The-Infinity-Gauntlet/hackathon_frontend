@@ -24,15 +24,15 @@ const desktopMenu: MenuItem[] = [
   { id: 1, label: 'Home', link: '/' },
   { id: 2, label: 'Administração', link: '/admin' },
   { id: 3, label: 'Câmeras', link: '/cameras' },
-  {
-    id: 4,
-    label: 'Mais',
-    options: [
-      { id: 0, label: 'Blog', link: '/blog' },
-      { id: 1, label: 'Doar', link: '/pagamento' },
-      { id: 2, label: 'Suporte', link: '/suporte' },
-    ],
-  },
+  // {
+  //   id: 4,
+  //   label: 'Mais',
+  //   options: [
+  //     { id: 0, label: 'Blog', link: '/blog' },
+  //     { id: 1, label: 'Doar', link: '/pagamento' },
+  //     { id: 2, label: 'Suporte', link: '/suporte' },
+  //   ],
+  // },
 ]
 const desktopMenuAccount: MenuItem[] = [
   { id: 0, label: 'Entrar', link: '/entrar' },

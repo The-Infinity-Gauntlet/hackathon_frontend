@@ -86,7 +86,9 @@ onMounted(async () => {
 <template>
   <div>
     <section class="p-5">
-      <h1 class="text-4xl font-semibold lg:text-5xl">Bem-vindo ao AQUA!</h1>
+      <h1 class="grid gap-2 text-4xl font-semibold lg:gap-5 lg:text-5xl">
+        Bem-vindo ao <span>AQUA!</span>
+      </h1>
     </section>
 
     <section>
@@ -109,6 +111,6 @@ onMounted(async () => {
     <div class="hidden space-x-5 overflow-x-auto pr-5 lg:grid lg:grid-cols-2 lg:justify-center">
       <ChartItems v-for="item in data.options" :key="item.id" :item="item" />
     </div>
-    <BlogPost />
+    <!-- <BlogPost /> -->
   </div>
 </template>

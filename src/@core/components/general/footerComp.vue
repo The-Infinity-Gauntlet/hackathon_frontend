@@ -1,7 +1,12 @@
 <script setup lang="ts">
 const social = [
   [
-    { id: 0, icon: '/icons/social/facebook.svg', name: 'Facebook', link: '' },
+    {
+      id: 0,
+      icon: '/icons/social/facebook.svg',
+      name: 'Facebook',
+      link: 'https://www.facebook.com/share/1BVMcTY5sW/',
+    },
     { id: 1, icon: '/icons/social/logo.svg', alt: 'Aqua', link: '/' },
     {
       id: 2,
@@ -29,7 +34,7 @@ const social = [
       id: 2,
       icon: '/icons/social/facebook.svg',
       name: 'Facebook',
-      link: '',
+      link: 'https://www.facebook.com/share/1BVMcTY5sW/',
       text: 'Facebook: Aqua Monitoramento',
     },
   ],
@@ -51,7 +56,7 @@ const menu = [
 
 <template>
   <footer
-    class="bg-[#00182F] px-5 pt-10 pb-10 text-white sm:px-10 md:px-15 lg:px-20 lg:pb-5 xl:px-25"
+    class="bg-[#00182F] px-5 pt-10 pb-15 text-white sm:px-10 md:px-15 lg:px-20 lg:pb-5 lg:pb-10 xl:px-25"
   >
     <div class="grid lg:hidden">
       <ul class="flex items-center justify-center gap-10">
@@ -65,7 +70,7 @@ const menu = [
         </li>
       </ul>
 
-      <nav class="flex items-center justify-between">
+      <nav class="mt-10 flex items-center justify-between">
         <ul>
           <li v-for="item in menu[0]">
             <RouterLink :to="item.link">{{ item.name }}</RouterLink>
