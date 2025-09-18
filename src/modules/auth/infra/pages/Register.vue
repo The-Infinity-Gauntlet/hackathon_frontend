@@ -62,9 +62,12 @@ const fields: IFormField[] = [
       <p class="w-[332px] font-semibold">
         Que bom que você voltou. Faça o login e continue a aproveitando os benefícios do AQUA
       </p>
-      <RouterLink to="/entrar"
-        class="flex items-center justify-center gap-2 rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-10 py-2 font-semibold shadow-xl backdrop-blur-xs">
-        Entrar <span class="material-symbols-outlined">arrow_forward</span></RouterLink>
+      <RouterLink
+        to="/entrar"
+        class="flex items-center justify-center gap-2 rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-10 py-2 font-semibold shadow-xl backdrop-blur-xs"
+      >
+        Entrar <span class="material-symbols-outlined">arrow_forward</span></RouterLink
+      >
     </div>
 
     <div class="grid justify-center lg:my-auto">
@@ -73,7 +76,9 @@ const fields: IFormField[] = [
 
       <p class="my-3 text-center font-semibold">ou</p>
       <GoogleAuthButton />
-      <RouterLink to="/entrar" class="my-3 text-center text-xs lg:hidden">Você já tem conta? Faça o login</RouterLink>
+      <RouterLink to="/entrar" class="my-3 text-center text-xs lg:hidden"
+        >Você já tem conta? Faça o login</RouterLink
+      >
     </div>
   </div>
 </template>

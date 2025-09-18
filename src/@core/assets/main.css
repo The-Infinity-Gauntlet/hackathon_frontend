@@ -4,6 +4,7 @@
 
 html {
   font-family: Arial, sans-serif;
+  transition: color 0.05s ease-in;
 }
 
 .dark {

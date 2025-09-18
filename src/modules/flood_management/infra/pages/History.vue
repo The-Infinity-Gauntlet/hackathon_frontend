@@ -170,11 +170,14 @@ const floodPoints = ref([
 <template>
   <div>
     <button
-      class="mx-auto flex items-center justify-center gap-3 rounded-2xl bg-[#2768CA] px-25 py-2 font-semibold text-white">
+      class="mx-auto flex cursor-pointer items-center justify-center gap-3 rounded-2xl bg-blue-500 px-25 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600"
+    >
       <span class="material-symbols-outlined">tune</span>Filtrar dados
     </button>
 
-    <table class="mt-10 w-full table-fixed border-collapse overflow-hidden rounded-2xl">
+    <table
+      class="mt-10 w-full table-fixed border-collapse overflow-hidden rounded-2xl lg:mx-auto lg:w-[60vw]"
+    >
       <thead>
         <tr class="rounded-2xl border border-[#7AA6C8] text-center text-sm">
           <th class="border border-[#7AA6C8] py-2">Data</th>
@@ -184,13 +187,20 @@ const floodPoints = ref([
       </thead>
 
       <tbody>
-        <tr v-for="point in floodPoints" :key="point.id"
-          class="rounded-2xl border border-[#999999] text-center text-xs lg:text-lg">
+        <tr
+          v-for="point in floodPoints"
+          :key="point.id"
+          class="rounded-2xl border border-[#999999] text-center text-xs lg:text-lg"
+        >
           <td class="py-5">{{ point.data }}</td>
           <td class="grid py-5">
             {{ point.category }}
-            <button class="mx-auto mt-5 rounded-2xl bg-[#2768CA] px-10 py-1 text-white">
-              <RouterLink :to="{ path: `/admin/dados-cadastrados/${point.id}`, params: { id: point.id } }">Ver mais
+            <button
+              class="mx-auto mt-5 rounded-2xl bg-blue-500 px-10 py-1 text-white transition-colors duration-300 hover:bg-blue-600"
+            >
+              <RouterLink
+                :to="{ path: `/admin/dados-cadastrados/${point.id}`, params: { id: point.id } }"
+                >Ver mais
               </RouterLink>
             </button>
           </td>
