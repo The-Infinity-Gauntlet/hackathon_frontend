@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
@@ -29,6 +30,14 @@ onMounted(async () => {
     bearing: -30,
     antialias: true,
   })
+
+  const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl,
+    marker: true,
+    placeholder: 'Buscar local...',
+  })
+  map.addControl(geocoder, 'top-right')
 
   const draw = new MapboxDraw({
     displayControlsDefault: false,
@@ -99,9 +108,9 @@ onMounted(async () => {
 })
 
 const floodPoints = ref([
-  { neighborhood: 'João Costa', probability: 85, duration: '1 hora' },
-  { neighborhood: 'Jarivatuba', probability: 72, duration: '30 min' },
-  { neighborhood: 'Adhemar Garcia', probability: 50, duration: '20 min' },
+  { id: 'joao-costa', neighborhood: 'João Costa', probability: 85, duration: '1 hora' },
+  { id: 'jarivatuba', neighborhood: 'Jarivatuba', probability: 72, duration: '30 min' },
+  { id: 'adhemar-garcia', neighborhood: 'Adhemar Garcia', probability: 50, duration: '20 min' },
 ])
 
 // import { onMounted } from 'vue'
@@ -242,50 +251,42 @@ const floodPoints = ref([
 </script>
 
 <template>
-  <div class="relative h-screen w-screen overflow-hidden">
-    <div class="absolute top-5 left-0 z-10 flex w-[50vw] items-center gap-2 px-4">
+  <div class="lg:flex-cols-2 relative h-screen w-screen overflow-hidden lg:flex">
+    <div class="absolute top-5 left-0 z-10 flex items-center gap-2 px-4">
       <button
         class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 pl-2 text-white transition-colors duration-300 hover:bg-blue-600 dark:bg-[#000D19]"
         @click="routerBack"
       >
         <span class="material-symbols-outlined">arrow_back_ios</span>
       </button>
-
-      <div
-        class="flex flex-1 items-center rounded-full border border-[#7AA6C8] bg-white px-3 py-2 text-sm dark:border-[#000D19]"
-      >
-        <input
-          type="text"
-          placeholder="Buscar localização"
-          class="w-full min-w-[50vw] text-xs text-[#999999] outline-none lg:min-w-[30vw]"
-        />
-
-        <span class="material-symbols-outlined text-[#7AA6C8] dark:text-[#000D19]">search</span>
-      </div>
     </div>
 
-    <div id="map-admin" class="h-[100vh] w-full"></div>
+    <div id="map-admin" class="h-screen flex-1"></div>
 
     <div
-      class="absolute bottom-0 left-0 z-10 w-full rounded-t-2xl bg-white p-4 shadow-lg transition-transform duration-300 lg:top-0 lg:right-0 lg:bottom-0 lg:left-auto lg:h-full lg:w-[380px] lg:rounded-none lg:rounded-l-2xl dark:bg-[#00182F]"
+      class="absolute bottom-0 left-0 z-10 w-full rounded-t-2xl bg-white p-4 shadow-lg transition-transform duration-300 lg:relative lg:w-[380px] dark:bg-[#00182F]"
       :class="
         isOpen
           ? 'translate-y-0 lg:translate-x-0'
           : 'translate-y-[73%] lg:translate-x-0 lg:translate-y-0'
       "
     >
-      <div class="grid gap-3" @click="toggleSheet">
-        <div class="mx-auto h-1.5 w-12 rounded-full bg-gray-400 lg:hidden"></div>
+      <div
+        class="lg:absolute lg:top-0 lg:right-0 lg:bottom-0 lg:left-auto lg:h-full lg:rounded-none lg:p-4"
+      >
+        <div class="grid gap-3" @click="toggleSheet">
+          <div class="mx-auto h-1.5 w-12 rounded-full bg-gray-400 lg:hidden"></div>
 
-        <RouterLink
-          to="/admin/registrar-ponto"
-          class="mx-auto rounded-xl bg-blue-500 px-6 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600 dark:bg-[#000D19]"
-        >
-          Inserir novo ponto
-        </RouterLink>
+          <RouterLink
+            to="/admin/registrar-ponto"
+            class="mx-auto rounded-xl bg-blue-500 px-6 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600 dark:bg-[#000D19]"
+          >
+            Inserir novo ponto
+          </RouterLink>
 
-        <h3 class="mx-auto mt-5 mb-3 font-semibold">Pontos atuais</h3>
-        <Table :points="floodPoints" />
+          <h3 class="mx-auto mt-5 mb-3 font-semibold">Pontos atuais</h3>
+          <Table :points="floodPoints" />
+        </div>
       </div>
     </div>
   </div>

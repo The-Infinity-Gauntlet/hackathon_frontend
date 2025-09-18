@@ -2,6 +2,7 @@
 
 <template>
   <div class="grid gap-8 px-5 sm:px-10 md:px-15 lg:px-20 xl:px-25">
+    <h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Sobre nós</h1>
     <section class="my-7 grid gap-5">
       <h2 class="text-center font-semibold lg:text-2xl">A nossa história</h2>
       <img

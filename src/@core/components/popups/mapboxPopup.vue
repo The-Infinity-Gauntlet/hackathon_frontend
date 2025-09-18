@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import DataMapboxPopup from './dataMapboxPopup.vue'
 import { useNeighborhood } from '@/@core/composables/neighborhood'
 
@@ -27,6 +28,14 @@ onMounted(async () => {
     bearing: -30,
     antialias: true,
   })
+
+  const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl,
+    marker: true,
+    placeholder: 'Buscar local...',
+  })
+  map.addControl(geocoder, 'top-right')
 
   map.on('load', async () => {
     try {
@@ -101,19 +110,13 @@ const handleOverlayClick = (event: MouseEvent) => {
     <div
       class="flex max-h-[90vh] w-[90%] flex-col overflow-y-auto rounded-2xl bg-white p-4 shadow-lg dark:bg-[#000d19]"
     >
-      <div class="flex items-center justify-between gap-3">
-        <button class="material-symbols-outlined text-[#999999]" @click="emit('close')">
-          arrow_back_ios
+      <div class="relative h-[70vh] overflow-hidden rounded-2xl">
+        <button
+          class="absolute top-2 left-2 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-blue-500 pl-2 text-white transition-colors duration-300 hover:bg-blue-600 dark:bg-[#000D19]"
+          @click="emit('close')"
+        >
+          <span class="material-symbols-outlined">arrow_back_ios</span>
         </button>
-        <input
-          type="text"
-          placeholder="Buscar localização"
-          class="w-full rounded-2xl border border-[#7AA6C8] px-3 py-2 text-xs outline-none"
-        />
-        <span class="material-symbols-outlined text-[#7AA6C8]">search</span>
-      </div>
-
-      <div class="relative mt-3 h-[70vh] overflow-hidden rounded-2xl">
         <div id="map-popup" class="h-full w-full"></div>
         <DataMapboxPopup :neighborhood="neighborhood" :city="city" v-if="showPopup" />
       </div>

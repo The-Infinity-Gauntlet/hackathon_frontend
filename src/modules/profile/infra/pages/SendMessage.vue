@@ -21,6 +21,7 @@ const fields = [
 
 <template>
   <div class="mb-10 grid justify-center px-5 pt-5 pb-10">
+    <h1 class="hidden text-center text-2xl font-semibold lg:block">Enviar mensagem</h1>
     <BaseForm :form-fields="fields" />
 
     <div class="flex gap-3">

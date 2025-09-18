@@ -196,7 +196,9 @@ const information = informations.find((i) => i.id === props.id)
     <button
       class="mx-auto mt-10 w-[250px] rounded-xl bg-blue-500 p-2 font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
     >
-      <RouterLink to="/admin/editar-clima" class="h-full w-full"> Editar </RouterLink>
+      <RouterLink :to="`/admin/editar-clima/${information.id}`" class="h-full w-full">
+        Editar
+      </RouterLink>
     </button>
   </div>
 </template>
