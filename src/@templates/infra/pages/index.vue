@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { ChartItems, FloodAlert, WeatherStatus, MapboxPopup } from '@/@core/components'
+import {
+  ChartItems,
+  CurrentWeatherPanel,
+  FloodAlert,
+  ForecastWeatherPanel,
+  MapboxPopup,
+} from '@/@core/components'
 import { BlogPost, Mapbox } from '../components'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 
@@ -21,7 +27,9 @@ const location = ref({
     },
     { name: 'Vazão do rio', icon: '/weather_information/river_discharge.svg', scale: 46 },
   ] as const,
+  date: 'Seg, 22:00',
 })
+
 const data = {
   id: 'charts',
   options: [
@@ -102,15 +110,11 @@ onMounted(async () => {
       </div>
       <MapboxPopup v-if="showPopup" @close="showPopup = false" />
 
-      <WeatherStatus :weatherStatus="location.data" />
       <FloodAlert :alert="location.data[1].message" />
     </section>
 
     <Mapbox />
-    <ChartItems v-for="item in data.options" :key="item" :item="item" class="-mt-5 lg:hidden" />
-    <div class="hidden space-x-5 overflow-x-auto pr-5 lg:grid lg:grid-cols-2 lg:justify-center">
-      <ChartItems v-for="item in data.options" :key="item.id" :item="item" />
-    </div>
-    <!-- <BlogPost /> -->
+    <CurrentWeatherPanel :data="data" :location="location" />
+    <ForecastWeatherPanel :data="data" :location="location" />
   </div>
 </template>

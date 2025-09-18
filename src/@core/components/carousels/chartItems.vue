@@ -36,7 +36,7 @@ const chartOptions = {
 </script>
 
 <template>
-  <div class="my-10 grid rounded-2xl bg-[#E5E5E5] p-5 dark:bg-[#00182F]">
+  <div class="my-10 grid rounded-2xl bg-[#E5E5E5] p-5 shadow-lg dark:bg-[#00182F]">
     <h3 class="mb-2 font-semibold">{{ item.datasets[0].label }}</h3>
     <Chart type="bar" :data="item" :options="chartOptions" />
   </div>
