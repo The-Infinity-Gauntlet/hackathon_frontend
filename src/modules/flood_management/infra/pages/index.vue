@@ -114,9 +114,9 @@ onMounted(async () => {
         Área de <span>Administração</span>
       </h1>
     </section>
+    <SelectFloodAlert v-model:alert="location.data[1].message" />
 
     <section>
-      <SelectFloodAlert :alert="location.data[1].message" />
       <BaseCarousel :items="menu" class="lg:hidden" />
       <div class="hidden space-x-5 overflow-x-auto pr-5 lg:flex lg:justify-center">
         <MenuItems v-for="item in menu.options" :key="item.id" :item="item" />
