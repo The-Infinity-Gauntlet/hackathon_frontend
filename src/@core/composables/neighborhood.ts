@@ -1,20 +1,16 @@
 import { ref } from 'vue'
 import * as turf from '@turf/turf'
+import type {
+  Geometry,
+  Feature as GeoFeature,
+  FeatureCollection as GeoFeatureCollection,
+} from 'geojson'
 
-interface NeighborhoodFeature {
-  type: 'Feature'
-  properties: {
-    city: string
-    name: string
-    [key: string]: any
-  }
-  geometry: turf.Geometry
-}
-
-interface NeighborhoodGeoJSON {
-  type: 'FeatureCollection'
-  features: NeighborhoodFeature[]
-}
+type NeighborhoodFeature = GeoFeature<
+  Geometry,
+  { cidade?: string; bairro?: string; [k: string]: any }
+>
+type NeighborhoodGeoJSON = GeoFeatureCollection<Geometry, NeighborhoodFeature['properties']>
 
 export function useNeighborhood() {
   const neighborhoods = ref<NeighborhoodGeoJSON | null>(null)
@@ -40,8 +36,8 @@ export function useNeighborhood() {
 
     for (const feature of neighborhoods.value.features) {
       if (turf.booleanPointInPolygon(point, feature)) {
-        selectedNeighborhood.value = feature.properties.bairro
-        selectedCity.value = feature.properties.cidade
+        selectedNeighborhood.value = feature.properties.bairro ?? null
+        selectedCity.value = feature.properties.cidade ?? null
         return {
           neighborhood: selectedNeighborhood.value,
           city: selectedCity.value,
@@ -54,11 +50,18 @@ export function useNeighborhood() {
     return null
   }
 
+  // Helper compatível com chamadas existentes
+  function getNeighborhood(lng: number, lat: number): string | null {
+    const res = getLocalization(lng, lat)
+    return res?.neighborhood ?? null
+  }
+
   return {
     neighborhoods,
     selectedNeighborhood,
     selectedCity,
     loadNeighborhoods,
     getLocalization,
+    getNeighborhood,
   }
 }

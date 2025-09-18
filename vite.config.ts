@@ -58,4 +58,15 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        secure: false,
+        // strip /api only if backend doesn't include it; here backend includes /api, so keep path
+        // rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
 })

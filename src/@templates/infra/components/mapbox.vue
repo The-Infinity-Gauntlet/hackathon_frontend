@@ -59,39 +59,96 @@ onMounted(() => {
         },
       })
 
-      watch(points, (newPoints) => {
-        const geojson = toGeoJson()
-        if (!map.getSource("flood-points")) {
-          map.addSource('flood-points', {
-            type: 'geojson',
-            data: geojson
-          })
-          map.addLayer({
-            id: "flood-points-layer",
-            type: "heatmap",
-            source: "flood-points",
-            paint: {
-            "heatmap-weight": ["interpolate", ["linear"], ["get", "intensity"], 0, 0, 1, 1],
-            "heatmap-color": [
-              "interpolate",
-              ["linear"],
-              ["heatmap-density"],
-              0, "rgba(0, 0, 255, 0)",
-              0.1, "#10439F",
-              //0.3, "#3981BF",
-              0.5, "#0453AF",
-              //0.7, "#469AA0",
-              0.8, "#6DBFC5"
-            ],
-            "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 0, 25, 15, 75],
-            "heatmap-opacity": ["interpolate", ["linear"], ["zoom"], 10, 1, 15, 1]
-            }
-          })
-        } else {
-          const source = map.getSource("flood-points") as mapboxgl.GeoJSONSource
-          source.setData(geojson)
-        }
-      }, { immediate: true })
+      watch(
+        points,
+        () => {
+          const geojson = toGeoJson()
+          if (!map.getSource('flood-points')) {
+            map.addSource('flood-points', { type: 'geojson', data: geojson })
+
+            // Heatmap for density/intensity
+            map.addLayer({
+              id: 'flood-points-heat',
+              type: 'heatmap',
+              source: 'flood-points',
+              paint: {
+                'heatmap-weight': ['interpolate', ['linear'], ['get', 'intensity'], 0, 0, 1, 1],
+                'heatmap-color': [
+                  'interpolate',
+                  ['linear'],
+                  ['heatmap-density'],
+                  0,
+                  'rgba(0, 0, 255, 0)',
+                  0.1,
+                  '#10439F',
+                  0.5,
+                  '#0453AF',
+                  0.8,
+                  '#6DBFC5',
+                ],
+                'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 25, 15, 75],
+                'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 15, 0.6],
+              },
+            })
+
+            // Circle layer for clickable points when zoomed in
+            map.addLayer({
+              id: 'flood-points-circles',
+              type: 'circle',
+              source: 'flood-points',
+              minzoom: 12,
+              paint: {
+                'circle-radius': ['interpolate', ['linear'], ['zoom'], 12, 4, 18, 12],
+                'circle-color': [
+                  'interpolate',
+                  ['linear'],
+                  ['get', 'intensity'],
+                  0,
+                  '#10439F',
+                  1,
+                  '#6DBFC5',
+                ],
+                'circle-opacity': 0.9,
+                'circle-stroke-width': 1,
+                'circle-stroke-color': '#003366',
+              },
+            })
+
+            map.on('click', 'flood-points-circles', (e) => {
+              const f = e.features?.[0]
+              if (!f) return
+              const p = f.properties as any
+              const [lng, lat] =
+                f.geometry.type === 'Point' ? f.geometry.coordinates : [e.lngLat.lng, e.lngLat.lat]
+              const prob = Number(p.probability ?? p.intensity * 100)
+              new mapboxgl.Popup()
+                .setLngLat([lng, lat])
+                .setHTML(
+                  `<div style="min-width:200px">
+                  <strong>${p.neighborhood || 'Bairro desconhecido'}</strong><br/>
+                  Cidade: ${p.city || '-'}<br/>
+                  Probabilidade: ${isFinite(prob) ? prob.toFixed(0) : '-'}%<br/>
+                  Duração: ${p.duration || '-'}<br/>
+                  Origem: ${p.source || '-'}<br/>
+                  Criado: ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '-'}
+                </div>`,
+                )
+                .addTo(map)
+            })
+
+            map.on(
+              'mouseenter',
+              'flood-points-circles',
+              () => (map.getCanvas().style.cursor = 'pointer'),
+            )
+            map.on('mouseleave', 'flood-points-circles', () => (map.getCanvas().style.cursor = ''))
+          } else {
+            const source = map.getSource('flood-points') as mapboxgl.GeoJSONSource
+            source.setData(geojson)
+          }
+        },
+        { immediate: true, deep: true },
+      )
     } catch (error) {
       console.error('Erro ao carregar floodGeojson:', error)
     }
@@ -101,7 +158,7 @@ onMounted(() => {
     isFullscreen.value = document.fullscreenElement !== null
   })
 
-  function addCustomMarker(lng, lat) {
+  function addCustomMarker(lng: number, lat: number) {
     const el = document.createElement('div')
     el.className = 'custom-marker'
     el.style.backgroundImage = 'url("/weather_information/camera.svg")'

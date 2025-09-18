@@ -2,10 +2,12 @@ import axios, { AxiosResponse } from 'axios'
 import { IApi } from '../interfaces/api'
 
 /**
- * URL base da API utilizada por padrão na instância do cliente Axios.
- * @constant {string}
+ * URL base da API. Em dev, use Vite proxy com base relativa '/api/'.
+ * Em produção, defina VITE_API_URL se necessário.
  */
-const API_URL = 'http://localhost:8000/'
+const RAW_API_URL = (import.meta as any)?.env?.VITE_API_URL as string | undefined
+const API_BASE =
+  RAW_API_URL && RAW_API_URL.trim() !== '' ? `${RAW_API_URL.replace(/\/$/, '')}/api/` : '/api/'
 
 /**
  * Classe responsável por encapsular chamadas HTTP usando Axios.
@@ -24,7 +26,7 @@ export class Api implements IApi {
    * @type {import('axios').AxiosInstance}
    */
   client = axios.create({
-    baseURL: `${API_URL}api/`,
+    baseURL: API_BASE,
     headers: {
       'Content-Type': 'application/json',
     },

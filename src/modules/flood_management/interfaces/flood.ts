@@ -1,4 +1,4 @@
-import type { Feature, Geometry, GeoJsonProperties } from "geojson"
+import type { Feature, Geometry, GeoJsonProperties } from 'geojson'
 
 export interface IFlood {
   id: string
@@ -26,7 +26,7 @@ export interface IFloodControllerState {
 }
 
 export interface IFloodIA {
-  id: string,
+  id: string
   latitude: number
   longitude: number
   date: Date
@@ -45,4 +45,14 @@ export interface IFloodIAControllerState {
   }
   loading: boolean
   search: string
+}
+
+export interface IRegisterFloodPointPayload {
+  city: string
+  region: string
+  neighborhood: string
+  possibility: number
+  created_at: string
+  finished_at: string
+  props: Record<string, any>
 }
