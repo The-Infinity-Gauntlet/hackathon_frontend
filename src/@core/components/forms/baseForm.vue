@@ -49,7 +49,7 @@ const getFieldComponent = (field: IFormField) => {
 </script>
 
 <template>
-  <ul class="mx-auto mt-5 lg:bg-white lg:dark:bg-[#000d19]">
+  <ul class="mx-auto mt-5">
     <li v-for="field in formFields" :key="field.id" class="my-5 grid w-[332px]">
       <component :is="getFieldComponent(field)" :field="field" />
     </li>

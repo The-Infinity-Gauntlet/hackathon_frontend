@@ -81,28 +81,54 @@ const selectedAlertInfo = computed(
   () => ALERTS.find((a) => a.title === location.value.data[1].message) ?? ALERTS[4],
 )
 
+// function requestPermissionAndNotify() {
+//   console.log(Notification.permission) // "granted", "denied" ou "default"
+//   Notification.requestPermission().then((permission) => {
+//     if (permission === 'granted') {
+//       console.log('Notification permission granted.')
+
+//       const notification = {
+//         title: selectedAlertInfo.value.title,
+//         body: selectedAlertInfo.value.description,
+//         icon: '/pwa_icons/pwa-192x192.png',
+//       }
+
+//       navigator.serviceWorker.ready.then((registration) => {
+//         registration.showNotification(notification.title, {
+//           body: notification.body,
+//           icon: notification.icon,
+//         })
+//       })
+//     } else {
+//       console.log('Unable to get permission to notify.')
+//     }
+//   })
+//   window.location.reload()
+// }
+
 function requestPermissionAndNotify() {
-  Notification.requestPermission().then((permission) => {
-    if (permission === 'granted') {
-      console.log('Notification permission granted.')
-
-      const notification = {
-        title: selectedAlertInfo.value.title,
-        body: selectedAlertInfo.value.description,
-        icon: '/pwa_icons/pwa-192x192.png',
+  if (Notification.permission === 'default') {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        showNotification()
+      } else {
+        console.log('Usuário negou permissão.')
       }
+    })
+  } else if (Notification.permission === 'granted') {
+    showNotification()
+  } else {
+    console.log('Permissão de notificação negada.')
+  }
+}
 
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification(notification.title, {
-          body: notification.body,
-          icon: notification.icon,
-        })
-      })
-    } else {
-      console.log('Unable to get permission to notify.')
-    }
+function showNotification() {
+  navigator.serviceWorker.ready.then((registration) => {
+    registration.showNotification(selectedAlertInfo.value.title, {
+      body: selectedAlertInfo.value.description,
+      icon: '/pwa_icons/pwa-192x192.png',
+    })
   })
-  window.location.reload()
 }
 </script>
 
