@@ -16,6 +16,11 @@ const routes: IRoutes[] = [
         component: () => import('@/modules/auth/infra/pages/Register.vue'),
       },
       {
+        path: '/auth',
+        name: 'Auth',
+        component: () => import('@/modules/auth/infra/pages/Auth.vue'),
+      },
+      {
         path: '/recuperacao',
         name: 'Recuperação',
         component: () => import('@/modules/auth/infra/pages/Recovery.vue'),

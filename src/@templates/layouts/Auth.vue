@@ -30,20 +30,6 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
       style="background-image: url('/layouts/wavesMobile.svg')"
       aria-hidden="true"
     ></div>
-
-    <div
-      v-if="$route.name == 'Cadastro'"
-      class="absolute inset-0 -left-400 -z-10 hidden bg-cover bg-center lg:block"
-      style="background-image: url('/layouts/wavesAuth.svg'); transform: scaleX(-1)"
-      aria-hidden="true"
-    ></div>
-
-    <div
-      v-else
-      class="absolute inset-0 -right-400 -z-10 hidden bg-cover bg-center lg:block"
-      style="background-image: url('/layouts/wavesAuth.svg')"
-      aria-hidden="true"
-    ></div>
     <MobileMenu class="fixed bottom-0 lg:hidden" />
   </div>
 </template>
