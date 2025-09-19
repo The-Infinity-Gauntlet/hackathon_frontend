@@ -2,8 +2,9 @@ import { computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { container } from 'tsyringe'
 
-import type { IFlood, IFloodControllerState } from '../interfaces/flood'
-import { FloodRepository } from '../repositories/FloodRepository'
+import type { IFlood, IFloodControllerState, IFloodIAControllerState } from '../interfaces/flood'
+import type { Feature } from 'geojson'
+import { FloodRepository, FloodIARepository } from '../repositories/FloodRepository'
 
 export const useFloodController = defineStore('flood', () => {
   const floodRepository = container.resolve(FloodRepository)
@@ -18,12 +19,22 @@ export const useFloodController = defineStore('flood', () => {
       limit: 10,
     },
     loading: false,
+    polygon: null as Feature | null,
     search: '',
   })
+
+  const loadPolygon = () => {
+    const saved = localStorage.getItem('floodPolygon')
+    if (saved) state.polygon = JSON.parse(saved)
+  }
 
   const floods = computed(() => state.floods)
   const currentFlood = computed(() => state.currentFlood)
   const loading = computed(() => state.loading)
+  const polygon = computed({
+    get: () => state.polygon,
+    set: (value) => { state.polygon = value },
+  })
 
   const pagination = computed({
     get: () => state.pagination,
@@ -35,6 +46,14 @@ export const useFloodController = defineStore('flood', () => {
     set: (value) => (state.search = value),
   })
 
+  const setPolygon = (geojson: any) => {
+    state.polygon = geojson
+  }
+
+  const clearPolygon = () => {
+    state.polygon = null
+  }
+
   const getFloods = async () => {
     state.loading = true
     const result = await floodRepository.list()
@@ -42,9 +61,9 @@ export const useFloodController = defineStore('flood', () => {
     state.pagination = {
       ...state.pagination,
       page: result.page_number,
-      page_size: result.page_size,
-      total: result.total,
-      num_pages: result.num_pages,
+      pageSize: result.page_size,
+      //total: result.total,
+      //num_pages: result.num_pages,
     }
     state.loading = false
   }
@@ -108,11 +127,83 @@ export const useFloodController = defineStore('flood', () => {
     pagination,
     loading,
     search,
+    polygon,
+    loadPolygon,
+    setPolygon,
+    clearPolygon,
     getFloods,
     getFloodById,
     clearCurrentFlood,
     createFlood,
     updateFlood,
     deleteFlood,
+  }
+})
+
+export const useFloodIAController = defineStore('floodIA', () => {
+  const floodIARepository = container.resolve(FloodIARepository)
+  
+  const state = reactive<IFloodIAControllerState>({
+    forecasts: [],
+    currentForecast: {},
+    pagination: {
+      page: 1,
+      pageSize: 100,
+      offset: 0,
+      limit: 10,
+    },
+    loading: false,
+    search: '',
+  })
+
+  const forecasts = computed(() => state.forecasts)
+  const currentForecast = computed(() => state.currentForecast)
+  const loading = computed(() => state.loading)
+
+  const pagination = computed({
+    get: () => state.pagination,
+    set: (value) => (state.pagination = value),
+  })
+
+  const search = computed({
+    get: () => state.search,
+    set: (value) => (state.search = value),
+  })
+
+  const getForecasts = async () => {
+    state.loading = true
+    const result = await floodIARepository.list()
+    state.forecasts = result.results ?? result
+    state.pagination = {
+      ...state.pagination,
+      page: result.page_number,
+      pageSize: result.page_size,
+      //total: result.total,
+      //num_pages: result.num_pages,
+    }
+    state.loading = false
+  }
+
+  const getForecastById = async (id: string) => {
+    state.loading = true
+    const result = await floodIARepository.getById(id)
+    state.currentForecast = result
+    state.loading = false
+  }
+
+  const clearForecast = async () => {
+    state.currentForecast = {}
+  }
+
+  return {
+    state,
+    forecasts,
+    currentForecast,
+    loading,
+    pagination,
+    search,
+    getForecasts,
+    getForecastById,
+    clearForecast
   }
 })

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import mapboxgl from 'mapbox-gl'
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useNeighborhood } from '@/@core/composables/neighborhood'
 import { useNavigation } from '@/@core/composables/navigation'
+import { useFloodMapIa } from '@core/composables/useFloodMap'
+import { useFloodController } from '../../controllers/FloodController'
 import Table from '../components/table.vue'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
@@ -17,9 +18,14 @@ const { routerBack } = useNavigation()
 const toggleSheet = () => {
   isOpen.value = !isOpen.value
 }
+const { points, init, toGeoJson } = useFloodMapIa()
+const floodStore = useFloodController()
+
+console.log("Pontos de alagamento: ", points.value)
 
 onMounted(async () => {
   await loadNeighborhoods()
+  //await init()
 
   const map = new mapboxgl.Map({
     container: 'map-admin',
@@ -30,14 +36,6 @@ onMounted(async () => {
     bearing: -30,
     antialias: true,
   })
-
-  const geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    mapboxgl,
-    marker: true,
-    placeholder: 'Buscar local...',
-  })
-  map.addControl(geocoder, 'top-right')
 
   const draw = new MapboxDraw({
     displayControlsDefault: false,
@@ -52,7 +50,22 @@ onMounted(async () => {
   map.on('draw.create', () => {
     const data = draw.getAll()
     console.log('Polígono criado:', data)
+    
+    floodStore.setPolygon(data.features[0])
+    console.log("Polígono criado na posição: ", data.features[0])
+    //console.log("Data lenght", data.length)
   })
+
+  floodStore.loadPolygon()
+  console.log(floodStore)
+  if (floodStore.polygon) {
+    console.log("Achou: ", floodStore.polygon)
+    if (floodStore.polygon) draw.add(floodStore.polygon)
+    //draw.add(floodStore.polygon)
+    console.log("Draw add!")
+  } else {
+    console.log("Não add")
+  }
 
   map.on('draw.update', () => {
     const data = draw.getAll()
@@ -64,10 +77,12 @@ onMounted(async () => {
   })
 
   map.on('load', async () => {
+    await init()
     try {
       // Carregar floodGeojson via fetch (não como import)
       const response = await fetch('/flooding.json')
       const floodGeojson = await response.json()
+      console.log("Load entrou")
 
       // Adicionar fonte de dados do flood
       map.addSource('flood-area', {
@@ -95,6 +110,43 @@ onMounted(async () => {
           'fill-extrusion-opacity': 0.5,
         },
       })
+
+      watch(points, (newPoints) => {
+        console.log("Novos pontos: ", newPoints)
+        const geojson = toGeoJson()
+        console.log("GeoJSON: ", geojson)
+        if (!map.getSource("flood-points")) {
+          map.addSource('flood-points', {
+            type: 'geojson',
+            data: geojson
+          })
+          map.addLayer({
+            id: "flood-points-layer",
+            type: "heatmap",
+            source: "flood-points",
+            paint: {
+            "heatmap-weight": ["interpolate", ["linear"], ["get", "intensity"], 0, 0, 1, 1],
+            "heatmap-color": [
+              "interpolate",
+              ["linear"],
+              ["heatmap-density"],
+              0, "rgba(0, 0, 255, 0)",
+              0.1, "#10439F",
+              //0.3, "#3981BF",
+              0.5, "#0453AF",
+              //0.7, "#469AA0",
+              0.9, "#6DBFC5",
+              1, "red"
+            ],
+            "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 10, 30, 15, 65],
+            "heatmap-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0.9, 15, 0.75]
+            }
+          })
+        } else {
+          const source = map.getSource("flood-points") as mapboxgl.GeoJSONSource
+          source.setData(geojson)
+        }
+      }, { immediate: true })
     } catch (error) {
       console.error('Erro ao carregar floodGeojson:', error)
     }
@@ -105,12 +157,14 @@ onMounted(async () => {
     neighborhood.value = getNeighborhood(lng, lat)
     console.log('Bairro encontrado:', neighborhood.value)
   })
+
+  
 })
 
 const floodPoints = ref([
-  { id: 'joao-costa', neighborhood: 'João Costa', probability: 85, duration: '1 hora' },
-  { id: 'jarivatuba', neighborhood: 'Jarivatuba', probability: 72, duration: '30 min' },
-  { id: 'adhemar-garcia', neighborhood: 'Adhemar Garcia', probability: 50, duration: '20 min' },
+  { neighborhood: 'João Costa', probability: 85, duration: '1 hora' },
+  { neighborhood: 'Jarivatuba', probability: 72, duration: '30 min' },
+  { neighborhood: 'Adhemar Garcia', probability: 50, duration: '20 min' },
 ])
 
 // import { onMounted } from 'vue'
@@ -251,42 +305,50 @@ const floodPoints = ref([
 </script>
 
 <template>
-  <div class="lg:flex-cols-2 relative h-screen w-screen overflow-hidden lg:flex">
-    <div class="absolute top-5 left-0 z-10 flex items-center gap-2 px-4">
+  <div class="relative h-screen w-screen overflow-hidden">
+    <div class="absolute top-5 left-0 z-10 flex w-[50vw] items-center gap-2 px-4">
       <button
-        class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 pl-2 text-white transition-colors duration-300 hover:bg-blue-600 dark:bg-[#000D19]"
+        class="flex h-8 w-8 items-center justify-center rounded-full bg-[#2768CA] pl-2 text-white dark:bg-[#000D19]"
         @click="routerBack"
       >
         <span class="material-symbols-outlined">arrow_back_ios</span>
       </button>
+
+      <div
+        class="flex flex-1 items-center rounded-full border border-[#7AA6C8] bg-white px-3 py-2 text-sm dark:border-[#000D19]"
+      >
+        <input
+          type="text"
+          placeholder="Buscar localização"
+          class="w-full text-xs text-[#999999] outline-none"
+        />
+
+        <span class="material-symbols-outlined text-[#7AA6C8] dark:text-[#000D19]">search</span>
+      </div>
     </div>
 
-    <div id="map-admin" class="h-screen flex-1"></div>
+    <div id="map-admin" class="h-[100vh] w-full"></div>
 
     <div
-      class="absolute bottom-0 left-0 z-10 w-full rounded-t-2xl bg-white p-4 shadow-lg transition-transform duration-300 lg:relative lg:w-[380px] dark:bg-[#00182F]"
+      class="absolute bottom-0 left-0 z-10 w-full rounded-t-2xl bg-white p-4 shadow-lg transition-transform duration-300 lg:top-0 lg:right-0 lg:bottom-0 lg:left-auto lg:h-full lg:w-[380px] lg:rounded-none lg:rounded-l-2xl dark:bg-[#00182F]"
       :class="
         isOpen
           ? 'translate-y-0 lg:translate-x-0'
           : 'translate-y-[73%] lg:translate-x-0 lg:translate-y-0'
       "
     >
-      <div
-        class="lg:absolute lg:top-0 lg:right-0 lg:bottom-0 lg:left-auto lg:h-full lg:rounded-none lg:p-4"
-      >
-        <div class="grid gap-3" @click="toggleSheet">
-          <div class="mx-auto h-1.5 w-12 rounded-full bg-gray-400 lg:hidden"></div>
+      <div class="grid gap-3" @click="toggleSheet">
+        <div class="mx-auto h-1.5 w-12 rounded-full bg-gray-400 lg:hidden"></div>
 
-          <RouterLink
-            to="/admin/registrar-ponto"
-            class="mx-auto rounded-xl bg-blue-500 px-6 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600 dark:bg-[#000D19]"
-          >
-            Inserir novo ponto
-          </RouterLink>
+        <RouterLink
+          to="/admin/registrar-ponto"
+          class="mx-auto rounded-xl bg-[#2768CA] px-6 py-2 font-semibold text-white dark:bg-[#000D19]"
+        >
+          Inserir novo ponto
+        </RouterLink>
 
-          <h3 class="mx-auto mt-5 mb-3 font-semibold">Pontos atuais</h3>
-          <Table :points="floodPoints" />
-        </div>
+        <h3 class="mx-auto mt-5 mb-3 font-semibold">Pontos atuais</h3>
+        <Table :points="points" />
       </div>
     </div>
   </div>

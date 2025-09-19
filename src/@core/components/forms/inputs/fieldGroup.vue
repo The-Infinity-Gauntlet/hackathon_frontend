@@ -9,10 +9,12 @@ defineProps({
     required: true,
   },
 })
+
+const modelValue = defineModel<Record<string, any>>({ required: true })
 </script>
 
 <template>
   <div class="flex justify-center gap-3">
-    <TextField v-for="field in fields" :key="field.id" :field="field" />
+    <TextField v-for="field in fields" :key="field.id" :field="field" v-model="modelValue[field.id]" />
   </div>
 </template>

@@ -8,12 +8,15 @@ defineProps({
     required: true,
   },
 })
+
+const modelValue = defineModel<Record<string, any>>({ required: true })
 </script>
 
 <template>
   <div class="grid gap-2">
     <label :for="field.id">{{ field.label }}</label>
     <input
+      v-model="modelValue"
       :type="field.type"
       :id="field.id"
       :name="field.id"
