@@ -7,12 +7,12 @@ const routes: IRoutes[] = [
     children: [
       {
         path: '/blog',
-        name: '',
+        name: 'Blog',
         component: () => import('@/modules/info/infra/pages/index.vue'),
       },
       {
         path: '/post',
-        name: '',
+        name: 'Publicação',
         component: () => import('@/modules/info/infra/pages/Post.vue'),
       },
       {
