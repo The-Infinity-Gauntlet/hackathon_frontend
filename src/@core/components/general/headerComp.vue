@@ -1,15 +1,38 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { ThemeSwitcher } from '@/@core/components'
 import { useNavigation } from '@/@core/composables/navigation'
 
-defineProps<{ title?: string }>()
+const props = defineProps<{ title?: string }>()
 
 const { routerBack } = useNavigation()
+const token = localStorage.getItem('token')
+const role = localStorage.getItem('role')
 const openMenuId = ref<number | null>(null)
 const toggleMenu = (id: number) => {
   openMenuId.value = openMenuId.value === id ? null : id
 }
+
+const allowedTitles = [
+  'Login',
+  'Cadastro',
+  'Recuperação',
+  'Cadastrar um novo ponto',
+  'Cadastrar ocorrência',
+  'Históricos',
+  'Editar clima',
+  'Cadastrar notificação',
+  'Sobre Nós',
+  'Pagamento',
+  'Meu perfil',
+  'Dashboard',
+  'Suporte',
+  'Registrar Dúvida',
+  'Enviar Mensagem',
+  'Perfil',
+  'Segurança',
+]
+const shouldShowTitle = computed(() => allowedTitles.includes(props.title ?? ''))
 
 interface MenuItem {
   id: number
@@ -24,23 +47,25 @@ const desktopMenu: MenuItem[] = [
   { id: 1, label: 'Home', link: '/' },
   { id: 2, label: 'Administração', link: '/admin' },
   { id: 3, label: 'Câmeras', link: '/cameras' },
-  // {
-  //   id: 4,
-  //   label: 'Mais',
-  //   options: [
-  //     { id: 0, label: 'Blog', link: '/blog' },
-  //     { id: 1, label: 'Doar', link: '/pagamento' },
-  //     { id: 2, label: 'Suporte', link: '/suporte' },
-  //   ],
-  // },
+  {
+    id: 4,
+    label: 'Mais',
+    options: [
+      { id: 0, label: 'Blog', link: '/blog' },
+      { id: 1, label: 'Doar', link: '/pagamento' },
+      { id: 2, label: 'Suporte', link: '/suporte' },
+    ],
+  },
 ]
 const desktopMenuAccount: MenuItem[] = [
   { id: 0, label: 'Entrar', link: '/entrar' },
   { id: 1, label: 'Criar conta', link: '/cadastrar' },
   { id: 2, icon: 'person', link: '/minha-conta' },
 ]
+const filteredMenu = computed(() =>
+  desktopMenu.filter((item) => role === 'admin' || item.label !== 'Administração'),
+)
 
-const token = localStorage.getItem('token')
 if (token) {
   desktopMenuAccount.splice(0, 2)
 } else {
@@ -68,7 +93,12 @@ if (token) {
       </ul>
 
       <ul class="hidden items-center gap-7 lg:flex">
-        <li v-for="item in desktopMenu" :key="item.id" class="relative cursor-pointer">
+        <li
+          v-for="item in filteredMenu"
+          :key="item.id"
+          :class="item.label == title ? 'text-[#2768CA]' : ''"
+          class="relative cursor-pointer"
+        >
           <RouterLink v-if="item.img" :to="item.link">
             <img :src="item.img" :alt="item.label" class="h-20 w-20" />
           </RouterLink>
@@ -132,7 +162,7 @@ if (token) {
     </nav>
   </header>
 
-  <div class="grid lg:hidden">
+  <div v-if="shouldShowTitle" class="grid lg:hidden">
     <h1 class="text-center">{{ title }}</h1>
   </div>
 </template>

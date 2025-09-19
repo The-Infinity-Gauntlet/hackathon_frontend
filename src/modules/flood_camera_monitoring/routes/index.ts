@@ -7,12 +7,12 @@ const routes: IRoutes[] = [
     children: [
       {
         path: '/cameras',
-        name: '',
+        name: 'Câmeras',
         component: () => import('../infra/pages/StreamingStreets.vue'),
       },
       {
         path: '/cameras/:id',
-        name: '',
+        name: 'Informações da Câmera',
         props: true,
         component: () => import('../infra/pages/InfoCamera.vue'),
       },

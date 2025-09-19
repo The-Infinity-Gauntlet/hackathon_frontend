@@ -7,12 +7,12 @@ const routes: IRoutes[] = [
     children: [
       {
         path: '/admin',
-        name: '',
+        name: 'Administração',
         component: () => import('@/modules/flood_management/infra/pages/index.vue'),
       },
       {
         path: '/admin/graficos',
-        name: '',
+        name: 'Gráficos',
         component: () => import('@/modules/flood_management/infra/pages/Charts.vue'),
       },
       {
@@ -32,7 +32,7 @@ const routes: IRoutes[] = [
       },
       {
         path: '/admin/dados-cadastrados/:id',
-        name: '',
+        name: 'Dados cadastrados',
         component: () => import('@/modules/flood_management/infra/pages/RegisteredData.vue'),
         props: true,
       },
@@ -50,7 +50,7 @@ const routes: IRoutes[] = [
   },
   {
     path: '/admin/mapa-de-alagamento',
-    name: '',
+    name: 'Mapa de Alagamento',
     component: () => import('@/modules/flood_management/infra/pages/FloodMap.vue'),
   },
 ]
