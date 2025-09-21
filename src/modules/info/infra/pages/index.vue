@@ -9,7 +9,7 @@ const posts = [
     text: 'As enchentes são eventos naturais que acontecem quando o volume de água.',
     author: 'Fulano',
     date: '31/07/2025 19:15',
-    image: '/logo.svg',
+    image: '../logo.svg',
     link: '/post',
   },
   {
@@ -19,7 +19,7 @@ const posts = [
     text: 'As enchentes são eventos naturais que acontecem quando o volume de água.',
     author: 'Fulano',
     date: '31/07/2025 19:15',
-    image: '/logo.svg',
+    image: '../logo.svg',
     link: '/post',
   },
   {
@@ -29,7 +29,7 @@ const posts = [
     text: 'As enchentes são eventos naturais que acontecem quando o volume de água.',
     author: 'Fulano',
     date: '31/07/2025 19:15',
-    image: '/logo.svg',
+    image: '../logo.svg',
     link: '/post',
   },
   {
@@ -39,7 +39,7 @@ const posts = [
     text: 'As enchentes são eventos naturais que acontecem quando o volume de água.',
     author: 'Fulano',
     date: '31/07/2025 19:15',
-    image: '/logo.svg',
+    image: '../logo.svg',
     link: '/post',
   },
   {
@@ -49,7 +49,7 @@ const posts = [
     text: 'As enchentes são eventos naturais que acontecem quando o volume de água.',
     author: 'Fulano',
     date: '31/07/2025 19:15',
-    image: '/logo.svg',
+    image: '../logo.svg',
     link: '/post',
   },
 ]
@@ -73,7 +73,7 @@ const posts = [
     <section class="px-3 py-5">
       <h2 class="py-5 font-semibold">Publicações mais acessadas</h2>
       <ul>
-        <li v-for="post in posts" :key="post.id" class="my-2">
+        <li v-for="post in posts" :key="post.id" class="my-4">
           <p class="flex items-center gap-5 font-semibold">
             <span class="h-8 w-8 rounded-full bg-[#D9D9D9] pt-1 text-center text-black">{{
               post.position
