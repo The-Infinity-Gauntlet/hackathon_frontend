@@ -6,7 +6,7 @@ import { IPayment } from '../interfaces/payment'
 
 @injectable()
 export class PaymentRepository extends BaseRepository<IPayment> {
-  constructor(@inject('ApiService') api: Api) {
-    super(api, 'payment/')
-  }
+    constructor(@inject('ApiService') api: Api) {
+        super(api, 'payment/')
+    }
 }

@@ -30,8 +30,8 @@ import { Router } from 'vue-router'
  * @type {{ [x: string]: any; router: Router | null }}
  */
 const globalRouter = { router: null } as {
-  [x: string]: any
-  router: null | Router
+    [x: string]: any
+    router: null | Router
 }
 
 export { globalRouter }

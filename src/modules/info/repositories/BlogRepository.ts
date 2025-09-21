@@ -6,7 +6,7 @@ import { IBlog } from '../interfaces/blog'
 
 @injectable()
 export class BlogRepository extends BaseRepository<IBlog> {
-  constructor(@inject('ApiService') api: Api) {
-    super(api, 'blog/')
-  }
+    constructor(@inject('ApiService') api: Api) {
+        super(api, 'blog/')
+    }
 }
