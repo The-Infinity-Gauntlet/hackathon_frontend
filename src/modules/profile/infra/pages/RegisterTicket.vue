@@ -86,12 +86,16 @@ const fields = [
         autocomplete: 'neighborhood',
     },
 ]
+
+function handleRegisterTicket(values: Record<string, any>) {
+    console.log('RegisterTicket values:', values)
+}
 </script>
 
 <template>
     <div class="mb-10 grid justify-center px-5 pt-5 pb-10">
         <h1 class="hidden text-center text-2xl font-semibold lg:block">Registrar dúvida</h1>
-        <BaseForm :form-fields="fields" />
+        <BaseForm :form-fields="fields" @submit="handleRegisterTicket" />
 
         <div class="flex gap-3">
             <button

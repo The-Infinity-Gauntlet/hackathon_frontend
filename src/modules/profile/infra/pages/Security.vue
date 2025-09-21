@@ -85,6 +85,10 @@ const fields = [
         buttonText: 'Excluir conta',
     },
 ]
+
+function handleSecurity(values: Record<string, any>) {
+    console.log('Security values:', values)
+}
 </script>
 
 <template>
@@ -96,6 +100,7 @@ const fields = [
                 :key="field.id"
                 :form-fields="[field]"
                 :buttonText="field.buttonText"
+                @submit="handleSecurity"
             />
         </div>
     </div>

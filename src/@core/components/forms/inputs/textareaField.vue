@@ -1,13 +1,25 @@
 <script setup lang="ts">
-import { type PropType } from 'vue'
+import { type PropType, ref, watch } from 'vue'
 import type { IFormField } from '@/@core/interfaces/form'
 
-defineProps({
+const props = defineProps({
     field: {
         type: Object as PropType<IFormField>,
         required: true,
     },
+    modelValue: {
+        type: String,
+        default: '',
+    },
 })
+
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: string): void
+}>()
+
+const value = ref(props.modelValue)
+
+watch(value, (val) => emit('update:modelValue', val))
 </script>
 
 <template>
@@ -16,6 +28,7 @@ defineProps({
         <textarea
             :id="field.id"
             :name="field.id"
+            v-model="value"
             required
             :placeholder="field.placeholder"
             rows="7"

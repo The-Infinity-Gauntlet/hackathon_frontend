@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type PropType } from 'vue'
+import { type PropType, reactive } from 'vue'
 import {
     DatebornField,
     DateField,
@@ -12,7 +12,7 @@ import {
 } from '@/@core/components'
 import type { IFormField } from '@/@core/interfaces/form'
 
-defineProps({
+const props = defineProps({
     formFields: {
         type: Array as PropType<IFormField[]>,
         required: true,
@@ -21,6 +21,16 @@ defineProps({
         type: String,
         required: false,
     },
+})
+
+const emit = defineEmits<{
+    (e: 'submit', values: Record<string, any>): void
+}>()
+
+const formData = reactive<Record<string, any>>({})
+
+props.formFields.forEach((field) => {
+    formData[field.id] = ''
 })
 
 const getFieldComponent = (field: IFormField) => {
@@ -46,14 +56,24 @@ const getFieldComponent = (field: IFormField) => {
             return TextField
     }
 }
+
+function handleSubmit() {
+    emit('submit', { ...formData })
+}
 </script>
 
 <template>
-    <ul class="mx-auto mt-5">
-        <li v-for="field in formFields" :key="field.id" class="my-5 grid w-[332px]">
-            <component :is="getFieldComponent(field)" :field="field" />
-        </li>
-    </ul>
+    <form @submit.prevent="handleSubmit" class="mx-auto mt-5">
+        <ul>
+            <li v-for="field in formFields" :key="field.id" class="my-5 grid w-[332px]">
+                <component
+                    :is="getFieldComponent(field)"
+                    v-model="formData[field.id]"
+                    :field="field"
+                />
+            </li>
+        </ul>
 
-    <ButtonGlassmorphism v-if="buttonText" :buttonText="buttonText" />
+        <ButtonGlassmorphism v-if="buttonText" :buttonText="buttonText" type="submit" />
+    </form>
 </template>

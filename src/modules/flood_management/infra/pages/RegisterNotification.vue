@@ -81,32 +81,8 @@ const selectedAlertInfo = computed(
     () => ALERTS.find((a) => a.title === location.value.data[1].message) ?? ALERTS[4],
 )
 
-// function requestPermissionAndNotify() {
-//   console.log(Notification.permission) // "granted", "denied" ou "default"
-//   Notification.requestPermission().then((permission) => {
-//     if (permission === 'granted') {
-//       console.log('Notification permission granted.')
-
-//       const notification = {
-//         title: selectedAlertInfo.value.title,
-//         body: selectedAlertInfo.value.description,
-//         icon: '/pwa_icons/pwa-192x192.png',
-//       }
-
-//       navigator.serviceWorker.ready.then((registration) => {
-//         registration.showNotification(notification.title, {
-//           body: notification.body,
-//           icon: notification.icon,
-//         })
-//       })
-//     } else {
-//       console.log('Unable to get permission to notify.')
-//     }
-//   })
-//   window.location.reload()
-// }
-
-function requestPermissionAndNotify() {
+function requestPermissionAndNotify(values: Record<string, any>) {
+    console.log('Values:', values)
     if (Notification.permission === 'default') {
         Notification.requestPermission().then((permission) => {
             if (permission === 'granted') {
@@ -120,6 +96,7 @@ function requestPermissionAndNotify() {
     } else {
         console.log('Permissão de notificação negada.')
     }
+    window.location.reload()
 }
 
 function showNotification() {
@@ -144,7 +121,7 @@ function showNotification() {
         <ProfileForm
             :formFields="fields"
             buttonText="Cadastrar"
-            @send="requestPermissionAndNotify"
+            @submit="requestPermissionAndNotify"
         />
     </div>
 </template>

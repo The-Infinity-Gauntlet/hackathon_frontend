@@ -35,11 +35,15 @@ const fields: IFormField[] = [
     { id: 'river_discharge', label: 'Vazão do rio', placeholder: 'xxx', type: 'number' },
     { id: 'height', label: 'Altura', placeholder: 'xxx', type: 'number' },
 ]
+
+function handleEditWeather(values: Record<string, any>) {
+    console.log('EditWeather values:', values)
+}
 </script>
 
 <template>
     <div>
         <h1 class="text-center text-2xl font-semibold">Editar clima</h1>
-        <ProfileForm :formFields="fields" buttonText="Cadastrar" />
+        <ProfileForm :formFields="fields" buttonText="Cadastrar" @submit="handleEditWeather" />
     </div>
 </template>

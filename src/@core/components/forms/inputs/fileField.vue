@@ -1,12 +1,31 @@
 <script setup lang="ts">
-import { type PropType } from 'vue'
+import { type PropType, ref, watch } from 'vue'
 import type { IFormField } from '@/@core/interfaces/form'
 
-defineProps({
+const props = defineProps({
     field: {
         type: Object as PropType<IFormField>,
         required: true,
     },
+    modelValue: {
+        type: File as PropType<File | null>,
+        default: null,
+    },
+})
+
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: File | null): void
+}>()
+
+const file = ref<File | null>(props.modelValue)
+
+function handleFileChange(event: Event) {
+    const target = event.target as HTMLInputElement
+    file.value = target.files ? target.files[0] : null
+}
+
+watch(file, (val) => {
+    emit('update:modelValue', val)
 })
 </script>
 
@@ -22,11 +41,12 @@ defineProps({
                 :type="field.type"
                 :id="field.id"
                 :name="field.id"
-                required
-                :autocomplete="field.autocomplete"
                 class="hidden"
+                @change="handleFileChange"
             />
             <span class="material-symbols-outlined">upload</span>
         </label>
+
+        <p v-if="file" class="text-xs text-gray-700">Arquivo selecionado: {{ file.name }}</p>
     </div>
 </template>

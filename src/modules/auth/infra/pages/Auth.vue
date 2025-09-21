@@ -1,20 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { BaseForm } from '@/@core/components'
 import { GoogleAuthButton } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
 
 const route = useRoute()
-const router = useRouter()
 
 const isLogin = ref(route.query.mode !== 'register')
-
-// watch(isLogin, (value) => {
-//   router.replace({
-//     query: { mode: value ? 'login' : 'register' },
-//   })
-// })
 
 const loginFields: IFormField[] = [
     { id: 'email', label: 'Email', placeholder: 'Digite seu email aqui', type: 'email' },
@@ -77,14 +70,27 @@ const waveDirection = computed<'left' | 'right'>(() => {
 function toggleWave() {
     isLogin.value = !isLogin.value
 }
+
+function handleLogin(values: Record<string, any>) {
+    console.log('Login values:', values)
+}
+function handleRegister(values: Record<string, any>) {
+    console.log('Register values:', values)
+}
 </script>
 
 <template>
-    <div
-        class="absolute inset-0 -z-10 hidden h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-1000 lg:block"
+    <!-- <div class="absolute inset-0 -z-10 hidden h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-1000 lg:block"
         :class="{
             'translate-x-[50%]': waveDirection === 'right',
             'translate-x-[-50%]': waveDirection === 'left',
+        }" style="background-image: url('/layouts/wavesAuth.svg'); background-size: 100%"></div> -->
+
+    <div
+        class="absolute inset-1 -z-10 hidden h-full w-full bg-cover bg-center transition-transform duration-1000 lg:block"
+        :class="{
+            'translate-x-[40%]': waveDirection === 'right',
+            'translate-x-[-40%]': waveDirection === 'left',
         }"
         style="background-image: url('/layouts/wavesAuth.svg'); background-size: 100%"
     ></div>
@@ -101,7 +107,7 @@ function toggleWave() {
         <div v-if="isLogin" class="grid justify-center lg:flex lg:h-screen lg:gap-[40vw]">
             <div class="grid justify-center lg:my-auto">
                 <h1 class="hidden text-center text-2xl font-semibold lg:block">Login</h1>
-                <BaseForm :form-fields="loginFields" button-text="Entrar" />
+                <BaseForm :form-fields="loginFields" button-text="Entrar" @submit="handleLogin" />
 
                 <p class="my-3 text-center font-semibold">ou</p>
                 <GoogleAuthButton />
@@ -142,7 +148,11 @@ function toggleWave() {
 
             <div class="grid justify-center lg:my-auto">
                 <h1 class="hidden text-center text-2xl font-semibold lg:block">Cadastro</h1>
-                <BaseForm :form-fields="registerFields" button-text="Continuar" />
+                <BaseForm
+                    :form-fields="registerFields"
+                    button-text="Continuar"
+                    @submit="handleRegister"
+                />
 
                 <p class="my-3 text-center font-semibold">ou</p>
                 <GoogleAuthButton />
