@@ -8,20 +8,20 @@ import { ComputedRef } from 'vue'
  * @interface IUseAppStore
  */
 export interface IUseAppStore {
-  /**
-   * Objeto contendo o estado genérico da aplicação.
-   * As chaves são dinâmicas e os valores podem ser de qualquer tipo.
-   *
-   * @type {{ [key: string]: any }}
-   */
-  state: { [key: string]: any }
+    /**
+     * Objeto contendo o estado genérico da aplicação.
+     * As chaves são dinâmicas e os valores podem ser de qualquer tipo.
+     *
+     * @type {{ [key: string]: any }}
+     */
+    state: { [key: string]: any }
 
-  /**
-   * Propriedade computada que indica se há alguma operação em andamento.
-   *
-   * @type {ComputedRef<boolean>}
-   */
-  loading: ComputedRef<boolean>
+    /**
+     * Propriedade computada que indica se há alguma operação em andamento.
+     *
+     * @type {ComputedRef<boolean>}
+     */
+    loading: ComputedRef<boolean>
 }
 
 /**
@@ -30,19 +30,19 @@ export interface IUseAppStore {
  * @interface IAppState
  */
 export interface IAppState {
-  /**
-   * Flag genérica usada como constante (o nome pode ser ajustado para refletir sua finalidade real).
-   *
-   * @type {boolean}
-   */
-  const: boolean
+    /**
+     * Flag genérica usada como constante (o nome pode ser ajustado para refletir sua finalidade real).
+     *
+     * @type {boolean}
+     */
+    const: boolean
 
-  /**
-   * Indica se a aplicação está em estado de carregamento.
-   *
-   * @type {boolean}
-   */
-  loading: boolean
+    /**
+     * Indica se a aplicação está em estado de carregamento.
+     *
+     * @type {boolean}
+     */
+    loading: boolean
 }
 
 /**
@@ -51,47 +51,47 @@ export interface IAppState {
  * @interface IPagination
  */
 export interface IPagination {
-  /**
-   * Página atual.
-   *
-   * @type {number}
-   */
-  page: number
+    /**
+     * Página atual.
+     *
+     * @type {number}
+     */
+    page: number
 
-  /**
-   * Número de itens por página.
-   *
-   * @type {number}
-   */
-  page_size: number
+    /**
+     * Número de itens por página.
+     *
+     * @type {number}
+     */
+    page_size: number
 
-  /**
-   * Total de registros disponíveis.
-   *
-   * @type {number}
-   */
-  total: number
+    /**
+     * Total de registros disponíveis.
+     *
+     * @type {number}
+     */
+    total: number
 
-  /**
-   * Número total de páginas.
-   *
-   * @type {number}
-   */
-  num_pages: number
+    /**
+     * Número total de páginas.
+     *
+     * @type {number}
+     */
+    num_pages: number
 
-  /**
-   * Lista de campos pelos quais a ordenação está sendo aplicada.
-   *
-   * @type {Array<string>}
-   */
-  sortBy: Array<string>
+    /**
+     * Lista de campos pelos quais a ordenação está sendo aplicada.
+     *
+     * @type {Array<string>}
+     */
+    sortBy: Array<string>
 
-  /**
-   * Indica, para cada campo em `sortBy`, se a ordenação é descendente (`true`) ou ascendente (`false`).
-   *
-   * @type {Array<boolean>}
-   */
-  sortDesc: Array<boolean>
+    /**
+     * Indica, para cada campo em `sortBy`, se a ordenação é descendente (`true`) ou ascendente (`false`).
+     *
+     * @type {Array<boolean>}
+     */
+    sortDesc: Array<boolean>
 }
 
 /**
@@ -100,54 +100,54 @@ export interface IPagination {
  * @interface IHeader
  */
 export interface IHeader {
-  /**
-   * Identificador único da coluna.
-   *
-   * @type {number}
-   */
-  id: number
+    /**
+     * Identificador único da coluna.
+     *
+     * @type {number}
+     */
+    id: number
 
-  /**
-   * Título que será exibido na interface para o cabeçalho da coluna.
-   *
-   * @type {string}
-   */
-  title: string
+    /**
+     * Título que será exibido na interface para o cabeçalho da coluna.
+     *
+     * @type {string}
+     */
+    title: string
 
-  /**
-   * Chave de acesso no objeto de dados correspondente a essa coluna.
-   *
-   * @type {string}
-   */
-  value: string
+    /**
+     * Chave de acesso no objeto de dados correspondente a essa coluna.
+     *
+     * @type {string}
+     */
+    value: string
 
-  /**
-   * Ordem de exibição da coluna na tabela.
-   *
-   * @type {number}
-   */
-  sequence: number
+    /**
+     * Ordem de exibição da coluna na tabela.
+     *
+     * @type {number}
+     */
+    sequence: number
 
-  /**
-   * Define se a coluna está visível na tabela.
-   *
-   * @type {boolean}
-   */
-  isVisible: boolean
+    /**
+     * Define se a coluna está visível na tabela.
+     *
+     * @type {boolean}
+     */
+    isVisible: boolean
 
-  /**
-   * Indica se a coluna pode ser ordenada.
-   *
-   * @type {boolean}
-   */
-  sortable: boolean
+    /**
+     * Indica se a coluna pode ser ordenada.
+     *
+     * @type {boolean}
+     */
+    sortable: boolean
 
-  /**
-   * Conjunto de funções de validação aplicadas aos valores dessa coluna.
-   * Cada função deve retornar `true` para valor válido ou uma `string` com mensagem de erro.
-   *
-   * @type {Array<(v: string) => boolean | string>}
-   * @optional
-   */
-  rules?: Array<(v: string) => boolean | string>
+    /**
+     * Conjunto de funções de validação aplicadas aos valores dessa coluna.
+     * Cada função deve retornar `true` para valor válido ou uma `string` com mensagem de erro.
+     *
+     * @type {Array<(v: string) => boolean | string>}
+     * @optional
+     */
+    rules?: Array<(v: string) => boolean | string>
 }

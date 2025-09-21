@@ -1,6 +1,6 @@
 export interface IWeatherField {
-  name: string
-  icon: string
-  scale: number
-  message?: string
+    name: string
+    icon: string
+    scale: number
+    message?: string
 }

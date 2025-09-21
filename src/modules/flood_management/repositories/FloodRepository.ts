@@ -6,7 +6,7 @@ import { IFlood } from '../interfaces/flood'
 
 @injectable()
 export class FloodRepository extends BaseRepository<IFlood> {
-  constructor(@inject('ApiService') api: Api) {
-    super(api, 'flood/')
-  }
+    constructor(@inject('ApiService') api: Api) {
+        super(api, 'flood/')
+    }
 }
