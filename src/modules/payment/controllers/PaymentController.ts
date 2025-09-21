@@ -6,126 +6,126 @@ import type { IPayment } from '../interfaces/payment'
 import { PaymentRepository } from '../repositories/PaymentRepository'
 
 export interface IPaymentControllerState {
-  payments: IPayment[]
-  currentPayment: Partial<IPayment>
-  pagination: {
-    page: number
-    pageSize: number
-    offset: number
-    limit: number
-  }
-  loading: boolean
-  search: string
+    payments: IPayment[]
+    currentPayment: Partial<IPayment>
+    pagination: {
+        page: number
+        pageSize: number
+        offset: number
+        limit: number
+    }
+    loading: boolean
+    search: string
 }
 
 export const usePaymentController = defineStore('payment', () => {
-  const paymentRepository = container.resolve(PaymentRepository)
+    const paymentRepository = container.resolve(PaymentRepository)
 
-  const state = reactive<IPaymentControllerState>({
-    payments: [],
-    currentPayment: {},
-    pagination: {
-      page: 1,
-      pageSize: 100,
-      offset: 0,
-      limit: 10,
-    },
-    loading: false,
-    search: '',
-  })
+    const state = reactive<IPaymentControllerState>({
+        payments: [],
+        currentPayment: {},
+        pagination: {
+            page: 1,
+            pageSize: 100,
+            offset: 0,
+            limit: 10,
+        },
+        loading: false,
+        search: '',
+    })
 
-  const payments = computed(() => state.payments)
-  const currentPayment = computed(() => state.currentPayment)
-  const loading = computed(() => state.loading)
+    const payments = computed(() => state.payments)
+    const currentPayment = computed(() => state.currentPayment)
+    const loading = computed(() => state.loading)
 
-  const pagination = computed({
-    get: () => state.pagination,
-    set: (value) => (state.pagination = value),
-  })
+    const pagination = computed({
+        get: () => state.pagination,
+        set: (value) => (state.pagination = value),
+    })
 
-  const search = computed({
-    get: () => state.search,
-    set: (value) => (state.search = value),
-  })
+    const search = computed({
+        get: () => state.search,
+        set: (value) => (state.search = value),
+    })
 
-  const getPayments = async () => {
-    state.loading = true
-    const result = await paymentRepository.list()
-    state.payments = result.results
-    state.pagination = {
-      ...state.pagination,
-      page: result.page_number,
-      page_size: result.page_size,
-      total: result.total,
-      num_pages: result.num_pages,
+    const getPayments = async () => {
+        state.loading = true
+        const result = await paymentRepository.list()
+        state.payments = result.results
+        state.pagination = {
+            ...state.pagination,
+            page: result.page_number,
+            page_size: result.page_size,
+            total: result.total,
+            num_pages: result.num_pages,
+        }
+        state.loading = false
     }
-    state.loading = false
-  }
 
-  const getPaymentById = async (id: string) => {
-    state.loading = true
-    const result = await paymentRepository.getById(id)
-    state.currentPayment = result
-    state.loading = false
-    return result
-  }
-
-  const clearCurrentPayment = () => {
-    state.currentPayment = {}
-  }
-
-  const createPayment = async (payment: Partial<IPayment>) => {
-    try {
-      console.log('Creating auth:', payment)
-
-      state.loading = true
-      const data = await paymentRepository.create(payment)
-      await getPayments()
-      return data
-    } catch (error) {
-      throw error
-    } finally {
-      state.loading = false
+    const getPaymentById = async (id: string) => {
+        state.loading = true
+        const result = await paymentRepository.getById(id)
+        state.currentPayment = result
+        state.loading = false
+        return result
     }
-  }
 
-  const updatePayment = async (id: string, payment: Partial<IPayment>) => {
-    try {
-      state.loading = true
-      const data = await paymentRepository.update(id, payment)
-      await getPayments()
-      return data
-    } catch (error) {
-      throw error
-    } finally {
-      state.loading = false
+    const clearCurrentPayment = () => {
+        state.currentPayment = {}
     }
-  }
 
-  const deletePayment = async (id: string) => {
-    try {
-      state.loading = true
-      await paymentRepository.delete(id)
-      await getPayments()
-    } catch (error) {
-      throw error
-    } finally {
-      state.loading = false
+    const createPayment = async (payment: Partial<IPayment>) => {
+        try {
+            console.log('Creating auth:', payment)
+
+            state.loading = true
+            const data = await paymentRepository.create(payment)
+            await getPayments()
+            return data
+        } catch (error) {
+            throw error
+        } finally {
+            state.loading = false
+        }
     }
-  }
 
-  return {
-    state,
-    payments,
-    currentPayment,
-    pagination,
-    loading,
-    search,
-    getPayments,
-    getPaymentById,
-    clearCurrentPayment,
-    createPayment,
-    updatePayment,
-    deletePayment,
-  }
+    const updatePayment = async (id: string, payment: Partial<IPayment>) => {
+        try {
+            state.loading = true
+            const data = await paymentRepository.update(id, payment)
+            await getPayments()
+            return data
+        } catch (error) {
+            throw error
+        } finally {
+            state.loading = false
+        }
+    }
+
+    const deletePayment = async (id: string) => {
+        try {
+            state.loading = true
+            await paymentRepository.delete(id)
+            await getPayments()
+        } catch (error) {
+            throw error
+        } finally {
+            state.loading = false
+        }
+    }
+
+    return {
+        state,
+        payments,
+        currentPayment,
+        pagination,
+        loading,
+        search,
+        getPayments,
+        getPaymentById,
+        clearCurrentPayment,
+        createPayment,
+        updatePayment,
+        deletePayment,
+    }
 })

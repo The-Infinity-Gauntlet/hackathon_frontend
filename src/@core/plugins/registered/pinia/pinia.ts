@@ -23,6 +23,6 @@ import type { App } from 'vue'
  * @returns {void}
  */
 export default function registerPinia(app: App): void {
-  const pinia = createPinia()
-  app.use(pinia)
+    const pinia = createPinia()
+    app.use(pinia)
 }

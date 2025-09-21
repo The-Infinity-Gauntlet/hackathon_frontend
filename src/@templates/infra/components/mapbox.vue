@@ -14,113 +14,113 @@ const router = useRouter()
 const ctrl = useFloodCameraMonitoringController()
 
 onMounted(async () => {
-  await ctrl.load()
+    await ctrl.load()
 
-  const map = new mapboxgl.Map({
-    container: 'map-fixed',
-    style: 'mapbox://styles/mapbox/outdoors-v12',
-    center: [-48.8464, -26.3044],
-    zoom: 13,
-    pitch: 60,
-    bearing: -30,
-    antialias: true,
-  })
-
-  map.addControl(new mapboxgl.NavigationControl(), 'top-right')
-  if (window.matchMedia('(max-width: 1023px)').matches) {
-    map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
-  }
-
-  function addCustomMarker(lng: number, lat: number, cameraId: string) {
-    const el = document.createElement('div')
-    el.className = 'custom-marker'
-    el.style.backgroundImage = 'url("/weather_information/camera.svg")'
-    el.style.width = '80px'
-    el.style.height = '80px'
-    el.style.backgroundSize = 'contain'
-    el.style.backgroundRepeat = 'no-repeat'
-    el.style.cursor = 'pointer'
-
-    el.addEventListener('click', () => {
-      router.push({ name: 'camera-info', params: { id: cameraId } })
+    const map = new mapboxgl.Map({
+        container: 'map-fixed',
+        style: 'mapbox://styles/mapbox/outdoors-v12',
+        center: [-48.8464, -26.3044],
+        zoom: 13,
+        pitch: 60,
+        bearing: -30,
+        antialias: true,
     })
 
-    new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map)
-  }
-
-  map.on('load', async () => {
-    // map.addSource('mapbox-dem', {
-    //   type: 'raster-dem',
-    //   url: 'mapbox://mapbox.terrain-rgb',
-    //   tileSize: 512,
-    //   maxzoom: 14,
-    // })
-    // map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
-
-    // map.addLayer({
-    //   id: 'hillshade-layer',
-    //   type: 'hillshade',
-    //   source: 'mapbox-dem',
-    //   layout: { visibility: 'visible' },
-    //   paint: {
-    //     'hillshade-exaggeration': 0.5,
-    //   },
-    // })
-
-    // map.addLayer(
-    //   {
-    //     id: '3d-buildings',
-    //     source: 'composite',
-    //     'source-layer': 'building',
-    //     filter: ['==', 'extrude', 'true'],
-    //     type: 'fill-extrusion',
-    //     minzoom: 15,
-    //     paint: {
-    //       'fill-extrusion-color': '#aaa',
-    //       'fill-extrusion-height': ['get', 'height'],
-    //       'fill-extrusion-base': ['get', 'min_height'],
-    //       'fill-extrusion-opacity': 0.6,
-    //     },
-    //   },
-    //   'waterway-label',
-    // )
-
-    try {
-      const response = await fetch('/flooding.json')
-      const floodGeojson = await response.json()
-
-      map.addSource('flood-area', {
-        type: 'geojson',
-        data: floodGeojson,
-      })
-
-      map.addLayer({
-        id: 'flood-area-volume',
-        type: 'fill-extrusion',
-        source: 'flood-area',
-        paint: {
-          'fill-extrusion-color': [
-            'interpolate',
-            ['linear'],
-            ['get', 'risk_level'],
-            0.0,
-            '#add8e6', // lightblue
-            1.0,
-            '#00008b', // darkblue
-          ],
-          'fill-extrusion-height': ['get', 'depth'],
-          'fill-extrusion-base': 0,
-          'fill-extrusion-opacity': 0.5,
-        },
-      })
-    } catch (error) {
-      console.error('Erro ao carregar floodGeojson:', error)
+    map.addControl(new mapboxgl.NavigationControl(), 'top-right')
+    if (window.matchMedia('(max-width: 1023px)').matches) {
+        map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
     }
 
-    cameras.forEach((camera) => {
-      addCustomMarker(camera.lng, camera.lat, camera.id)
+    function addCustomMarker(lng: number, lat: number, cameraId: string) {
+        const el = document.createElement('div')
+        el.className = 'custom-marker'
+        el.style.backgroundImage = 'url("/weather_information/camera.svg")'
+        el.style.width = '80px'
+        el.style.height = '80px'
+        el.style.backgroundSize = 'contain'
+        el.style.backgroundRepeat = 'no-repeat'
+        el.style.cursor = 'pointer'
+
+        el.addEventListener('click', () => {
+            router.push({ name: 'camera-info', params: { id: cameraId } })
+        })
+
+        new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map)
+    }
+
+    map.on('load', async () => {
+        // map.addSource('mapbox-dem', {
+        //   type: 'raster-dem',
+        //   url: 'mapbox://mapbox.terrain-rgb',
+        //   tileSize: 512,
+        //   maxzoom: 14,
+        // })
+        // map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+
+        // map.addLayer({
+        //   id: 'hillshade-layer',
+        //   type: 'hillshade',
+        //   source: 'mapbox-dem',
+        //   layout: { visibility: 'visible' },
+        //   paint: {
+        //     'hillshade-exaggeration': 0.5,
+        //   },
+        // })
+
+        // map.addLayer(
+        //   {
+        //     id: '3d-buildings',
+        //     source: 'composite',
+        //     'source-layer': 'building',
+        //     filter: ['==', 'extrude', 'true'],
+        //     type: 'fill-extrusion',
+        //     minzoom: 15,
+        //     paint: {
+        //       'fill-extrusion-color': '#aaa',
+        //       'fill-extrusion-height': ['get', 'height'],
+        //       'fill-extrusion-base': ['get', 'min_height'],
+        //       'fill-extrusion-opacity': 0.6,
+        //     },
+        //   },
+        //   'waterway-label',
+        // )
+
+        try {
+            const response = await fetch('/flooding.json')
+            const floodGeojson = await response.json()
+
+            map.addSource('flood-area', {
+                type: 'geojson',
+                data: floodGeojson,
+            })
+
+            map.addLayer({
+                id: 'flood-area-volume',
+                type: 'fill-extrusion',
+                source: 'flood-area',
+                paint: {
+                    'fill-extrusion-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'risk_level'],
+                        0.0,
+                        '#add8e6', // lightblue
+                        1.0,
+                        '#00008b', // darkblue
+                    ],
+                    'fill-extrusion-height': ['get', 'depth'],
+                    'fill-extrusion-base': 0,
+                    'fill-extrusion-opacity': 0.5,
+                },
+            })
+        } catch (error) {
+            console.error('Erro ao carregar floodGeojson:', error)
+        }
+
+        cameras.forEach((camera) => {
+            addCustomMarker(camera.lng, camera.lat, camera.id)
+        })
     })
-  })
 })
 
 // onMounted(() => {
@@ -181,12 +181,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="mb-10">
-    <div class="relative h-[40vw] min-h-[500px] overflow-hidden rounded-2xl">
-      <div id="map-fixed" class="h-full w-full"></div>
-      <MapboxFilters class="hidden lg:block" />
-    </div>
+    <section class="mb-10">
+        <div class="relative h-[40vw] min-h-[500px] overflow-hidden rounded-2xl">
+            <div id="map-fixed" class="h-full w-full"></div>
+            <MapboxFilters class="hidden lg:block" />
+        </div>
 
-    <MapboxFilters class="lg:hidden" />
-  </section>
+        <MapboxFilters class="lg:hidden" />
+    </section>
 </template>

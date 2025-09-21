@@ -6,7 +6,7 @@ import { IAuth } from '../interfaces/auth'
 
 @injectable()
 export class AuthRepository extends BaseRepository<IAuth> {
-  constructor(@inject('ApiService') api: Api) {
-    super(api, 'auth/')
-  }
+    constructor(@inject('ApiService') api: Api) {
+        super(api, 'auth/')
+    }
 }

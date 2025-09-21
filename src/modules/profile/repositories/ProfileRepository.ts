@@ -6,7 +6,7 @@ import { IUser } from '../interfaces/user'
 
 @injectable()
 export class ProfileRepository extends BaseRepository<IUser> {
-  constructor(@inject('ApiService') api: Api) {
-    super(api, 'profile/')
-  }
+    constructor(@inject('ApiService') api: Api) {
+        super(api, 'profile/')
+    }
 }

@@ -34,7 +34,7 @@ import { Api } from '../services/api'
  * @returns {void} Não retorna valor. Apenas registra os serviços no container.
  */
 const registerServices = (): void => {
-  container.register('ApiService', { useClass: Api })
+    container.register('ApiService', { useClass: Api })
 }
 
 export default registerServices

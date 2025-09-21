@@ -29,44 +29,44 @@ const moduleRoutes = Object.values(routeModules).flatMap((mod: any) => mod.defau
  * @type {import('vue-router').Router}
  */
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      component: () => import('@/@templates/layouts/Default.vue'),
-      children: [
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
         {
-          path: '/',
-          name: 'Home',
-          component: () => import('@/@templates/infra/pages/index.vue'),
+            path: '/',
+            component: () => import('@/@templates/layouts/Default.vue'),
+            children: [
+                {
+                    path: '/',
+                    name: '',
+                    component: () => import('@/@templates/infra/pages/index.vue'),
+                },
+            ],
         },
-      ],
+        ...moduleRoutes,
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'NotFound',
+            component: () => import('@/@templates/infra/pages/NotFound.vue'),
+        },
+    ],
+    scrollBehavior() {
+        return { top: 0 }
     },
-    ...moduleRoutes,
-    {
-      path: '/:pathMatch(.*)*',
-      name: 'NotFound',
-      component: () => import('@/@templates/infra/pages/NotFound.vue'),
-    },
-  ],
-  scrollBehavior() {
-    return { top: 0 }
-  },
 })
 
 router.beforeEach((to) => {
-  const auth = useAuthStore()
-  const userRole = localStorage.getItem('role')
+    const auth = useAuthStore()
+    const userRole = localStorage.getItem('role')
 
-  // 1. Usuário não autenticado e rota exige login
-  if (to.meta.requiresAuth && !auth.isAuthenticated) {
-    return { name: 'Login' }
-  }
+    // 1. Usuário não autenticado e rota exige login
+    if (to.meta.requiresAuth && !auth.isAuthenticated) {
+        return { name: 'auth', query: { mode: 'login' } }
+    }
 
-  // 2. Usuário autenticado mas sem permissão de acesso
-  if (to.meta.role && to.meta.role !== userRole) {
-    return { name: 'NotFound' }
-  }
+    // 2. Usuário autenticado mas sem permissão de acesso
+    if (to.meta.role && to.meta.role !== userRole) {
+        return { name: 'NotFound' }
+    }
 })
 
 /**
@@ -85,5 +85,5 @@ router.beforeEach((to) => {
  */
 
 export default function (app: App) {
-  app.use(router)
+    app.use(router)
 }
