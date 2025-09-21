@@ -37,7 +37,7 @@ const router = createRouter({
             children: [
                 {
                     path: '/',
-                    name: '',
+                    name: 'Home',
                     component: () => import('@/@templates/infra/pages/index.vue'),
                 },
             ],
