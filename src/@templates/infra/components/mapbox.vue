@@ -5,7 +5,6 @@ import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useFloodCameraMonitoringController } from '@/modules/flood_camera_monitoring/controller/FloodCameraMonitoringController'
-// import cameras from '@/@core/controllers/FloodCameraMonitoringController'
 import { MapboxFilters } from '../components'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
@@ -117,8 +116,8 @@ onMounted(async () => {
             console.error('Erro ao carregar floodGeojson:', error)
         }
 
-        cameras.forEach((camera) => {
-            addCustomMarker(camera.lng, camera.lat, camera.id)
+        ctrl.cameras.forEach((camera) => {
+            addCustomMarker(camera.longitude, camera.latitude, camera.id)
         })
     })
 })
