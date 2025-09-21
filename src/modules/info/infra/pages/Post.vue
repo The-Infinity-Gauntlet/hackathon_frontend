@@ -6,7 +6,7 @@ const post = {
   text: 'As enchentes são eventos naturais que acontecem quando o volume de água.',
   author: 'Fulano',
   date: '31/07/2025 19:15',
-  image: '/logo.svg',
+  image: '',
   link: '/blog',
 }
 </script>
@@ -19,7 +19,8 @@ const post = {
       <p class="text-[#999999]">{{ post.date }}</p>
     </div>
 
-    <img :src="post.image" :alt="post.title" class="w-full rounded-2xl bg-[#999999] object-cover" />
+    <img :src="post.image" :alt="post.title" class="w-180 h-auto mx-auto rounded-2xl bg-[#999999] object-cover">
+
 
     <p>{{ post.text }}</p>
   </div>
