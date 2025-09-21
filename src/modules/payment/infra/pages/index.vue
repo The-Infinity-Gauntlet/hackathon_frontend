@@ -152,6 +152,13 @@ const handleFinish = () => {
     showPopup.value = true
     // alert('Pagamento efetuado!')
 }
+
+function handleCardPayment(values: Record<string, any>) {
+    console.log('CardPayment values:', values)
+}
+function handlePIxPayment(values: Record<string, any>) {
+    console.log('PixPayment values:', values)
+}
 </script>
 
 <template>
@@ -162,11 +169,11 @@ const handleFinish = () => {
         </template>
 
         <template #step-2>
-            <BaseForm :form-fields="fieldsStep2" />
+            <BaseForm :form-fields="fieldsStep2" @submit="handleCardPayment" />
         </template>
 
         <template #step-3>
-            <BaseForm :form-fields="fieldsStep3" />
+            <BaseForm :form-fields="fieldsStep3" @submit="handlePixPayment" />
         </template>
 
         <template #step-4> </template>

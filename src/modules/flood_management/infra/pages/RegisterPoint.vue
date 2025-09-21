@@ -88,6 +88,10 @@ onMounted(async () => {
         //   .addTo(map)
     })
 })
+
+function handleRegisterPoint(values: Record<string, any>) {
+    console.log('RegisterPoint values:', values)
+}
 </script>
 
 <template>
@@ -96,6 +100,6 @@ onMounted(async () => {
         <div class="h-[350px] overflow-hidden rounded-2xl lg:w-[50vw]">
             <div id="map-register_point" class="h-full w-full"></div>
         </div>
-        <ProfileForm :formFields="fields" buttonText="Cadastrar" />
+        <ProfileForm :formFields="fields" buttonText="Cadastrar" @submit="handleRegisterPoint" />
     </div>
 </template>

@@ -5,23 +5,28 @@ import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useFloodCameraMonitoringController } from '@/modules/flood_camera_monitoring/controller/FloodCameraMonitoringController'
+import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 import { MapboxFilters } from '../components'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 
 const router = useRouter()
 const ctrl = useFloodCameraMonitoringController()
+const geolocation = useGeolocationStore()
 
 onMounted(async () => {
     const map = new mapboxgl.Map({
         container: 'map-fixed',
         style: 'mapbox://styles/mapbox/outdoors-v12',
-        center: [-48.8464, -26.3044],
+        // center: [-48.8464, -26.3044],
+        center: [geolocation.longitude, geolocation.latitude],
         zoom: 13,
         pitch: 60,
         bearing: -30,
         antialias: true,
     })
+
+    new mapboxgl.Marker().setLngLat([geolocation.longitude, geolocation.latitude]).addTo(map)
 
     map.addControl(new mapboxgl.NavigationControl(), 'top-right')
     if (window.matchMedia('(max-width: 1023px)').matches) {

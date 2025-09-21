@@ -79,46 +79,38 @@ const field = {
 <template>
     <div>
         <section class="py-5">
-            <h1 class="grid gap-3 text-4xl font-semibold lg:text-5xl">Gráficos</h1>
-        </section>
+            <div class="lg:flex lg:items-end lg:justify-between">
+                <div>
+                    <h1 class="grid gap-3 text-4xl font-semibold lg:text-5xl">Gráficos</h1>
+                    <p class="my-2 flex items-center gap-3 text-xs text-[#999999] lg:text-lg">
+                        <span class="material-symbols-outlined">update</span> {{ location.date }}
+                    </p>
+                </div>
 
-        <section>
-            <h2 class="text-2xl font-semibold lg:text-3xl">Dados atuais</h2>
-            <p class="my-2 flex items-center gap-3 text-xs text-[#999999] lg:text-lg">
-                <span class="material-symbols-outlined">update</span> {{ location.date }}
-            </p>
+                <div class="flex gap-5">
+                    <button
+                        class="w-40 cursor-pointer rounded-2xl bg-white py-2 font-semibold text-[#2768CA] shadow-md"
+                    >
+                        Dados atuais
+                    </button>
 
-            <div class="mt-5">
-                <ChartItems
-                    v-for="item in data.options"
-                    :key="item"
-                    :item="item"
-                    class="lg:hidden"
-                />
-                <div
-                    class="hidden space-x-5 overflow-x-auto pr-5 lg:grid lg:grid-cols-2 lg:justify-center"
-                >
-                    <ChartItems v-for="item in data.options" :key="item.id" :item="item" />
+                    <select
+                        :name="field.autocomplete"
+                        :id="field.id"
+                        class="w-40 rounded-2xl bg-white py-2 text-center font-semibold text-black shadow-md outline-none"
+                    >
+                        <option value="">Previsão</option>
+                        <option
+                            v-for="(option, index) in field.options"
+                            :key="option"
+                            :value="field.id === 'year' ? option : index + 1"
+                            class="bg-white font-semibold text-black"
+                        >
+                            {{ option }}
+                        </option>
+                    </select>
                 </div>
             </div>
-        </section>
-
-        <section>
-            <h2 class="mb-2 text-2xl font-semibold">Previsão</h2>
-            <select
-                :name="field.autocomplete"
-                :id="field.id"
-                class="mb-5 w-[35%] rounded-lg bg-[#2768CA] p-2 text-xs font-semibold text-white outline-none lg:w-[13%] lg:text-lg"
-            >
-                <option
-                    v-for="(option, index) in field.options"
-                    :key="option"
-                    :value="field.id === 'year' ? option : index + 1"
-                    class="bg-white font-semibold text-black dark:bg-[#00182F] dark:text-white"
-                >
-                    {{ option }}
-                </option>
-            </select>
 
             <div class="mt-5">
                 <ChartItems

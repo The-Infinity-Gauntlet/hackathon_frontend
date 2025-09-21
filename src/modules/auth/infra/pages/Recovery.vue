@@ -17,6 +17,10 @@ const closePopup = () => {
 
 const success = ref(false)
 
+function handleRecovery(values: Record<string, any>) {
+    console.log('Recovery values:', values)
+}
+
 const handleFinish = () => {
     showPopup.value = true
     success.value = true
@@ -42,7 +46,7 @@ const handleFinish = () => {
             <h1 class="hidden text-center text-2xl font-semibold lg:block">Recuperação</h1>
             <StepByStep :total-steps="2" finish-button-text="Recuperar" @finish="handleFinish">
                 <template #step-1>
-                    <BaseForm :form-fields="fields" />
+                    <BaseForm :form-fields="fields" @submit="handleRecovery" />
                 </template>
 
                 <template #step-2>

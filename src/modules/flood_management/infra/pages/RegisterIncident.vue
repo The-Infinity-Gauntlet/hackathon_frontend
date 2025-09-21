@@ -43,6 +43,10 @@ const fields: IFormField[] = [
         autocomplete: 'neighborhood',
     },
 ]
+
+function handleRegisterIncident(values: Record<string, any>) {
+    console.log('RegisterIncident values:', values)
+}
 </script>
 
 <template>
@@ -54,6 +58,6 @@ const fields: IFormField[] = [
             <p class="text-sm">Situação</p>
             <SelectFloodAlert v-model:alert="location.data[1].message" />
         </div>
-        <ProfileForm :formFields="fields" buttonText="Cadastrar" />
+        <ProfileForm :formFields="fields" buttonText="Cadastrar" @submit="handleRegisterIncident" />
     </div>
 </template>
