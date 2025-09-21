@@ -6,6 +6,8 @@ export interface ICamera {
     flood_percentage: number
     status: string
     link: string
+    latitude: number
+    longitude: number
 }
 
 export interface HlsOptions {

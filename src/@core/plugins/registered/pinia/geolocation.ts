@@ -72,8 +72,6 @@ export const useGeolocationStore = defineStore('geolocation', () => {
                                 city.value = null
                             }
 
-                            // console.log('latitude: ', lat, 'longitude: ', lng)
-                            // console.log('Bairro atual: ', neighborhood.value, ', ', city.value)
                             resolve({
                                 neighborhood: neighborhood.value,
                                 city: city.value,

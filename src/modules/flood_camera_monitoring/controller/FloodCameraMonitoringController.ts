@@ -7,8 +7,6 @@ import { FloodCameraMonitoringRepository } from '../repositories/FloodCameraMoni
 import { FloodPredictionsRepository } from '../repositories/FloodPredictionsRepository'
 import { FloodDemoRepository } from '../repositories/FloodDemoRepository'
 
-// Store mínima e direta: carrega câmeras (array) e predições (mapeadas por camera.id)
-
 export const useFloodCameraMonitoringController = defineStore('flood_monitoring', () => {
     const cameras = ref<ICamera[]>([])
     const predictionsById = ref<Record<string, PredictionData>>({})
@@ -55,6 +53,8 @@ export const useFloodCameraMonitoringController = defineStore('flood_monitoring'
                         status: 'Online',
                         flood_percentage: 0,
                         link: '',
+                        latitude: 0,
+                        longitude: 0,
                     }
                     cameras.value.push(demoCamera)
 

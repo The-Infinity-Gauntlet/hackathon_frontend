@@ -25,6 +25,8 @@ export class FloodCameraMonitoringRepository extends BaseRepository<ICamera> {
             flood_percentage: 0,
             status: c.status === 'ACTIVE' ? 'Online' : (c.status ?? 'Offline'),
             link: '/cameras',
+            latitude: Number.isFinite(c.latitude) ? c.latitude : 0,
+            longitude: Number.isFinite(c.longitude) ? c.longitude : 0,
         }))
 
         return {

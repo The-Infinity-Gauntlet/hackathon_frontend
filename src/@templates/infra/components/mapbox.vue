@@ -13,8 +13,6 @@ const router = useRouter()
 const ctrl = useFloodCameraMonitoringController()
 
 onMounted(async () => {
-    await ctrl.load()
-
     const map = new mapboxgl.Map({
         container: 'map-fixed',
         style: 'mapbox://styles/mapbox/outdoors-v12',
@@ -41,13 +39,14 @@ onMounted(async () => {
         el.style.cursor = 'pointer'
 
         el.addEventListener('click', () => {
-            router.push({ name: 'camera-info', params: { id: cameraId } })
+            router.push(`/cameras/${cameraId}`)
         })
 
         new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map)
     }
 
     map.on('load', async () => {
+        await ctrl.load()
         // map.addSource('mapbox-dem', {
         //   type: 'raster-dem',
         //   url: 'mapbox://mapbox.terrain-rgb',
@@ -117,7 +116,11 @@ onMounted(async () => {
         }
 
         ctrl.cameras.forEach((camera) => {
-            addCustomMarker(camera.longitude, camera.latitude, camera.id)
+            if (camera.latitude && camera.longitude) {
+                addCustomMarker(camera.longitude, camera.latitude, camera.id)
+            } else {
+                console.warn('Câmera sem coordenadas:', camera)
+            }
         })
     })
 })
