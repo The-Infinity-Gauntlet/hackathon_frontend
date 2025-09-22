@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { RouterView } from 'vue-router'
 import { BaseForm, StepByStep } from '@/@core/components'
 import { PaymentMethod, PurchaseDetails, QrCode } from '../components'
+import { loadMercadoPago } from '@mercadopago/sdk-js'
 import type { IFormField } from '@/@core/interfaces/form'
+import { usePixPayment } from '../../controllers/PaymentController'
 
-const payForms = [
-    { id: 1, icon: '/payment/card.svg', name: 'Cartão' },
-    { id: 2, icon: '/payment/pix.svg', name: 'Pix' },
-    { id: 3, icon: '/payment/bank_slip.svg', name: 'Boleto' },
-]
+onMounted(async () => {
+    await loadMercadoPago()
+})
 
 const fieldsStep2: IFormField[] = [
     {
@@ -97,41 +98,58 @@ const fieldsStep2: IFormField[] = [
 
 const fieldsStep3: IFormField[] = [
     {
-        id: 'name',
+        id: 'form-checkout__payerFirstName',
+        name: 'payerFirstName',
         label: 'Nome do titular',
         placeholder: 'Digite o nome do titular aqui',
         type: 'text',
         autocomplete: 'name',
     },
     {
-        id: 'last_name',
+        id: 'form-checkout__payerLastName',
+        name: 'payerLastName',
         label: 'Sobrenome',
         placeholder: 'Digite o sobrenome do titular aqui',
         type: 'text',
         autocomplete: 'last_name',
     },
     {
-        id: 'email',
+        id: 'form-checkout__email',
+        name: 'email',
         label: 'Email',
         placeholder: 'Digite seu email aqui',
         type: 'email',
         autocomplete: 'email',
     },
     {
-        id: 'cpf',
+        id: 'form-checkout__identificationType',
+        name: 'identificationType',
         label: 'CPF do titular',
         placeholder: 'xxx.xxx.xxx-xx',
         type: 'number',
         autocomplete: 'cpf',
     },
     {
-        id: 'document',
+        id: 'form-checkout__identificationNumber',
+        name: 'identificationNumber',
         label: 'Número do documento',
         placeholder: 'xx.xxx.xxx.xxx.xx',
         type: 'number',
         autocomplete: 'document',
     },
 ]
+
+const pixStore = usePixPayment()
+
+function handlePixPayment(values: Record<string, any>) {
+  pixStore.createPaymentPix({
+    first_name: values.payerFirstName,
+    last_name: values.payerLastName,
+    email: values.email,
+    identification_type: values.identificationType,
+    identification_number: values.identificationNumber,
+  })
+}
 
 const showPopup = ref(false)
 
@@ -156,13 +174,13 @@ const handleFinish = () => {
 function handleCardPayment(values: Record<string, any>) {
     console.log('CardPayment values:', values)
 }
-function handlePIxPayment(values: Record<string, any>) {
-    console.log('PixPayment values:', values)
-}
+//function handlePIxPayment(values: Record<string, any>) {
+    //console.log('PixPayment values:', values)
+//}
 </script>
 
 <template>
-    <h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Doação</h1>
+    <!--<h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Doação</h1>
     <StepByStep :total-steps="5" finish-button-text="Doar" @finish="handleFinish">
         <template #step-1>
             <PaymentMethod :form-fields="payForms" />
@@ -192,5 +210,6 @@ function handlePIxPayment(values: Record<string, any>) {
             <h2 class="mb-4 text-xl font-semibold text-green-500">Concluído!</h2>
             <p class="text-gray-600 dark:text-gray-400">Doação paga com sucesso.</p>
         </template>
-    </StepByStep>
+    </StepByStep>-->
+    <RouterView />
 </template>

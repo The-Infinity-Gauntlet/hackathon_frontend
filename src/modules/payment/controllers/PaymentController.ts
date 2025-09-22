@@ -2,8 +2,8 @@ import { computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { container } from 'tsyringe'
 
-import type { IPayment } from '../interfaces/payment'
-import { PaymentRepository } from '../repositories/PaymentRepository'
+import type { IPayment, IPaymentPix } from '../interfaces/payment'
+import { PaymentPixRepository } from '../repositories/PaymentRepository'
 
 export interface IPaymentControllerState {
     payments: IPayment[]
@@ -127,5 +127,40 @@ export const usePaymentController = defineStore('payment', () => {
         createPayment,
         updatePayment,
         deletePayment,
+    }
+})
+
+export const usePixPayment = defineStore('pix', () => {
+    const paymentPixRepository = container.resolve(PaymentPixRepository)
+
+    const state = reactive<IPaymentControllerState>({
+        payments: [],
+        currentPayment: {},
+        pagination: {
+            page: 1,
+            pageSize: 100,
+            offset: 0,
+            limit: 10,
+        },
+        loading: false,
+        search: '',
+    })
+
+    const createPaymentPix = async (payment: Partial<IPaymentPix>) => {
+        try {
+            console.log('Creating auth:', payment)
+            state.loading = true
+            const data = await paymentPixRepository.create(payment)
+            return data
+        } catch (error) {
+            throw error
+        } finally {
+            state.loading = false
+        }
+    }
+
+    return {
+        state,
+        createPaymentPix
     }
 })

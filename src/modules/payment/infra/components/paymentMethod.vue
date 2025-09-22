@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ButtonGlassmorphism } from '@/@core/components'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const payForms = [
-    { id: 1, icon: '/payment/card.svg', name: 'Cartão' },
-    { id: 2, icon: '/payment/pix.svg', name: 'Pix' },
-    { id: 3, icon: '/payment/bank_slip.svg', name: 'Boleto' },
+    { id: 1, icon: '/payment/card.svg', name: 'Cartão', route: '/pagamento/cartao' },
+    { id: 2, icon: '/payment/pix.svg', name: 'Pix', route: '/pagamento/pix' },
+    { id: 3, icon: '/payment/bank_slip.svg', name: 'Boleto', route: '/pagamento/boleto' },
 ]
 
 const selected = ref<number | null>(null)
 
-const emit = defineEmits<{
+/*const emit = defineEmits<{
     (e: 'finish', value: number | null): void
 }>()
 
@@ -20,6 +23,15 @@ const finalize = () => {
     } else {
         alert('Por favor, selecione um método de pagamento.')
     }
+}*/
+
+const finalize = () => {
+  const form = payForms.find(f => f.id === selected.value)
+  if (form) {
+    router.push(form.route)
+  } else {
+    alert('Por favor, selecione um método de pagamento.')
+  }
 }
 </script>
 

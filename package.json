@@ -19,6 +19,7 @@
     "@mapbox/mapbox-gl-draw": "^1.5.0",
     "@mapbox/mapbox-gl-geocoder": "^5.1.0",
     "@mdi/font": "^7.4.47",
+    "@mercadopago/sdk-js": "^0.0.3",
     "@tailwindcss/vite": "^4.1.11",
     "@turf/turf": "^7.2.0",
     "axios": "^1.11.0",
