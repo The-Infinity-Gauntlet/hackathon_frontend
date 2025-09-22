@@ -3,7 +3,7 @@ import { IRoutes } from '@/@core/interfaces/route'
 const routes: IRoutes[] = [
     {
         path: '/',
-        component: () => import('@/@templates/layouts/Waves.vue'),
+        component: () => import('@/@templates/layouts/Payment.vue'),
         children: [
             {
                 path: '/pagamento',

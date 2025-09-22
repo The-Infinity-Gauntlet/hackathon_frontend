@@ -36,11 +36,8 @@ const chartOptions = {
 </script>
 
 <template>
-    <h3 class="font-semibold">{{ item.data.datasets[0].label }}</h3>
-    <Chart
-        :type="item.type"
-        :data="item.data"
-        :options="chartOptions"
-        class="mt-3 mb-10 grid rounded-2xl bg-[#FFFFFF] p-5 shadow-lg dark:bg-[#00182F]"
-    />
+    <div class="grid rounded-2xl">
+        <h3 class="mb-3 font-semibold text-[#999999]">{{ item.datasets[0].label }}</h3>
+        <Chart type="bar" :data="item" :options="chartOptions" class="h-[10vw]" />
+    </div>
 </template>

@@ -76,9 +76,7 @@ if (token) {
 </script>
 
 <template>
-    <header
-        class="z-10 bg-transparent px-7 lg:bg-white lg:px-20 lg:shadow-sm xl:px-25 lg:dark:bg-[#000d19]"
-    >
+    <header class="z-10 bg-transparent px-7 lg:bg-white lg:px-20 xl:px-25 lg:dark:bg-[#000d19]">
         <nav class="lg:flex lg:items-center lg:justify-between">
             <ul class="flex items-center justify-between lg:hidden">
                 <li>
