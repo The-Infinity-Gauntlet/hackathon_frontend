@@ -80,13 +80,19 @@ function handleRegister(values: Record<string, any>) {
 </script>
 
 <template>
-    <div
-        class="absolute inset-0 -z-10 hidden h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-1000 lg:block"
+    <!-- <div class="absolute inset-0 -z-10 hidden h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-1000 lg:block"
         :class="{
             'translate-x-[50%]': waveDirection === 'right',
             'translate-x-[-50%]': waveDirection === 'left',
+        }" style="background-image: url('/layouts/wavesAuth.svg'); background-size: 120%"></div> -->
+
+    <div
+        class="fixed inset-0 -z-10 hidden h-screen w-screen bg-contain bg-center transition-transform duration-1000 lg:block"
+        :class="{
+            'translate-x-[40%]': waveDirection === 'right',
+            'translate-x-[-40%]': waveDirection === 'left',
         }"
-        style="background-image: url('/layouts/wavesAuth.svg'); background-size: 120%"
+        style="background-image: url('/layouts/wavesAuth.svg')"
     ></div>
 
     <Transition
@@ -98,7 +104,7 @@ function handleRegister(values: Record<string, any>) {
         leave-from-class="opacity-100 translate-x-0"
         leave-to-class="opacity-0 -translate-x-10"
     >
-        <div v-if="isLogin" class="grid justify-center lg:flex lg:h-screen lg:gap-[40vw]">
+        <div v-if="isLogin" class="grid justify-between lg:flex lg:h-screen lg:px-[15vw]">
             <div class="grid justify-center lg:my-auto">
                 <h1 class="hidden text-center text-2xl font-semibold lg:block">Login</h1>
                 <BaseForm :form-fields="loginFields" button-text="Entrar" @submit="handleLogin" />
@@ -125,7 +131,7 @@ function handleRegister(values: Record<string, any>) {
             </div>
         </div>
 
-        <div v-else class="grid justify-center pb-20 lg:flex lg:h-screen lg:gap-200 lg:pb-0">
+        <div v-else class="grid justify-between pb-20 lg:flex lg:h-screen lg:px-[15vw] lg:pb-0">
             <div class="my-auto hidden gap-5 text-center text-white lg:grid">
                 <h3 class="text-4xl font-semibold">Bem-vindo!</h3>
                 <p class="w-[332px] font-semibold">

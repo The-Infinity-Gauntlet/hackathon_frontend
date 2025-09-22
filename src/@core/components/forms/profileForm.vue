@@ -4,6 +4,7 @@ import {
     DatebornField,
     DeleteField,
     FieldGroup,
+    NotificationField,
     NameField,
     PasswordField,
     PasswordProfileField,
@@ -46,6 +47,8 @@ const getFieldComponent = (field: IFormField) => {
             return SelectField
         case 'description':
             return TextareaField
+        case 'notification':
+            return NotificationField
         default:
             return TextField
     }
@@ -123,7 +126,7 @@ function handleSubmit() {
                     ? 'bg-red-500 hover:bg-red-600'
                     : 'bg-blue-500 hover:bg-blue-600'
             "
-            class="mx-auto w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl transition-colors duration-300"
+            class="mx-auto block w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl transition-colors duration-300"
             type="submit"
         >
             {{ buttonText }}

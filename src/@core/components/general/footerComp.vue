@@ -56,7 +56,7 @@ const menu = [
 
 <template>
     <footer
-        class="bg-[#00182F] px-5 pt-10 pb-15 text-white sm:px-10 md:px-15 lg:px-20 lg:pb-5 lg:pb-10 xl:px-25"
+        class="bg-[#00182F] px-5 pt-10 pb-15 text-white sm:px-10 md:px-15 lg:px-20 lg:pb-5 xl:px-25"
     >
         <div class="grid lg:hidden">
             <ul class="flex items-center justify-center gap-10">
@@ -65,7 +65,9 @@ const menu = [
                         <img :src="item.icon" :alt="item.name" />
                     </a>
                     <RouterLink v-else :to="item.link">
-                        <img :src="item.icon" :alt="item.alt" />
+                        <div class="rounded-xl bg-white p-0.5">
+                            <img :src="item.icon" :alt="item.alt" />
+                        </div>
                     </RouterLink>
                 </li>
             </ul>
@@ -127,7 +129,9 @@ const menu = [
                             <span>{{ item.text }}</span>
                         </a>
                         <RouterLink v-else :to="item.link" class="flex items-center gap-2">
-                            <img :src="item.icon" :alt="item.alt" />
+                            <div class="rounded-xl bg-white p-0.5">
+                                <img :src="item.icon" :alt="item.alt" />
+                            </div>
                             <span>{{ item.text }}</span>
                         </RouterLink>
                     </li>
