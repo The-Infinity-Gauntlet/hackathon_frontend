@@ -57,7 +57,7 @@ const fieldsPix: IFormField[] = [
         placeholder: 'R$ x.xxx, xx',
         type: 'number',
         autocomplete: 'document',
-    }
+    },
 ]
 
 const pixStore = usePixPayment()
@@ -74,7 +74,7 @@ async function handlePixPayment(values: Record<string, any>) {
             email: values.email,
             identification_type: values.identificationType,
             identification_number: values.identificationNumber,
-            amount: amount
+            amount: amount,
         })
         qrCode.value = response.point_of_interaction.transaction_data.qr_code
         showPopup.value = true
@@ -91,11 +91,5 @@ const closePopup = () => {
 
 <template>
     <BaseForm :form-fields="fieldsPix" buttonText="Pagar com Pix" @submit="handlePixPayment" />
-    <QrCode
-        v-if="showPopup"
-        :showPopup="showPopup"
-        @close="closePopup"
-        :code="qrCode"
-        time="90"
-    />
+    <QrCode v-if="showPopup" :showPopup="showPopup" @close="closePopup" :code="qrCode" time="90" />
 </template>

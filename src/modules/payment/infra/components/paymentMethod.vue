@@ -26,12 +26,12 @@ const finalize = () => {
 }*/
 
 const finalize = () => {
-  const form = payForms.find(f => f.id === selected.value)
-  if (form) {
-    router.push(form.route)
-  } else {
-    alert('Por favor, selecione um método de pagamento.')
-  }
+    const form = payForms.find((f) => f.id === selected.value)
+    if (form) {
+        router.push(form.route)
+    } else {
+        alert('Por favor, selecione um método de pagamento.')
+    }
 }
 </script>
 

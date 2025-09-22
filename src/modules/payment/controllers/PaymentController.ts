@@ -161,6 +161,6 @@ export const usePixPayment = defineStore('pix', () => {
 
     return {
         state,
-        createPaymentPix
+        createPaymentPix,
     }
 })

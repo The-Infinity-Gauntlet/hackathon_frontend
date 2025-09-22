@@ -142,13 +142,14 @@ const fieldsStep3: IFormField[] = [
 const pixStore = usePixPayment()
 
 function handlePixPayment(values: Record<string, any>) {
-  pixStore.createPaymentPix({
-    first_name: values.payerFirstName,
-    last_name: values.payerLastName,
-    email: values.email,
-    identification_type: values.identificationType,
-    identification_number: values.identificationNumber,
-  })
+    console.log('PixPayment values:', values)
+    pixStore.createPaymentPix({
+        first_name: values.payerFirstName,
+        last_name: values.payerLastName,
+        email: values.email,
+        identification_type: values.identificationType,
+        identification_number: values.identificationNumber,
+    })
 }
 
 const showPopup = ref(false)
@@ -174,13 +175,10 @@ const handleFinish = () => {
 function handleCardPayment(values: Record<string, any>) {
     console.log('CardPayment values:', values)
 }
-//function handlePIxPayment(values: Record<string, any>) {
-    //console.log('PixPayment values:', values)
-//}
 </script>
 
 <template>
-    <!--<h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Doação</h1>
+    <h1 class="mb-10 hidden text-center text-2xl font-semibold lg:block">Doação</h1>
     <StepByStep :total-steps="5" finish-button-text="Doar" @finish="handleFinish">
         <template #step-1>
             <PaymentMethod :form-fields="payForms" />
@@ -210,6 +208,6 @@ function handleCardPayment(values: Record<string, any>) {
             <h2 class="mb-4 text-xl font-semibold text-green-500">Concluído!</h2>
             <p class="text-gray-600 dark:text-gray-400">Doação paga com sucesso.</p>
         </template>
-    </StepByStep>-->
+    </StepByStep>
     <RouterView />
 </template>
