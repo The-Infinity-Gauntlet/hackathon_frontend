@@ -36,17 +36,16 @@ export const useFloodController = defineStore('flood', () => {
     })
 
     const getFloods = async () => {
-        state.loading = true
-        const result = await floodRepository.list()
-        state.floods = result.results
-        state.pagination = {
-            ...state.pagination,
-            page: result.page_number,
-            page_size: result.page_size,
-            total: result.total,
-            num_pages: result.num_pages,
+        try {
+            console.log('Creating flood')
+            state.loading = true
+            const data = await floodRepository.getFloodPoints()
+            return data
+        } catch (error) {
+            throw error
+        } finally {
+            state.loading = false
         }
-        state.loading = false
     }
 
     const getFloodById = async (id: string) => {
