@@ -11,7 +11,7 @@ const routes: IRoutes[] = [
         component: () => import('@/modules/info/infra/pages/index.vue'),
       },
       {
-        path: '/post',
+        path: '/post/:id',
         name: 'Publicação',
         component: () => import('@/modules/info/infra/pages/Post.vue'),
       },
