@@ -5,8 +5,6 @@ import mapboxgl from 'mapbox-gl'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useNeighborhood } from '@/@core/composables/neighborhood'
-import { ProfileForm } from '@/@core/components'
-import type { IFormField } from '@/@core/interfaces/form'
 import { useFloodController } from '../../controllers/FloodController'
 import { TextField } from '@/@core/components'
 
@@ -20,19 +18,20 @@ const formValues = ref<Record<string, any>>({
     city: '',
     neighborhood: '',
     possibility: '',
-    duration: ''
+    duration: '',
 })
 
 // Function to calculate polygon centroid
 function calculatePolygonCentroid(coordinates: number[][]): [number, number] {
-    let x = 0, y = 0
+    let x = 0,
+        y = 0
     const n = coordinates.length
-    
+
     for (const coord of coordinates) {
         x += coord[0] // longitude
         y += coord[1] // latitude
     }
-    
+
     return [x / n, y / n]
 }
 
@@ -43,16 +42,19 @@ onMounted(async () => {
     if (window.currentDrawn && window.currentDrawn.length > 0) {
         drawnCoordinates.value = window.currentDrawn
         console.log('Coordenadas carregadas do FloodMap:', drawnCoordinates.value)
-        
+
         // Calculate centroid and set city/neighborhood after neighborhoods are loaded
-        if (drawnCoordinates.value[0] && drawnCoordinates.value[0].geometry && drawnCoordinates.value[0].geometry.coordinates) {
+        if (
+            drawnCoordinates.value[0] &&
+            drawnCoordinates.value[0].geometry &&
+            drawnCoordinates.value[0].geometry.coordinates
+        ) {
             const coordinates = drawnCoordinates.value[0].geometry.coordinates[0]
             const [lng, lat] = calculatePolygonCentroid(coordinates)
-            
-            
+
             // Set form values automatically
             const localization = getLocalization(lng, lat)
-            formValues.value.city = localization.city // Default city for this region
+            formValues.value.city = localization.city
             formValues.value.neighborhood = localization.neighborhood
             formValues.value.props = drawnCoordinates.value
         }
@@ -108,8 +110,8 @@ onMounted(async () => {
                     type: 'geojson',
                     data: {
                         type: 'FeatureCollection',
-                        features: drawnCoordinates.value
-                    }
+                        features: drawnCoordinates.value,
+                    },
                 })
 
                 // Add layer to display drawn polygons
@@ -119,8 +121,8 @@ onMounted(async () => {
                     source: 'drawn-polygons',
                     paint: {
                         'fill-color': '#ff0000',
-                        'fill-opacity': 0.3
-                    }
+                        'fill-opacity': 0.3,
+                    },
                 })
 
                 map.addLayer({
@@ -129,8 +131,8 @@ onMounted(async () => {
                     source: 'drawn-polygons',
                     paint: {
                         'line-color': '#ff0000',
-                        'line-width': 2
-                    }
+                        'line-width': 2,
+                    },
                 })
 
                 // Fit map to show drawn polygons
@@ -167,14 +169,14 @@ async function handleRegisterPoint(values: Record<string, any>) {
     try {
         console.log('Form submitted with values:', values)
         console.log('Coordenadas do polígono:', drawnCoordinates.value)
-        
+
         // Merge form values with any auto-detected values
         const finalValues = { ...formValues.value, ...values }
-        
+
         // Send the data to the backend with coordinates
         const result = await registerFloodPoint(finalValues, drawnCoordinates.value)
         console.log('Flood point registered successfully:', result)
-        
+
         // Redirect or show success message
         router.push('/flood-map')
     } catch (error) {
@@ -191,17 +193,30 @@ async function handleRegisterPoint(values: Record<string, any>) {
             <div id="map-register_point" class="h-full w-full"></div>
         </div>
         <div class="m-5 flex flex-col gap-y-2">
-            <TextField :field="{ label: 'City', type: 'text' }" v-model="formValues.city"/>
-            <TextField :field="{ label: 'Bairro', type: 'text' }" v-model="formValues.neighborhood"/>
+            <TextField :field="{ label: 'City', type: 'text' }" v-model="formValues.city" />
+            <TextField
+                :field="{ label: 'Bairro', type: 'text' }"
+                v-model="formValues.neighborhood"
+            />
             <div class="flex gap-3">
-                <TextField class="grow" :field="{ label: 'Probabilidade', type: 'number' }" v-model="formValues.possibility"/>
-                <TextField class="grow" :field="{ label: 'Duração em minutos', type: 'number' }" v-model="formValues.duration"/>
+                <TextField
+                    class="grow"
+                    :field="{ label: 'Probabilidade', type: 'number' }"
+                    v-model="formValues.possibility"
+                />
+                <TextField
+                    class="grow"
+                    :field="{ label: 'Duração em minutos', type: 'number' }"
+                    v-model="formValues.duration"
+                />
             </div>
             <button
-            class="mt-5 mx-auto bg-blue-500 hover:bg-blue-600 w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl transition-colors duration-300"
-            type="submit" @click="handleRegisterPoint(formValues)">
-            Cadastrar
-        </button>
+                class="mx-auto mt-5 w-[250px] rounded-2xl bg-blue-500 p-2 font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
+                type="submit"
+                @click="handleRegisterPoint(formValues)"
+            >
+                Cadastrar
+            </button>
         </div>
     </div>
 </template>

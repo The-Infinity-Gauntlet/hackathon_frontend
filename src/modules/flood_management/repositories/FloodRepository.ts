@@ -19,6 +19,16 @@ export class FloodRepository extends BaseRepository<IFlood> {
         const { data } = await this.api.post('floods_point/registering/', payload)
         return data
     }
+
+    /**
+     * Retrieves all flood points
+     * @returns Promise with the list of flood points
+     */
+    async getFloodPoints(): Promise<IFlood[]> {
+        const { data } = await this.api.get('floods_point/registering/')
+        console.log(data)
+        return data
+    }
 }
 
 @injectable()
