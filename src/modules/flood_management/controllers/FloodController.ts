@@ -2,8 +2,8 @@ import { computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { container } from 'tsyringe'
 
-import type { IFlood, IFloodControllerState } from '../interfaces/flood'
-import { FloodRepository } from '../repositories/FloodRepository'
+import { IFloodIAControllerState, type IFlood, type IFloodControllerState } from '../interfaces/flood'
+import { FloodIARepository, FloodRepository } from '../repositories/FloodRepository'
 
 export const useFloodController = defineStore('flood', () => {
     const floodRepository = container.resolve(FloodRepository)
@@ -129,5 +129,68 @@ export const useFloodController = defineStore('flood', () => {
         updateFlood,
         deleteFlood,
         registerFloodPoint,
+    }
+})
+
+export const useFloodIAController = defineStore('floodIA', () => {
+    const floodIARepository = container.resolve(FloodIARepository)
+
+    const state = reactive<IFloodIAControllerState>({
+        forecasts: [],
+        currentForecast: {},
+        pagination: {
+            page: 1,
+            pageSize: 100,
+            offset: 0,
+            limit: 10,
+        },
+        loading: false,
+        search: ''
+    })
+
+    const forecasts = computed(() => state.forecasts)
+    const currentForecast = computed(() => state.currentForecast)
+    const loading = computed(() => state.loading)
+    const pagination = computed(() => state.pagination)
+
+    const search = computed({
+        get: () => state.search,
+        set: (value) => (state.search = value)
+    })
+
+    const getForecasts = async () => {
+        state.loading = true
+        const result = await floodIARepository.list()
+        console.log("Resultado: ", result)
+        state.forecasts = result.results ?? result
+        state.pagination = {
+            ...state.pagination,
+            page: result.page_number,
+            pageSize: result.page_size
+        }
+        state.loading = false
+    }
+
+    const getForecastById = async (id: string) => {
+        state.loading = true
+        const result = await floodIARepository.getById(id)
+        state.currentForecast = result
+        state.loading = false
+    }
+
+    const clearForecast = async () => {
+        state.currentForecast = {}
+    }
+
+    return {
+        state,
+        forecasts,
+        currentForecast,
+        loading,
+        pagination,
+        search,
+        getForecasts,
+        getForecastById,
+        clearForecast
     }
 })

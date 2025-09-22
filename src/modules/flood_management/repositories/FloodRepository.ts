@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe'
 import { Api } from '@/@core/services/api'
 
 import { BaseRepository } from '@/@templates/repositories/BaseRepository'
-import { IFlood } from '../interfaces/flood'
+import { IFlood, IFloodIA } from '../interfaces/flood'
 
 @injectable()
 export class FloodRepository extends BaseRepository<IFlood> {
@@ -18,5 +18,12 @@ export class FloodRepository extends BaseRepository<IFlood> {
     async registerFloodPoint(payload: Record<string, any>): Promise<any> {
         const { data } = await this.api.post('floods_point/registering/', payload)
         return data
+    }
+}
+
+@injectable()
+export class FloodIARepository extends BaseRepository<IFloodIA> {
+    constructor(@inject('ApiService') api: Api) {
+        super(api, 'forecast/forecasts/')
     }
 }
