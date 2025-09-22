@@ -82,6 +82,14 @@ const selectedAlertInfo = computed(
     () => ALERTS.find((a) => a.title === location.value.data[1].message) ?? ALERTS[4],
 )
 
+function showNotification() {
+    navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification(selectedAlertInfo.value.title, {
+            body: selectedAlertInfo.value.description,
+            icon: '/pwa_icons/pwa-192x192.png',
+        })
+    })
+}
 function requestPermissionAndNotify(values: Record<string, any>) {
     console.log('Values:', values)
     if (Notification.permission === 'default') {
@@ -97,19 +105,9 @@ function requestPermissionAndNotify(values: Record<string, any>) {
     } else {
         console.log('Permissão de notificação negada.')
     }
-    window.location.reload()
 }
 
 const { routerBack } = useNavigation()
-
-function showNotification() {
-    navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification(selectedAlertInfo.value.title, {
-            body: selectedAlertInfo.value.description,
-            icon: '/pwa_icons/pwa-192x192.png',
-        })
-    })
-}
 </script>
 
 <template>
