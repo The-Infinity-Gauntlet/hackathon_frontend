@@ -51,15 +51,19 @@ onMounted(async () => {
 
     map.on('draw.create', () => {
         const data = draw.getAll()
+        window.currentDrawn = data.features
         console.log('Polígono criado:', data)
     })
 
     map.on('draw.update', () => {
         const data = draw.getAll()
+        window.currentDrawn = data.features
         console.log('Polígono atualizado:', data)
     })
 
     map.on('draw.delete', () => {
+        const data = draw.getAll()
+        window.currentDrawn = data.features
         console.log('Polígono removido')
     })
 

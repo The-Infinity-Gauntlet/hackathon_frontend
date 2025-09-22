@@ -25,11 +25,11 @@ const firebaseConfig = {
 }
 
 const firebaseApp = initializeApp(firebaseConfig)
-const messaging = getMessaging(firebaseApp)
+// const messaging = getMessaging(firebaseApp)
 
-onMessage(messaging, (payload) => {
-    console.log('Message received in foreground: ', payload)
-})
+// onMessage(messaging, (payload) => {
+//     console.log('Message received in foreground: ', payload)
+// })
 
 const app = createApp(App)
 
