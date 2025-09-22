@@ -1,25 +1,53 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { ButtonGlassmorphism } from '@/@core/components'
+import { type PropType, ref, watch } from 'vue'
 
-const props = defineProps<{
-    historyNotifications: array
+interface INotificationOption {
+    id: number
+    alert: string
+    message: string
+    icon: string
+    neighborhood: string
+}
+
+interface INotificationField {
+    id: string
+    label?: string
+    options: INotificationOption[]
+}
+
+const props = defineProps({
+    field: {
+        type: Object as PropType<INotificationField>,
+        required: true,
+    },
+    modelValue: {
+        type: Object as PropType<INotificationOption | null>,
+        default: null,
+    },
+})
+
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: INotificationOption | null): void
 }>()
 
-const selected = ref<number | null>(null)
+const selected = ref<INotificationOption | null>(props.modelValue)
+
+watch(selected, (val) => {
+    emit('update:modelValue', val)
+})
 </script>
 
 <template>
-    <label v-for="notification in historyNotifications" :key="notification.id">
+    <label v-for="notification in field.options" :key="notification.id" class="block">
         <input
             type="radio"
-            name="method"
-            :value="notification.id"
+            :name="field.id"
+            :value="notification"
             v-model="selected"
             class="peer hidden"
         />
         <div
-            class="my-3 flex cursor-pointer items-center justify-between rounded-2xl border-2 border-transparent bg-[#F3F3F3] p-5 text-black transition peer-checked:border-blue-600 dark:bg-[#00182F]"
+            class="mt-3 flex cursor-pointer items-center justify-between rounded-2xl border-2 border-transparent bg-[#F3F3F3] p-5 text-black transition peer-checked:border-blue-600 dark:bg-[#00182F]"
         >
             <div class="w-[60%]">
                 <h4>{{ notification.alert }}</h4>

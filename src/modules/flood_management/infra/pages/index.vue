@@ -5,6 +5,7 @@ import { useFloodCameraMonitoringController } from '@/modules/flood_camera_monit
 import { BaseChart, ProfileForm } from '@/@core/components'
 import { HlsStreamPlayer, EmbedStreamPlayer } from '@/modules/flood_camera_monitoring/infra/components'
 import { Mapbox, SelectFloodAlert } from '../components'
+import type { IFormField } from '@/@core/interfaces/form'
 
 type ViewMode = 'embed' | 'hls'
 
@@ -73,15 +74,18 @@ const user = ref({
     picture: '/nicolefemello.jpeg',
     name: 'nicolefemello',
 })
-const historyNotifications = {
-    id: 'notification',
-    options: [
-        { id: 0, alert: 'CRISE!', message: 'Probabilidade muito alta de alagamento.', icon: '/icons/notification/crise.svg', neighborhood: 'Centro' },
-        { id: 1, alert: 'ALERTA!', message: 'Probabilidade alta de alagamento.', icon: '/icons/notification/alerta.svg', neighborhood: 'Floresta' },
-        { id: 2, alert: 'MOBILIZAÇÃO!', message: 'Probabilidade baixa de alagamento.', icon: '/icons/notification/mobilizacao.svg', neighborhood: 'Boa Vista' },
-        { id: 3, alert: 'NORMALIDADE!', message: 'Probabilidade muito baixa de alagamento.', icon: '/icons/notification/normalidade.svg', neighborhood: 'Glória' },
-    ]
-}
+const historyNotifications: IFormField[] = [
+    {
+        id: 'notification',
+        label: 'Notificações',
+        type: 'select',
+        options: [
+            { id: 0, alert: 'CRISE!', message: 'Probabilidade muito alta de alagamento.', icon: '/icons/notification/crise.svg', neighborhood: 'Centro' },
+            { id: 1, alert: 'ALERTA!', message: 'Probabilidade alta de alagamento.', icon: '/icons/notification/alerta.svg', neighborhood: 'Floresta' },
+            { id: 2, alert: 'MOBILIZAÇÃO!', message: 'Probabilidade baixa de alagamento.', icon: '/icons/notification/mobilizacao.svg', neighborhood: 'Boa Vista' },
+        ],
+    },
+]
 
 const modes = reactive<Record<string, ViewMode>>({})
 const orderedCams = computed(() => {
@@ -104,6 +108,9 @@ function displayFloodPercent(cam: CameraWithPrediction): number {
     }
     return cam.flood_percentage
 }
+function handleNotification(values: Record<string, any>) {
+    console.log('Notification values:', values)
+}
 
 onMounted(async () => {
     await ctrl.load()
@@ -118,7 +125,7 @@ onMounted(async () => {
 
 <template>
     <div class="container-admin">
-        <nav class="bg-[#0453AF] rounded-xl text-white w-20 h-full mr-10">
+        <nav class="bg-[#0453AF] rounded-xl text-white w-20 h-full mr-[2.083vw]">
             <ul class="grid justify-center gap-7 px-5 py-10">
                 <li v-for="item in menu.options" :key="item.id">
                     <RouterLink :to="item.link">
@@ -134,19 +141,19 @@ onMounted(async () => {
 
             <div class="grid grid-cols-2 items-center">
                 <div class="w-[30vw] h-[14vw] bg-[#F3F3F3] dark:bg-[#00182F] rounded-2xl">
-                    <!-- <Mapbox /> -->
+                    <Mapbox />
                 </div>
 
-                <div class="w-[25vw] h-[18vw] mx-15">
+                <div class="w-[25vw] h-[18vw] mx-[3.125vw]">
                     <h3 class="text-[#999999] font-semibold mb-3">Altas probabilidades</h3>
 
                     <div class="grid grid-cols-2 bg-[#F3F3F3] dark:bg-[#00182F] overflow-hidden rounded-2xl">
                         <div v-for="(cam, index) in orderedCams.slice(0, 4)" :key="cam.id"
                             class="relative h-[7vw] border border-white dark:border-[#000D19]">
-                            <!-- <EmbedStreamPlayer v-if="modes[cam.id] === 'embed' && cam.embed_url" :src="cam.embed_url"
+                            <EmbedStreamPlayer v-if="modes[cam.id] === 'embed' && cam.embed_url" :src="cam.embed_url"
                                 :title="cam.name" class="h-full w-full" />
                             <HlsStreamPlayer v-else :src="cam.hls_url" :muted="true" :controls="true"
-                                :lock-to-live="true" :live-delay="18" class="h-full w-full" /> -->
+                                :lock-to-live="true" :live-delay="18" class="h-full w-full" />
                             <span class="absolute z-10 bottom-1 text-2xl font-extrabold" :class="displayFloodPercent(cam) <= 40
                                 ? 'text-[#27CA2C] '
                                 : displayFloodPercent(cam) <= 70
@@ -161,20 +168,20 @@ onMounted(async () => {
                     <h3 class="text-[#999999] font-semibold mb-3">Pontos atuais</h3>
                 </div>
 
-                <div class="w-[25vw] h-[14vw] bg-[#F3F3F3] dark:bg-[#00182F] rounded-2xl p-5 mx-15">
+                <div class="w-[25vw] h-[14vw] bg-[#F3F3F3] dark:bg-[#00182F] rounded-2xl p-5 mx-[3.125vw]">
                     <BaseChart :item="data.options[0]" />
                 </div>
             </div>
         </div>
 
-        <div class="ml-10">
+        <div class="ml-[2.083vw]">
             <input type="text" placeholder="Localize rapidamente a sua cidade/bairro..."
                 class="w-full p-3 rounded-lg bg-[#F3F3F3] dark:bg-[#00182F] text-[#999999] outline-none">
 
             <div class="border border-[#2768CA] rounded-2xl p-5 my-5">
-                <h3 class="text-[#999999] font-semibold mb-3">Notificações frequentes</h3>
+                <h3 class="text-[#999999] font-semibold">Notificações frequentes</h3>
 
-                <ProfileForm />
+                <ProfileForm :formFields="historyNotifications" button-text="Reenviar" @submit="handleNotification" />
             </div>
 
             <SelectFloodAlert v-model:alert="location.data[1].message" />
@@ -186,6 +193,6 @@ onMounted(async () => {
 .container-admin {
     display: flex;
     justify-content: space-between;
-    height: 140vh;
+    height: 150vh;
 }
 </style>

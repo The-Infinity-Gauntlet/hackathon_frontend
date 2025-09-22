@@ -80,12 +80,6 @@ function handleRegister(values: Record<string, any>) {
 </script>
 
 <template>
-    <!-- <div class="absolute inset-0 -z-10 hidden h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-1000 lg:block"
-        :class="{
-            'translate-x-[50%]': waveDirection === 'right',
-            'translate-x-[-50%]': waveDirection === 'left',
-        }" style="background-image: url('/layouts/wavesAuth.svg'); background-size: 120%"></div> -->
-
     <div
         class="fixed inset-0 -z-10 hidden h-screen w-screen bg-contain bg-center transition-transform duration-1000 lg:block"
         :class="{

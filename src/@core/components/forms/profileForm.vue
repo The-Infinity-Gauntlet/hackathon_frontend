@@ -126,7 +126,7 @@ function handleSubmit() {
                     ? 'bg-red-500 hover:bg-red-600'
                     : 'bg-blue-500 hover:bg-blue-600'
             "
-            class="mx-auto block w-[250px] rounded-2xl p-2 font-semibold text-white shadow-xl transition-colors duration-300"
+            class="mx-auto block w-[250px] cursor-pointer rounded-2xl p-2 font-semibold text-white shadow-xl transition-colors duration-300"
             type="submit"
         >
             {{ buttonText }}
