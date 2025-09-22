@@ -101,6 +101,20 @@ export const useFloodController = defineStore('flood', () => {
         }
     }
 
+    const registerFloodPoint = async (payload: Record<string, any>) => {
+        try {
+            state.loading = true
+            const data = await floodRepository.registerFloodPoint(payload)
+            console.log('Flood point registered successfully:', data)
+            return data
+        } catch (error) {
+            console.error('Error registering flood point:', error)
+            throw error
+        } finally {
+            state.loading = false
+        }
+    }
+
     return {
         state,
         floods,
@@ -114,5 +128,6 @@ export const useFloodController = defineStore('flood', () => {
         createFlood,
         updateFlood,
         deleteFlood,
+        registerFloodPoint,
     }
 })
