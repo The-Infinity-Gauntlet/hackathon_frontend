@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
@@ -8,6 +8,8 @@ import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useNeighborhood } from '@/@core/composables/neighborhood'
 import { useNavigation } from '@/@core/composables/navigation'
 import Table from '../components/table.vue'
+import { useFloodMapIA } from '@/@core/composables/useFloodMap'
+import { useFloodIAController } from '../../controllers/FloodController'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 const neighborhood = ref<string | null>(null)
@@ -17,6 +19,9 @@ const { routerBack } = useNavigation()
 const toggleSheet = () => {
     isOpen.value = !isOpen.value
 }
+
+const { points, init, toGeoJSON } = useFloodMapIA()
+//const floodStore = useFloodIAController()
 
 onMounted(async () => {
     await loadNeighborhoods()
@@ -68,6 +73,7 @@ onMounted(async () => {
     })
 
     map.on('load', async () => {
+        await init()
         try {
             // Carregar floodGeojson via fetch (não como import)
             const response = await fetch('/flooding.json')
@@ -99,6 +105,43 @@ onMounted(async () => {
                     'fill-extrusion-opacity': 0.5,
                 },
             })
+
+            watch(points, (newPoints) => {
+                console.log("Novos pontos: ", newPoints)
+                const geojson = toGeoJSON()
+                console.log("GeoJSON: ", geojson)
+                if (!map.getSource('flood-points')) {
+                    map.addSource('flood-points', {
+                        type: 'geojson',
+                        data: geojson
+                    })
+                    map.addLayer({
+                        id: "flood-points-layer",
+                        type: "heatmap",
+                        source: "flood-points",
+                        paint: {
+                        "heatmap-weight": ["interpolate", ["linear"], ["get", "intensity"], 0, 0, 1, 1],
+                        "heatmap-color": [
+                        "interpolate",
+                        ["linear"],
+                        ["heatmap-density"],
+                        0, "rgba(0, 0, 255, 0)",
+                        0.1, "#10439F",
+                        //0.3, "#3981BF",
+                        0.5, "#0453AF",
+                        //0.7, "#469AA0",
+                        0.9, "#6DBFC5",
+                        1, "red"
+                        ],
+                        "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 10, 30, 15, 65],
+                        "heatmap-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0.9, 15, 0.75]
+                        }
+                    })  
+                } else {
+                    const source = map.getSource("flood-points") as mapboxgl.GeoJSONSource
+                    source.setData(geojson)
+                }
+            }, { immediate: true })
         } catch (error) {
             console.error('Erro ao carregar floodGeojson:', error)
         }
