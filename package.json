@@ -19,6 +19,7 @@
     "@mapbox/mapbox-gl-draw": "^1.5.0",
     "@mapbox/mapbox-gl-geocoder": "^5.1.0",
     "@mdi/font": "^7.4.47",
+    "@mercadopago/sdk-js": "^0.0.3",
     "@tailwindcss/vite": "^4.1.11",
     "@turf/turf": "^7.2.0",
     "axios": "^1.11.0",
@@ -27,6 +28,7 @@
     "firebase": "^12.0.0",
     "hls.js": "^1.6.12",
     "mapbox-gl": "^3.14.0",
+    "moment": "^2.30.1",
     "pinia": "^3.0.1",
     "primevue": "^4.3.7",
     "reflect-metadata": "^0.2.2",
@@ -41,6 +43,7 @@
   "devDependencies": {
     "@tsconfig/node22": "^22.0.1",
     "@types/node": "^22.14.0",
+    "@vitejs/plugin-basic-ssl": "^2.1.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitejs/plugin-vue-jsx": "^4.2.0",
     "@vitest/eslint-plugin": "^1.1.39",

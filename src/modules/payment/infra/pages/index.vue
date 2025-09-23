@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { RouterView } from 'vue-router'
 import { BaseForm, StepByStep } from '@/@core/components'
 import { PaymentMethod, PurchaseDetails, QrCode } from '../components'
+import { loadMercadoPago } from '@mercadopago/sdk-js'
 import type { IFormField } from '@/@core/interfaces/form'
+import { usePixPayment } from '../../controllers/PaymentController'
 
-const payForms = [
-    { id: 1, icon: '/payment/card.svg', name: 'Cartão' },
-    { id: 2, icon: '/payment/pix.svg', name: 'Pix' },
-    { id: 3, icon: '/payment/bank_slip.svg', name: 'Boleto' },
-]
+onMounted(async () => {
+    await loadMercadoPago()
+})
 
 const fieldsStep2: IFormField[] = [
     {
@@ -97,41 +98,76 @@ const fieldsStep2: IFormField[] = [
 
 const fieldsStep3: IFormField[] = [
     {
-        id: 'name',
+        id: 'form-checkout__payerFirstName',
+        name: 'first_name',
         label: 'Nome do titular',
         placeholder: 'Digite o nome do titular aqui',
         type: 'text',
         autocomplete: 'name',
     },
     {
-        id: 'last_name',
+        id: 'form-checkout__payerLastName',
+        name: 'last_name',
         label: 'Sobrenome',
         placeholder: 'Digite o sobrenome do titular aqui',
         type: 'text',
         autocomplete: 'last_name',
     },
     {
-        id: 'email',
+        id: 'form-checkout__email',
+        name: 'email',
         label: 'Email',
         placeholder: 'Digite seu email aqui',
         type: 'email',
         autocomplete: 'email',
     },
     {
-        id: 'cpf',
-        label: 'CPF do titular',
-        placeholder: 'xxx.xxx.xxx-xx',
-        type: 'number',
-        autocomplete: 'cpf',
+        id: 'form-checkout__identificationType',
+        name: 'identification_type',
+        label: 'Tipo de documento',
+        type: 'select',
+        options: ['CPF', 'CNPJ'],
     },
     {
-        id: 'document',
+        id: 'form-checkout__identificationNumber',
+        name: 'identification_number',
         label: 'Número do documento',
-        placeholder: 'xx.xxx.xxx.xxx.xx',
+        placeholder: 'xxx.xxx.xxx-xx',
         type: 'number',
         autocomplete: 'document',
     },
+    {
+        id: 'transactionAmount',
+        name: 'amount',
+        label: 'Valor',
+        type: 'number',
+        placeholder: 'R$ x.xxx,xx',
+    },
 ]
+
+const pixStore = usePixPayment()
+const qrCode = ref('')
+
+async function handlePixPayment(values: Record<string, any>) {
+    console.log('Valores: ', values)
+    try {
+        const amount = parseFloat(values.amount.replace(',', '.'))
+        const response = await pixStore.createPaymentPix({
+            payment_method_id: 'pix',
+            first_name: values.first_name,
+            last_name: values.last_name,
+            email: values.email,
+            identification_type: values.identification_type,
+            identification_number: values.identification_number,
+            amount: amount,
+        })
+        qrCode.value = response.point_of_interaction.transaction_data.qr_code
+        showPopup.value = true
+    } catch (error) {
+        console.error('Erro ao criar pagamento Pix:', error)
+        alert('Ocorreu um erro ao processar o pagamento. Tente novamente.')
+    }
+}
 
 const showPopup = ref(false)
 
@@ -155,9 +191,6 @@ const handleFinish = () => {
 
 function handleCardPayment(values: Record<string, any>) {
     console.log('CardPayment values:', values)
-}
-function handlePIxPayment(values: Record<string, any>) {
-    console.log('PixPayment values:', values)
 }
 </script>
 
@@ -183,14 +216,10 @@ function handlePIxPayment(values: Record<string, any>) {
         </template>
 
         <template #finish-message>
-            <QrCode
-                :showPopup="showPopup"
-                @close="closePopup"
-                code="00020126520014BR.GOV.BCB.PIX0120A8f3Zr3P1xY6L0uN"
-                time="90"
-            />
+            <QrCode :showPopup="showPopup" @close="closePopup" :code="qrCode" time="90" />
             <h2 class="mb-4 text-xl font-semibold text-green-500">Concluído!</h2>
             <p class="text-gray-600 dark:text-gray-400">Doação paga com sucesso.</p>
         </template>
     </StepByStep>
+    <RouterView />
 </template>

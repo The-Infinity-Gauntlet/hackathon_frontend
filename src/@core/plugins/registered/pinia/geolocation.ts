@@ -76,7 +76,7 @@ export const useGeolocationStore = defineStore('geolocation', () => {
                                 neighborhood: neighborhood.value,
                                 city: city.value,
                             })
-                            onCleanup(() => stop())
+                            // onCleanup(() => stop())
                         } catch (error) {
                             console.error('Erro ao buscar bairro:', error)
                             resolve(null)
@@ -89,6 +89,15 @@ export const useGeolocationStore = defineStore('geolocation', () => {
         })
     }
 
+    const getCurrentPosition = (): Promise<{ latitude: number; longitude: number }> => {
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(
+                (position) => resolve(position.coords),
+                (error) => resolve({ latitude: 0, longitude: 0 }),
+            )
+        })
+    }
+
     return {
         latitude,
         longitude,
@@ -97,5 +106,6 @@ export const useGeolocationStore = defineStore('geolocation', () => {
         startTracking,
         stopTracking,
         findNeighborhood,
+        getCurrentPosition,
     }
 })

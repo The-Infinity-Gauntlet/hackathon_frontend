@@ -10,6 +10,12 @@ const routes: IRoutes[] = [
                 name: 'Meu perfil',
                 component: () => import('@/modules/profile/infra/pages/index.vue'),
                 meta: { requiresAuth: true },
+                beforeEnter: () => {
+                    if (window.innerWidth >= 1024) {
+                        // lg começa em 1024px no Tailwind
+                        return { name: 'NotFound' }
+                    }
+                },
             },
             {
                 path: '/dashboard',

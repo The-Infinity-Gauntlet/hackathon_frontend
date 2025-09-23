@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
@@ -8,18 +8,33 @@ import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useNeighborhood } from '@/@core/composables/neighborhood'
 import { useNavigation } from '@/@core/composables/navigation'
 import Table from '../components/table.vue'
+import { useFloodMapIA } from '@/@core/composables/useFloodMap'
+import { useFloodIAController } from '../../controllers/FloodController'
+import { useFloodController } from '../../controllers/FloodController'
+import moment from 'moment'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 const neighborhood = ref<string | null>(null)
 const isOpen = ref(false)
-const { loadNeighborhoods, getNeighborhood } = useNeighborhood()
+const { loadNeighborhoods, getLocalization } = useNeighborhood()
 const { routerBack } = useNavigation()
+const { getFloods, floods } = useFloodController()
+
 const toggleSheet = () => {
     isOpen.value = !isOpen.value
 }
 
+const floodPoints = ref([])
+const { points, init, toGeoJSON } = useFloodMapIA()
+
 onMounted(async () => {
     await loadNeighborhoods()
+    floodPoints.value = (await getFloods()).results.map((flood) => ({
+        ...flood,
+        neighborhood: flood.neighborhood_name,
+        probability: flood.possibility * 100,
+        duration: `${moment(flood.finished_at).diff(moment(), 'minutes')} min`,
+    }))
 
     const map = new mapboxgl.Map({
         container: 'map-admin',
@@ -51,19 +66,24 @@ onMounted(async () => {
 
     map.on('draw.create', () => {
         const data = draw.getAll()
+        window.currentDrawn = data.features
         console.log('Polígono criado:', data)
     })
 
     map.on('draw.update', () => {
         const data = draw.getAll()
+        window.currentDrawn = data.features
         console.log('Polígono atualizado:', data)
     })
 
     map.on('draw.delete', () => {
+        const data = draw.getAll()
+        window.currentDrawn = data.features
         console.log('Polígono removido')
     })
 
     map.on('load', async () => {
+        await init()
         try {
             // Carregar floodGeojson via fetch (não como import)
             const response = await fetch('/flooding.json')
@@ -95,6 +115,110 @@ onMounted(async () => {
                     'fill-extrusion-opacity': 0.5,
                 },
             })
+
+            floodPoints.value.forEach((fp) => {
+                console.log('Ponto de alagamento: ', fp)
+                if (fp.props) {
+                    const sourceId = `flood-point-${fp.id}`
+                    map.addSource(sourceId, {
+                        type: 'geojson',
+                        data: {
+                            type: 'FeatureCollection',
+                            features: fp.props,
+                        },
+                    })
+
+                    map.addLayer({
+                        id: sourceId + '-fill',
+                        type: 'fill',
+                        source: sourceId,
+                        paint: {
+                            'fill-color': '#ff0000',
+                            'fill-opacity': 0.3,
+                        },
+                    })
+
+                    map.addLayer({
+                        id: sourceId + '-outline',
+                        type: 'line',
+                        source: sourceId,
+                        paint: {
+                            'line-color': '#ff0000',
+                            'line-width': 2,
+                        },
+                    })
+                }
+            })
+
+            watch(
+                points,
+                (newPoints) => {
+                    console.log('Novos pontos: ', newPoints)
+                    const geojson = toGeoJSON()
+                    console.log('GeoJSON: ', geojson)
+                    if (!map.getSource('flood-points')) {
+                        map.addSource('flood-points', {
+                            type: 'geojson',
+                            data: geojson,
+                        })
+                        map.addLayer({
+                            id: 'flood-points-layer',
+                            type: 'heatmap',
+                            source: 'flood-points',
+                            paint: {
+                                'heatmap-weight': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['get', 'intensity'],
+                                    0,
+                                    0,
+                                    1,
+                                    1,
+                                ],
+                                'heatmap-color': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['heatmap-density'],
+                                    0,
+                                    'rgba(0, 0, 255, 0)',
+                                    0.1,
+                                    '#10439F',
+                                    //0.3, "#3981BF",
+                                    0.5,
+                                    '#0453AF',
+                                    //0.7, "#469AA0",
+                                    0.9,
+                                    '#6DBFC5',
+                                    1,
+                                    'red',
+                                ],
+                                'heatmap-radius': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['zoom'],
+                                    10,
+                                    30,
+                                    15,
+                                    65,
+                                ],
+                                'heatmap-opacity': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['zoom'],
+                                    10,
+                                    0.9,
+                                    15,
+                                    0.75,
+                                ],
+                            },
+                        })
+                    } else {
+                        const source = map.getSource('flood-points') as mapboxgl.GeoJSONSource
+                        source.setData(geojson)
+                    }
+                },
+                { immediate: true },
+            )
         } catch (error) {
             console.error('Erro ao carregar floodGeojson:', error)
         }
@@ -102,16 +226,10 @@ onMounted(async () => {
 
     map.on('click', (e) => {
         const { lng, lat } = e.lngLat
-        neighborhood.value = getNeighborhood(lng, lat)
+        neighborhood.value = getLocalization(lng, lat)
         console.log('Bairro encontrado:', neighborhood.value)
     })
 })
-
-const floodPoints = ref([
-    { id: 'joao-costa', neighborhood: 'João Costa', probability: 85, duration: '1 hora' },
-    { id: 'jarivatuba', neighborhood: 'Jarivatuba', probability: 72, duration: '30 min' },
-    { id: 'adhemar-garcia', neighborhood: 'Adhemar Garcia', probability: 50, duration: '20 min' },
-])
 
 // import { onMounted } from 'vue'
 // import mapboxgl from 'mapbox-gl'
