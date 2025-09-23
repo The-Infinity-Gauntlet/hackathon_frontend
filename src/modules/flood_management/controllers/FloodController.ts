@@ -2,7 +2,11 @@ import { computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { container } from 'tsyringe'
 
-import { IFloodIAControllerState, type IFlood, type IFloodControllerState } from '../interfaces/flood'
+import {
+    IFloodIAControllerState,
+    type IFlood,
+    type IFloodControllerState,
+} from '../interfaces/flood'
 import { FloodIARepository, FloodRepository } from '../repositories/FloodRepository'
 
 export const useFloodController = defineStore('flood', () => {
@@ -144,7 +148,7 @@ export const useFloodIAController = defineStore('floodIA', () => {
             limit: 10,
         },
         loading: false,
-        search: ''
+        search: '',
     })
 
     const forecasts = computed(() => state.forecasts)
@@ -154,18 +158,18 @@ export const useFloodIAController = defineStore('floodIA', () => {
 
     const search = computed({
         get: () => state.search,
-        set: (value) => (state.search = value)
+        set: (value) => (state.search = value),
     })
 
     const getForecasts = async () => {
         state.loading = true
         const result = await floodIARepository.list()
-        console.log("Resultado: ", result)
+        console.log('Resultado: ', result)
         state.forecasts = result.results ?? result
         state.pagination = {
             ...state.pagination,
             page: result.page_number,
-            pageSize: result.page_size
+            pageSize: result.page_size,
         }
         state.loading = false
     }
@@ -190,6 +194,6 @@ export const useFloodIAController = defineStore('floodIA', () => {
         search,
         getForecasts,
         getForecastById,
-        clearForecast
+        clearForecast,
     }
 })

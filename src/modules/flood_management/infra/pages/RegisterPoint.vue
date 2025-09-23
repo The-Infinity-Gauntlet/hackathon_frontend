@@ -163,7 +163,12 @@ async function handleRegisterPoint(values: Record<string, any>) {
 
         // Merge form values with any auto-detected values
         const finished_at = moment().add(formValues.value.duration, 'minutes').toISOString()
-        const finalValues = { ...formValues.value, ...values, props: drawnCoordinates.value, finished_at }
+        const finalValues = {
+            ...formValues.value,
+            ...values,
+            props: drawnCoordinates.value,
+            finished_at,
+        }
 
         // Send the data to the backend with coordinates
         const result = await registerFloodPoint(finalValues)

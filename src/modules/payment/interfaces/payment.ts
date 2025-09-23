@@ -21,7 +21,7 @@ export interface IPaymentPix {
             type?: string
         }
     }
-    
+
     point_of_interaction: {
         transaction_data: {
             qr_code: string

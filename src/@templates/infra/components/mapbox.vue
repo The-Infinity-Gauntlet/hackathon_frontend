@@ -63,7 +63,7 @@ onMounted(async () => {
         const floodPoints = await getFloods()
 
         floodPoints.results.forEach((fp) => {
-            console.log("Ponto de alagamento: ", fp)
+            console.log('Ponto de alagamento: ', fp)
             if (fp.props) {
                 const sourceId = `flood-point-${fp.id}`
                 map.addSource(sourceId, {
@@ -73,7 +73,7 @@ onMounted(async () => {
                         features: fp.props,
                     },
                 })
-                
+
                 map.addLayer({
                     id: sourceId + '-fill',
                     type: 'fill',
@@ -125,42 +125,75 @@ onMounted(async () => {
                 },
             })
 
-            watch(points, (newPoints) => {
-                console.log("Novos pontos: ", newPoints)
-                const geojson = toGeoJSON()
-                console.log("GeoJSON: ", geojson)
-                if (!map.getSource('flood-points')) {
-                    map.addSource('flood-points', {
-                        type: 'geojson',
-                        data: geojson
-                    })
-                    map.addLayer({
-                        id: "flood-points-layer",
-                        type: "heatmap",
-                        source: "flood-points",
-                        paint: {
-                        "heatmap-weight": ["interpolate", ["linear"], ["get", "intensity"], 0, 0, 1, 1],
-                        "heatmap-color": [
-                        "interpolate",
-                        ["linear"],
-                        ["heatmap-density"],
-                        0, "rgba(0, 0, 255, 0)",
-                        0.1, "#10439F",
-                        //0.3, "#3981BF",
-                        0.5, "#0453AF",
-                        //0.7, "#469AA0",
-                        0.9, "#6DBFC5",
-                        1, "red"
-                        ],
-                        "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 10, 30, 15, 65],
-                        "heatmap-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0.9, 15, 0.75]
-                        }
-                    })  
-                } else {
-                    const source = map.getSource("flood-points") as mapboxgl.GeoJSONSource
-                    source.setData(geojson)
-                }
-            }, { immediate: true })
+            watch(
+                points,
+                (newPoints) => {
+                    console.log('Novos pontos: ', newPoints)
+                    const geojson = toGeoJSON()
+                    console.log('GeoJSON: ', geojson)
+                    if (!map.getSource('flood-points')) {
+                        map.addSource('flood-points', {
+                            type: 'geojson',
+                            data: geojson,
+                        })
+                        map.addLayer({
+                            id: 'flood-points-layer',
+                            type: 'heatmap',
+                            source: 'flood-points',
+                            paint: {
+                                'heatmap-weight': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['get', 'intensity'],
+                                    0,
+                                    0,
+                                    1,
+                                    1,
+                                ],
+                                'heatmap-color': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['heatmap-density'],
+                                    0,
+                                    'rgba(0, 0, 255, 0)',
+                                    0.1,
+                                    '#10439F',
+                                    //0.3, "#3981BF",
+                                    0.5,
+                                    '#0453AF',
+                                    //0.7, "#469AA0",
+                                    0.9,
+                                    '#6DBFC5',
+                                    1,
+                                    'red',
+                                ],
+                                'heatmap-radius': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['zoom'],
+                                    10,
+                                    30,
+                                    15,
+                                    65,
+                                ],
+                                'heatmap-opacity': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['zoom'],
+                                    10,
+                                    0.9,
+                                    15,
+                                    0.75,
+                                ],
+                            },
+                        })
+                    } else {
+                        const source = map.getSource('flood-points') as mapboxgl.GeoJSONSource
+                        source.setData(geojson)
+                    }
+                },
+                { immediate: true },
+            )
         } catch (error) {
             console.error('Erro ao carregar floodGeojson:', error)
         }

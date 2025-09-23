@@ -29,12 +29,12 @@ const { points, init, toGeoJSON } = useFloodMapIA()
 
 onMounted(async () => {
     await loadNeighborhoods()
-     floodPoints.value = (await getFloods()).results.map(flood => ({
+    floodPoints.value = (await getFloods()).results.map((flood) => ({
         ...flood,
-         neighborhood: flood.neighborhood_name,
-         probability: flood.possibility * 100,
-         duration: `${moment(flood.finished_at).diff(moment(), "minutes")} min`,
-     }))
+        neighborhood: flood.neighborhood_name,
+        probability: flood.possibility * 100,
+        duration: `${moment(flood.finished_at).diff(moment(), 'minutes')} min`,
+    }))
 
     const map = new mapboxgl.Map({
         container: 'map-admin',
@@ -117,7 +117,7 @@ onMounted(async () => {
             })
 
             floodPoints.value.forEach((fp) => {
-                console.log("Ponto de alagamento: ", fp)
+                console.log('Ponto de alagamento: ', fp)
                 if (fp.props) {
                     const sourceId = `flood-point-${fp.id}`
                     map.addSource(sourceId, {
@@ -127,7 +127,7 @@ onMounted(async () => {
                             features: fp.props,
                         },
                     })
-                    
+
                     map.addLayer({
                         id: sourceId + '-fill',
                         type: 'fill',

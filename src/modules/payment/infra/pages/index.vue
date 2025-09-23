@@ -126,10 +126,7 @@ const fieldsStep3: IFormField[] = [
         name: 'identification_type',
         label: 'Tipo de documento',
         type: 'select',
-        options: [
-            'CPF',
-            'CNPJ'
-        ],
+        options: ['CPF', 'CNPJ'],
     },
     {
         id: 'form-checkout__identificationNumber',
@@ -145,14 +142,14 @@ const fieldsStep3: IFormField[] = [
         label: 'Valor',
         type: 'number',
         placeholder: 'R$ x.xxx,xx',
-    }
+    },
 ]
 
 const pixStore = usePixPayment()
 const qrCode = ref('')
 
 async function handlePixPayment(values: Record<string, any>) {
-    console.log("Valores: ", values)
+    console.log('Valores: ', values)
     try {
         const amount = parseFloat(values.amount.replace(',', '.'))
         const response = await pixStore.createPaymentPix({
@@ -219,12 +216,7 @@ function handleCardPayment(values: Record<string, any>) {
         </template>
 
         <template #finish-message>
-            <QrCode
-                :showPopup="showPopup"
-                @close="closePopup"
-                :code="qrCode"
-                time="90"
-            />
+            <QrCode :showPopup="showPopup" @close="closePopup" :code="qrCode" time="90" />
             <h2 class="mb-4 text-xl font-semibold text-green-500">Concluído!</h2>
             <p class="text-gray-600 dark:text-gray-400">Doação paga com sucesso.</p>
         </template>

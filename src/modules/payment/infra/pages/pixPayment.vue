@@ -66,31 +66,30 @@ const pixUrl = ref('')
 const qrBase64 = ref('')
 const qrCode = ref('')
 
-
 async function handlePixPayment(values: Record<string, any>) {
-    console.log("Valores: ", values)
+    console.log('Valores: ', values)
     try {
-        const amount = parseFloat(values["transactionAmount"].replace(',', '.'))
+        const amount = parseFloat(values['transactionAmount'].replace(',', '.'))
         const response = await pixStore.createPaymentPix({
             payment_method_id: 'pix',
-            first_name: values["form-checkout__payerFirstName"],
-            last_name: values["form-checkout__payerLastName"],
+            first_name: values['form-checkout__payerFirstName'],
+            last_name: values['form-checkout__payerLastName'],
             payer: {
-                email: values["form-checkout__email"],
+                email: values['form-checkout__email'],
                 identification: {
-                    type: values["form-checkout__identificationType"],
-                    number: values["form-checkout__identificationNumber"]
-                }
+                    type: values['form-checkout__identificationType'],
+                    number: values['form-checkout__identificationNumber'],
+                },
             },
-            transaction_amount: amount
+            transaction_amount: amount,
         })
         qrCode.value = response.point_of_interaction.transaction_data.qr_code
         qrBase64.value = response.point_of_interaction?.transaction_data?.qr_code_base64
         pixUrl.value = response?.point_of_interaction?.transaction_data?.pix_url
         showPopup.value = true
-        alert("Pagamento enviado com sucesso!")
-        console.log("Code: ", showPopup.value)
-        console.log("Resposta: ", response)
+        alert('Pagamento enviado com sucesso!')
+        console.log('Code: ', showPopup.value)
+        console.log('Resposta: ', response)
     } catch (error) {
         console.error('Erro ao criar pagamento Pix:', error)
         alert('Ocorreu um erro ao processar o pagamento. Tente novamente.')
@@ -98,14 +97,14 @@ async function handlePixPayment(values: Record<string, any>) {
 }
 
 //const closePopup = () => {
-    //showPopup.value = false
+//showPopup.value = false
 //}
 
-console.log("Code: ", showPopup.value)
+console.log('Code: ', showPopup.value)
 </script>
 
 <template>
     <BaseForm :form-fields="fieldsPix" buttonText="Pagar com Pix" @submit="handlePixPayment" />
     <!--<QrCode v-if="showPopup" :showPopup="showPopup" :code="qrBase64" time="90" />-->
-    <img v-if="showPopup" :src="`data:image/jpeg;base64,${qrBase64}`" alt="QR"/>
+    <img v-if="showPopup" :src="`data:image/jpeg;base64,${qrBase64}`" alt="QR" />
 </template>
