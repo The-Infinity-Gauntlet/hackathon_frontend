@@ -63,7 +63,7 @@ function handleSubmit() {
 </script>
 
 <template>
-    <form @submit.prevent="handleSubmit" class="mx-auto mt-5">
+    <form @submit.prevent="handleSubmit" class="mt-5">
         <ul>
             <li v-for="field in formFields" :key="field.id" class="my-5 grid w-[332px]">
                 <component

@@ -112,7 +112,9 @@ const { routerBack } = useNavigation()
 
 <template>
     <div
-        id="overlay"
+        class="lg:fixed lg:inset-0 lg:z-20 lg:flex lg:items-center lg:justify-center lg:bg-black/80"
+    ></div>
+    <div
         class="lg:fixed lg:inset-0 lg:z-20 lg:flex lg:items-center lg:justify-center lg:bg-black/80"
     >
         <div

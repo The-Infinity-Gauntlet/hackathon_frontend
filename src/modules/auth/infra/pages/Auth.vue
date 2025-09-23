@@ -98,8 +98,11 @@ function handleRegister(values: Record<string, any>) {
         leave-from-class="opacity-100 translate-x-0"
         leave-to-class="opacity-0 -translate-x-10"
     >
-        <div v-if="isLogin" class="grid justify-between lg:flex lg:h-screen lg:px-[15vw]">
-            <div class="grid justify-center lg:my-auto">
+        <div
+            v-if="isLogin"
+            class="mt-5 grid justify-between px-5 lg:mt-0 lg:flex lg:h-screen lg:px-[15vw]"
+        >
+            <div class="my-auto grid justify-center">
                 <h1 class="hidden text-center text-2xl font-semibold lg:block">Login</h1>
                 <BaseForm :form-fields="loginFields" button-text="Entrar" @submit="handleLogin" />
 
@@ -118,14 +121,17 @@ function handleRegister(values: Record<string, any>) {
                 </p>
                 <button
                     @click="toggleWave"
-                    class="flex items-center justify-center gap-2 rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-10 py-2 font-semibold shadow-xl backdrop-blur-xs"
+                    class="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-10 py-2 font-semibold shadow-xl backdrop-blur-xs"
                 >
                     Cadastre-se <span class="material-symbols-outlined">arrow_forward</span>
                 </button>
             </div>
         </div>
 
-        <div v-else class="grid justify-between pb-20 lg:flex lg:h-screen lg:px-[15vw] lg:pb-0">
+        <div
+            v-else
+            class="-mt-8 grid justify-between px-5 lg:mt-0 lg:flex lg:h-screen lg:px-[15vw]"
+        >
             <div class="my-auto hidden gap-5 text-center text-white lg:grid">
                 <h3 class="text-4xl font-semibold">Bem-vindo!</h3>
                 <p class="w-[332px] font-semibold">
@@ -134,7 +140,7 @@ function handleRegister(values: Record<string, any>) {
                 </p>
                 <button
                     @click="toggleWave"
-                    class="flex items-center justify-center gap-2 rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-10 py-2 font-semibold shadow-xl backdrop-blur-xs"
+                    class="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-transparent bg-[#7AA6C8]/30 px-10 py-2 font-semibold shadow-xl backdrop-blur-xs"
                 >
                     Entrar <span class="material-symbols-outlined">arrow_forward</span>
                 </button>

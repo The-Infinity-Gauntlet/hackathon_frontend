@@ -3,7 +3,7 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
 </script>
 
 <template>
-    <div class="relative overflow-hidden lg:h-screen">
+    <div class="relative h-screen overflow-hidden">
         <div class="lg:hidden">
             <HeaderComp :title="$route.name" />
         </div>
@@ -26,7 +26,7 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
         </RouterView>
 
         <div
-            class="absolute inset-0 -bottom-350 -z-10 bg-cover bg-center lg:hidden"
+            class="absolute inset-0 -bottom-150 -z-10 bg-cover bg-center lg:hidden"
             style="background-image: url('/layouts/wavesMobile.svg')"
             aria-hidden="true"
         ></div>
