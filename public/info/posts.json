@@ -53,5 +53,16 @@
     "date": "22/09/2025 13:49",
     "image": "/public/posts/pexels-catalin-buescu-339535060-17374378.jpg",
     "link": "/post/4"
+},
+{
+    "id": 5,
+    "position": 6,
+    "title": "Conheça o Plano de Contingência de Proteção e Defesa Civil de Joinville",
+    "preview": "Deslizamentos, inundações, vendavais e granizo: você sabe o que fazer se a sua região for atingida? Plano de Contingência da Defesa Civil prevê ações rápidas para proteger a população. Veja como funciona!",
+    "text": "<div class=\"indent-4 text-justify\">\n  <p class=\"mb-4\">\n    A Secretaria de Proteção Civil e Segurança Pública de Joinville possui o Plano de Contingência de Proteção e Defesa Civil (PLANCON), um documento que organiza as ações a serem adotadas em situações de emergência provocadas por fenômenos naturais extremos. Ele estabelece como diferentes órgãos públicos e parceiros devem atuar de forma coordenada, garantindo socorro, ajuda humanitária e recuperação das áreas atingidas, com o objetivo de reduzir riscos e prejuízos para a população.\n  </p>\n\n  <h2 class=\"text-lg font-semibold mt-6 mb-2\">Principais riscos para Joinville</h2>\n  <p class=\"mb-4\">\n    Devido ao relevo diversificado e à influência de sistemas atmosféricos intensos, Joinville está mais vulnerável a determinados desastres naturais. O PLANCON destaca cinco cenários de risco prioritários:\n  </p>\n  <ul class=\"list-disc list-inside mb-4\">\n    <li><strong>Deslizamentos</strong> – associados a chuvas fortes ou de longa duração.</li>\n    <li><strong>Inundações</strong> – provocadas pelo transbordamento de rios e córregos nas áreas de planície.</li>\n    <li><strong>Enxurradas</strong> – de ocorrência repentina, principalmente em regiões de morros e áreas rurais, com alto potencial destrutivo e risco de mortes.</li>\n    <li><strong>Vendavais e tempestades</strong> – registrados anualmente, atingindo sobretudo construções mais frágeis.</li>\n    <li><strong>Queda de granizo</strong> – pode ocorrer em qualquer ponto do município, causando prejuízos tanto em residências quanto em áreas agrícolas.</li>\n  </ul>\n\n  <h2 class=\"text-lg font-semibold mt-6 mb-2\">Treinamentos e mobilização</h2>\n  <p class=\"mb-4\">\n    O PLANCON foi elaborado pelo Conselho Municipal de Proteção e Defesa Civil (COMPDEC) e aprovado por todas as instituições que o compõem. Para assegurar sua eficácia, estão previstos treinamentos e simulações duas vezes ao ano, coordenados pela Secretaria de Proteção Civil.\n  </p>\n  <p class=\"mb-4\">\n    Em situações de emergência real, os órgãos municipais devem estar mobilizados em até duas horas, enquanto os órgãos estaduais de apoio têm até três horas para iniciar suas operações.\n  </p>\n  <p class=\"mb-4\">\n    Com essa estrutura, Joinville busca reforçar a segurança da população e estar cada vez mais preparada para enfrentar os impactos de desastres naturais.\n  </p>\n</div>",
+    "author": "Aqua",
+    "date": "23/09/2025 08:55",
+    "image": "/public/posts/plancon.png",   
+    "link": "/post/5"
 }
 ]
