@@ -11,12 +11,16 @@ export interface IPaymentPix {
     total?: number
     payment_method_id?: string
     description?: string
-    amount?: number
+    transaction_amount?: number
     first_name?: number
     last_name?: number
-    email?: string
-    identification_number?: string
-    identification_type?: string
+    payer?: {
+        email?: string
+        identification?: {
+            number?: string
+            type?: string
+        }
+    }
     pix_url?: string
     point_of_interaction: {
         transaction_data: {

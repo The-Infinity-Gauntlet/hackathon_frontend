@@ -99,7 +99,7 @@ const fieldsStep2: IFormField[] = [
 const fieldsStep3: IFormField[] = [
     {
         id: 'form-checkout__payerFirstName',
-        name: 'payerFirstName',
+        name: 'first_name',
         label: 'Nome do titular',
         placeholder: 'Digite o nome do titular aqui',
         type: 'text',
@@ -107,7 +107,7 @@ const fieldsStep3: IFormField[] = [
     },
     {
         id: 'form-checkout__payerLastName',
-        name: 'payerLastName',
+        name: 'last_name',
         label: 'Sobrenome',
         placeholder: 'Digite o sobrenome do titular aqui',
         type: 'text',
@@ -123,33 +123,53 @@ const fieldsStep3: IFormField[] = [
     },
     {
         id: 'form-checkout__identificationType',
-        name: 'identificationType',
-        label: 'CPF do titular',
-        placeholder: 'xxx.xxx.xxx-xx',
-        type: 'number',
-        autocomplete: 'cpf',
+        name: 'identification_type',
+        label: 'Tipo de documento',
+        type: 'select',
+        options: [
+            'CPF',
+            'CNPJ'
+        ],
     },
     {
         id: 'form-checkout__identificationNumber',
-        name: 'identificationNumber',
+        name: 'identification_number',
         label: 'Número do documento',
-        placeholder: 'xx.xxx.xxx.xxx.xx',
+        placeholder: 'xxx.xxx.xxx-xx',
         type: 'number',
         autocomplete: 'document',
     },
+    {
+        id: 'transactionAmount',
+        name: 'amount',
+        label: 'Valor',
+        type: 'number',
+        placeholder: 'R$ x.xxx,xx',
+    }
 ]
 
 const pixStore = usePixPayment()
+const qrCode = ref('')
 
-function handlePixPayment(values: Record<string, any>) {
-    console.log('PixPayment values:', values)
-    pixStore.createPaymentPix({
-        first_name: values.payerFirstName,
-        last_name: values.payerLastName,
-        email: values.email,
-        identification_type: values.identificationType,
-        identification_number: values.identificationNumber,
-    })
+async function handlePixPayment(values: Record<string, any>) {
+    console.log("Valores: ", values)
+    try {
+        const amount = parseFloat(values.amount.replace(',', '.'))
+        const response = await pixStore.createPaymentPix({
+            payment_method_id: 'pix',
+            first_name: values.first_name,
+            last_name: values.last_name,
+            email: values.email,
+            identification_type: values.identification_type,
+            identification_number: values.identification_number,
+            amount: amount,
+        })
+        qrCode.value = response.point_of_interaction.transaction_data.qr_code
+        showPopup.value = true
+    } catch (error) {
+        console.error('Erro ao criar pagamento Pix:', error)
+        alert('Ocorreu um erro ao processar o pagamento. Tente novamente.')
+    }
 }
 
 const showPopup = ref(false)
@@ -202,7 +222,7 @@ function handleCardPayment(values: Record<string, any>) {
             <QrCode
                 :showPopup="showPopup"
                 @close="closePopup"
-                code="00020126520014BR.GOV.BCB.PIX0120A8f3Zr3P1xY6L0uN"
+                :code="qrCode"
                 time="90"
             />
             <h2 class="mb-4 text-xl font-semibold text-green-500">Concluído!</h2>

@@ -65,19 +65,25 @@ const showPopup = ref(false)
 const qrCode = ref('')
 
 async function handlePixPayment(values: Record<string, any>) {
+    console.log("Valores: ", values)
     try {
-        const amount = parseFloat(values.transactionAmount.replace(',', '.'))
+        const amount = parseFloat(values["transactionAmount"].replace(',', '.'))
         const response = await pixStore.createPaymentPix({
             payment_method_id: 'pix',
-            first_name: values.payerFirstName,
-            last_name: values.payerLastName,
-            email: values.email,
-            identification_type: values.identificationType,
-            identification_number: values.identificationNumber,
-            amount: amount,
+            first_name: values["form-checkout__payerFirstName"],
+            last_name: values["form-checkout__payerLastName"],
+            payer: {
+                email: values["form-checkout__email"],
+                identification: {
+                    type: values["form-checkout__identificationType"],
+                    number: values["form-checkout__identificationNumber"]
+                }
+            },
+            transaction_amount: amount
         })
         qrCode.value = response.point_of_interaction.transaction_data.qr_code
         showPopup.value = true
+        alert("Pagamento enviado com sucesso!")
     } catch (error) {
         console.error('Erro ao criar pagamento Pix:', error)
         alert('Ocorreu um erro ao processar o pagamento. Tente novamente.')
