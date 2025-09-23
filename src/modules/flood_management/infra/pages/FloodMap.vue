@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
@@ -11,24 +11,30 @@ import Table from '../components/table.vue'
 import { useFloodMapIA } from '@/@core/composables/useFloodMap'
 import { useFloodIAController } from '../../controllers/FloodController'
 import { useFloodController } from '../../controllers/FloodController'
+import moment from 'moment'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 const neighborhood = ref<string | null>(null)
 const isOpen = ref(false)
-const { loadNeighborhoods, getNeighborhood } = useNeighborhood()
+const { loadNeighborhoods, getLocalization } = useNeighborhood()
 const { routerBack } = useNavigation()
 const { getFloods, floods } = useFloodController()
+
 const toggleSheet = () => {
     isOpen.value = !isOpen.value
 }
 
+const floodPoints = ref([])
 const { points, init, toGeoJSON } = useFloodMapIA()
-//const floodStore = useFloodIAController()
 
 onMounted(async () => {
     await loadNeighborhoods()
-    await getFloods()
-    console.log(floods)
+     floodPoints.value = (await getFloods()).results.map(flood => ({
+        ...flood,
+         neighborhood: flood.neighborhood_name,
+         probability: flood.possibility * 100,
+         duration: `${moment(flood.finished_at).diff(moment(), "minutes")} min`,
+     }))
 
     const map = new mapboxgl.Map({
         container: 'map-admin',
@@ -110,6 +116,40 @@ onMounted(async () => {
                 },
             })
 
+            floodPoints.value.forEach((fp) => {
+                console.log("Ponto de alagamento: ", fp)
+                if (fp.props) {
+                    const sourceId = `flood-point-${fp.id}`
+                    map.addSource(sourceId, {
+                        type: 'geojson',
+                        data: {
+                            type: 'FeatureCollection',
+                            features: fp.props,
+                        },
+                    })
+                    
+                    map.addLayer({
+                        id: sourceId + '-fill',
+                        type: 'fill',
+                        source: sourceId,
+                        paint: {
+                            'fill-color': '#ff0000',
+                            'fill-opacity': 0.3,
+                        },
+                    })
+
+                    map.addLayer({
+                        id: sourceId + '-outline',
+                        type: 'line',
+                        source: sourceId,
+                        paint: {
+                            'line-color': '#ff0000',
+                            'line-width': 2,
+                        },
+                    })
+                }
+            })
+
             watch(
                 points,
                 (newPoints) => {
@@ -186,16 +226,10 @@ onMounted(async () => {
 
     map.on('click', (e) => {
         const { lng, lat } = e.lngLat
-        neighborhood.value = getNeighborhood(lng, lat)
+        neighborhood.value = getLocalization(lng, lat)
         console.log('Bairro encontrado:', neighborhood.value)
     })
 })
-
-const floodPoints = ref([
-    { id: 'joao-costa', neighborhood: 'João Costa', probability: 85, duration: '1 hora' },
-    { id: 'jarivatuba', neighborhood: 'Jarivatuba', probability: 72, duration: '30 min' },
-    { id: 'adhemar-garcia', neighborhood: 'Adhemar Garcia', probability: 50, duration: '20 min' },
-])
 
 // import { onMounted } from 'vue'
 // import mapboxgl from 'mapbox-gl'

@@ -6,6 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import { VitePWA } from 'vite-plugin-pwa'
 import tailwindcss from '@tailwindcss/vite'
+import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -13,6 +14,7 @@ export default defineConfig(({ mode }) => {
   const hlsTarget = env.VITE_HLS_TARGET || env.VITE_PROXY_TARGET || 'http://192.168.7.10:8000'
   return {
     plugins: [
+      basicSsl(),
       vue(),
       vueJsx(),
       vueDevTools(),
@@ -57,6 +59,8 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
     ],
     server: {
+      https: true,
+      host: true,   
       proxy: {
         // Dev proxy to avoid CORS: calls to /api/* will be forwarded to the backend
         '/api': {

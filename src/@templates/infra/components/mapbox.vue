@@ -8,12 +8,14 @@ import { useFloodCameraMonitoringController } from '@/modules/flood_camera_monit
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 import { MapboxFilters } from '../components'
 import { useFloodMapIA } from '@/@core/composables/useFloodMap'
+import { useFloodController } from '@/modules/flood_management/controllers/FloodController'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 
 const router = useRouter()
 const ctrl = useFloodCameraMonitoringController()
 const geolocation = useGeolocationStore()
+const { getFloods } = useFloodController()
 
 const { points, init, toGeoJSON } = useFloodMapIA()
 
@@ -21,15 +23,16 @@ onMounted(async () => {
     const map = new mapboxgl.Map({
         container: 'map-fixed',
         style: 'mapbox://styles/mapbox/outdoors-v12',
-        // center: [-48.8464, -26.3044],
-        center: [geolocation.longitude, geolocation.latitude],
+        center: [-48.8464, -26.3044],
         zoom: 13,
         pitch: 60,
         bearing: -30,
         antialias: true,
     })
 
-    new mapboxgl.Marker().setLngLat([geolocation.longitude, geolocation.latitude]).addTo(map)
+    geolocation.getCurrentPosition().then((position) => {
+        new mapboxgl.Marker().setLngLat([position.longitude, position.latitude]).addTo(map)
+    })
 
     map.addControl(new mapboxgl.NavigationControl(), 'top-right')
     if (window.matchMedia('(max-width: 1023px)').matches) {
@@ -56,41 +59,42 @@ onMounted(async () => {
     map.on('load', async () => {
         await ctrl.load()
         await init()
-        // map.addSource('mapbox-dem', {
-        //   type: 'raster-dem',
-        //   url: 'mapbox://mapbox.terrain-rgb',
-        //   tileSize: 512,
-        //   maxzoom: 14,
-        // })
-        // map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
 
-        // map.addLayer({
-        //   id: 'hillshade-layer',
-        //   type: 'hillshade',
-        //   source: 'mapbox-dem',
-        //   layout: { visibility: 'visible' },
-        //   paint: {
-        //     'hillshade-exaggeration': 0.5,
-        //   },
-        // })
+        const floodPoints = await getFloods()
 
-        // map.addLayer(
-        //   {
-        //     id: '3d-buildings',
-        //     source: 'composite',
-        //     'source-layer': 'building',
-        //     filter: ['==', 'extrude', 'true'],
-        //     type: 'fill-extrusion',
-        //     minzoom: 15,
-        //     paint: {
-        //       'fill-extrusion-color': '#aaa',
-        //       'fill-extrusion-height': ['get', 'height'],
-        //       'fill-extrusion-base': ['get', 'min_height'],
-        //       'fill-extrusion-opacity': 0.6,
-        //     },
-        //   },
-        //   'waterway-label',
-        // )
+        floodPoints.results.forEach((fp) => {
+            console.log("Ponto de alagamento: ", fp)
+            if (fp.props) {
+                const sourceId = `flood-point-${fp.id}`
+                map.addSource(sourceId, {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: fp.props,
+                    },
+                })
+                
+                map.addLayer({
+                    id: sourceId + '-fill',
+                    type: 'fill',
+                    source: sourceId,
+                    paint: {
+                        'fill-color': '#ff0000',
+                        'fill-opacity': 0.3,
+                    },
+                })
+
+                map.addLayer({
+                    id: sourceId + '-outline',
+                    type: 'line',
+                    source: sourceId,
+                    paint: {
+                        'line-color': '#ff0000',
+                        'line-width': 2,
+                    },
+                })
+            }
+        })
 
         try {
             const response = await fetch('/flooding.json')
@@ -170,62 +174,6 @@ onMounted(async () => {
         })
     })
 })
-
-// onMounted(() => {
-//   map.on('click', (e) => {
-//     const { lng, lat } = e.lngLat // Obtém as coordenadas (longitude e latitude)
-//     const elevation = map.queryTerrainElevation([e.lngLat.lng, e.lngLat.lat])
-//     new mapboxgl.Popup()
-//       .setLngLat(e.lngLat)
-//       .setHTML(
-//         `<strong>Elevação:</strong> ${elevation !== null ? elevation.toFixed(2) + ' m' : 'não disponível'} <br>
-//         <strong>Coordenadas:</strong><br>
-//         Longitude: ${lng.toFixed(10)}<br>
-//         Latitude: ${lat.toFixed(10)}`,
-//       )
-//       .addTo(map)
-//   })
-
-//   // popups com informações sobre a profundidade e o nível de risco
-//   map.on('click', 'flood-area-volume', (e) => {
-//     const feature = e.features[0]
-//     const properties = feature.properties
-//     const coordinates = e.lngLat
-
-//     new mapboxgl.Popup()
-//       .setLngLat(coordinates)
-//       .setHTML(`
-//       <strong>Área:</strong> ${properties.name}<br>
-//       <strong>Profundidade:</strong> ${properties.depth} m<br>
-//       <strong>Nível de Risco:</strong> ${properties.risk_level}
-//     `)
-//       .addTo(map)
-//   })
-
-//   map.addSource("flood-area", {
-//     type: "geojson",
-//     data: {
-//       type: "FeatureCollection",
-//       geometry: {
-//         type: "Point",
-//         coordinates: [-48.846, -26.3311]
-//       }
-//     }
-//   })
-
-//   map.addLayer({
-//     id: 'flood-area-outline',
-//     type: 'circle',
-//     source: 'flood-area',
-//     paint: {
-//       'circle-radius': 40,
-//       'circle-color': '#ff0000',
-//       'circle-opacity': 1,
-//       'circle-stroke-width': 2,
-//       'circle-stroke-color': '#ff0000',
-//     },
-//   })
-// })
 </script>
 
 <template>

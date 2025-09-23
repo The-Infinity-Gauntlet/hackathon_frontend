@@ -24,7 +24,7 @@ export class FloodRepository extends BaseRepository<IFlood> {
      * Retrieves all flood points
      * @returns Promise with the list of flood points
      */
-    async getFloodPoints(): Promise<IFlood[]> {
+    async getFloodPoints(): Promise<{ results: IFlood[]; count: number }> {
         const { data } = await this.api.get('floods_point/registering/')
         console.log(data)
         return data
