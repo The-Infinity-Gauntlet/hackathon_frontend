@@ -54,12 +54,12 @@ const handleOverlayClick = (event: MouseEvent) => {
                 </button>
             </div>
 
-            <div class="flex flex-col items-center gap-4 p-5 pt-3">
+            <div class="flex flex-col items-center gap-4 p-5 pt-3 pb-0">
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
                     {{ title }}
                 </h2>
                 <img v-if="gifUrl" :src="gifUrl" alt="gif" class="max-w-full rounded-md" />
-                <p class="font-semibold text-gray-900 dark:text-white">{{ text }}</p>
+                <p class="text-center font-semibold text-gray-900 dark:text-white">{{ text }}</p>
             </div>
 
             <ButtonGlassmorphism buttonText="Continuar" @click="goHome" />

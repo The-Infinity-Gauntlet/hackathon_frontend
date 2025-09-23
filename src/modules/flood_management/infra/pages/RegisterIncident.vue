@@ -54,7 +54,9 @@ function handleRegisterIncident(values: Record<string, any>) {
 
 <template>
     <div
-        id="overlay"
+        class="lg:fixed lg:inset-0 lg:z-20 lg:flex lg:items-center lg:justify-center lg:bg-black/80"
+    ></div>
+    <div
         class="lg:fixed lg:inset-0 lg:z-20 lg:flex lg:items-center lg:justify-center lg:bg-black/80"
     >
         <div
@@ -69,7 +71,7 @@ function handleRegisterIncident(values: Record<string, any>) {
                 </button>
             </div>
 
-            <div class="lg:flex lg:flex-col lg:items-center lg:gap-4 lg:p-5 lg:pt-0">
+            <div class="p-5 lg:flex lg:flex-col lg:items-center lg:gap-4 lg:pt-0">
                 <h1 class="mb-5 hidden text-center text-2xl font-semibold lg:block">
                     Registrar ocorrência
                 </h1>

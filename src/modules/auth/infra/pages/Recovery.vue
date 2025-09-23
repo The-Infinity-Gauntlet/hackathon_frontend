@@ -1,77 +1,12 @@
-<!-- <script setup lang="ts">
-import { ref } from 'vue'
-import { toast } from 'vue3-toastify'
-import { BaseForm, BasePopup, StepByStep } from '@/@core/components'
-import { RecoveryCodeInput } from '../components'
-import type { IFormField } from '@/@core/interfaces/form'
-
-const fields: IFormField[] = [
-    { id: 'email', label: 'Email', placeholder: 'Digite seu email aqui', type: 'email' },
-]
-
-const showPopup = ref(false)
-
-const closePopup = () => {
-    showPopup.value = false
-}
-
-const success = ref(false)
-
-function handleRecovery(values: Record<string, any>) {
-    console.log('Recovery values:', values)
-}
-
-const handleFinish = () => {
-    showPopup.value = true
-    success.value = true
-    if (success.value) {
-        toast.success('Conta recuperada com sucesso!', {
-            autoClose: 2000,
-            position: 'top-right',
-            theme: 'light',
-        })
-    } else {
-        toast.warn('Conta não recuperada!', {
-            autoClose: 2000,
-            position: 'top-right',
-            theme: 'light',
-        })
-    }
-}
-</script>
-
-<template>
-    <div class="grid justify-center lg:min-h-screen lg:justify-start">
-        <div class="lg:my-[30vh] lg:ml-[6.25vw]">
-            <h1 class="hidden text-center text-2xl font-semibold lg:block">Recuperação</h1>
-            <StepByStep :total-steps="2" finish-button-text="Recuperar" @finish="handleFinish">
-                <template #step-1>
-                    <BaseForm :form-fields="fields" @submit="handleRecovery" />
-                </template>
-
-                <template #step-2>
-                    <RecoveryCodeInput />
-                </template>
-
-                <template #finish-message>
-                    <BasePopup
-                        title="Sua conta foi recuperada!"
-                        :showPopup="showPopup"
-                        @close="closePopup"
-                        class="lg:hidden"
-                    />
-                </template>
-            </StepByStep>
-        </div>
-    </div>
-</template> -->
-
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { BaseForm, BasePopup } from '@/@core/components'
 import { RecoveryCodeInput } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
+
+const router = useRouter()
 
 const fields: IFormField[] = [
     { id: 'email', label: 'Email', placeholder: 'Digite seu email aqui', type: 'email' },
@@ -81,7 +16,7 @@ console.log('Recovery code:', recoveryCode)
 
 const isCode = ref(false)
 const waveDirection = computed<'left' | 'right'>(() => {
-    return isCode.value ? 'right' : 'left'
+    return isCode.value ? 'left' : 'right'
 })
 function toggleWave() {
     isCode.value = !isCode.value
@@ -91,6 +26,10 @@ const showPopup = ref(false)
 const closePopup = () => {
     showPopup.value = false
 }
+const contentPopup = ref({
+    title: 'Sua conta foi recuperada!',
+    message: 'Você será redirecionado para a página de login.',
+})
 const success = ref(false)
 
 function handleRecovery(values: Record<string, any>) {
@@ -98,33 +37,57 @@ function handleRecovery(values: Record<string, any>) {
     toggleWave()
 }
 
-const handleFinish = () => {
-    showPopup.value = true
+function handleFinish(values: Record<string, any>) {
     success.value = true
+
     if (success.value) {
-        toast.success('Conta recuperada com sucesso!', {
-            autoClose: 2000,
-            position: 'top-right',
-            theme: 'light',
-        })
+        console.log('Código enviado:', recoveryCode.value)
+        contentPopup.value = {
+            title: 'Sua conta foi recuperada!',
+            message: 'Você será redirecionado para a sua conta.',
+        }
+        showPopup.value = true
+
+        if (window.innerWidth >= 1024) {
+            toast.success('Conta recuperada com sucesso!', {
+                autoClose: 2000,
+                position: 'top-right',
+                theme: 'light',
+            })
+        }
+        setTimeout(() => {
+            router.push('/minha-conta')
+        }, 1000)
     } else {
-        toast.warn('Conta não recuperada!', {
-            autoClose: 2000,
-            position: 'top-right',
-            theme: 'light',
-        })
+        console.log('Código enviado:', recoveryCode.value)
+        contentPopup.value = {
+            title: 'Sua conta não foi recuperada!',
+            message: 'Você será redirecionado para a página de inicial.',
+        }
+        showPopup.value = true
+
+        if (window.innerWidth >= 1024) {
+            toast.warn('Conta não recuperada!', {
+                autoClose: 2000,
+                position: 'top-right',
+                theme: 'light',
+            })
+        }
+        setTimeout(() => {
+            router.push('/')
+        }, 1500)
     }
 }
 </script>
 
 <template>
     <div
-        class="absolute inset-0 -z-10 hidden h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-1000 lg:block"
+        class="fixed inset-0 -z-10 hidden h-screen w-screen bg-contain bg-center transition-transform duration-1000 lg:block"
         :class="{
-            'translate-x-[50%]': waveDirection === 'right',
-            'translate-x-[-50%]': waveDirection === 'left',
+            'translate-x-[40%]': waveDirection === 'right',
+            'translate-x-[-40%]': waveDirection === 'left',
         }"
-        style="background-image: url('/layouts/wavesAuth.svg'); background-size: 120%"
+        style="background-image: url('/layouts/wavesAuth.svg')"
     ></div>
 
     <Transition
@@ -136,21 +99,31 @@ const handleFinish = () => {
         leave-from-class="opacity-100 translate-x-0"
         leave-to-class="opacity-0 -translate-x-10"
     >
-        <div v-if="!isCode" class="grid justify-center lg:flex lg:h-screen lg:gap-[40vw]">
-            <div class="grid justify-center lg:my-auto">
+        <div
+            v-if="!isCode"
+            class="mt-30 grid justify-center lg:my-auto lg:mt-0 lg:flex lg:h-screen lg:items-center lg:justify-start lg:pl-50"
+        >
+            <div>
+                <h1 class="hidden text-center text-2xl font-semibold lg:block">Recuperação</h1>
                 <BaseForm :form-fields="fields" button-text="Continuar" @submit="handleRecovery" />
             </div>
         </div>
 
-        <div v-else class="grid justify-center pb-20 lg:flex lg:h-screen lg:gap-200 lg:pb-0">
-            <div class="grid justify-center lg:my-auto">
+        <div
+            v-else
+            class="mt-30 grid justify-center lg:my-auto lg:mt-0 lg:flex lg:h-screen lg:items-center lg:justify-end lg:pr-50"
+        >
+            <div>
+                <h1 class="hidden text-center text-2xl font-semibold lg:block">Recuperação</h1>
                 <RecoveryCodeInput
                     v-model="recoveryCode"
                     :code-length="6"
                     button-text="Confirmar"
+                    @submit="handleFinish"
                 />
                 <BasePopup
-                    title="Sua conta foi recuperada!"
+                    :title="contentPopup.title"
+                    :text="contentPopup.message"
                     :showPopup="showPopup"
                     @close="closePopup"
                     class="lg:hidden"
