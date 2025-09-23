@@ -8,7 +8,7 @@ import {
     MapboxPopup,
 } from '@/@core/components'
 import { useTheme } from '@/@core/composables/useTheme'
-import { BlogPost, Mapbox } from '../components'
+import { Mapbox } from '../components'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 
 const showPopup = ref(false)
