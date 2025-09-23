@@ -62,7 +62,7 @@ const desktopMenu: MenuItem[] = [
 const desktopMenuAccount: MenuItem[] = [
     { id: 0, label: 'Entrar', link: { name: 'auth', query: { mode: 'login' } } },
     { id: 1, label: 'Criar conta', link: { name: 'auth', query: { mode: 'register' } } },
-    { id: 2, icon: 'person', link: '/minha-conta' },
+    { id: 2, icon: 'person', link: '/minha-conta/nicolefemello' },
 ]
 const filteredMenu = computed(() =>
     desktopMenu.filter((item) => role === 'admin' || item.label !== 'Administração'),
@@ -76,9 +76,7 @@ if (token) {
 </script>
 
 <template>
-    <header
-        class="z-10 bg-transparent px-7 lg:bg-white lg:px-20 lg:shadow-sm xl:px-25 lg:dark:bg-[#000d19]"
-    >
+    <header class="z-10 bg-transparent px-7 lg:bg-white lg:px-20 xl:px-25 lg:dark:bg-[#000d19]">
         <nav class="lg:flex lg:items-center lg:justify-between">
             <ul class="flex items-center justify-between lg:hidden">
                 <li>

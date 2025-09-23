@@ -3,10 +3,8 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
 </script>
 
 <template>
-    <div class="relative h-screen overflow-hidden">
-        <div class="lg:hidden">
-            <HeaderComp :title="$route.name" />
-        </div>
+    <div class="relative">
+        <HeaderComp :title="$route.name" />
         <RouterView v-slot="{ Component }">
             <Transition
                 mode="out-in"
@@ -20,16 +18,17 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
                 <component
                     :is="Component"
                     :key="$route.fullPath"
-                    class="grid px-5 pb-20 sm:px-10 md:px-15 lg:px-20 xl:px-25"
+                    class="grid px-5 sm:px-10 md:px-15 lg:px-20 xl:px-25"
                 />
             </Transition>
         </RouterView>
 
         <div
-            class="absolute inset-0 -bottom-150 -z-10 bg-cover bg-center lg:hidden"
+            class="absolute inset-0 -bottom-180 -z-10 bg-cover bg-center lg:hidden"
             style="background-image: url('/layouts/wavesMobile.svg')"
             aria-hidden="true"
         ></div>
+
         <MobileMenu class="fixed bottom-0 lg:hidden" />
     </div>
 </template>

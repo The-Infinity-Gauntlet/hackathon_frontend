@@ -1,50 +1,72 @@
 <script setup lang="ts">
-import { ref, reactive, nextTick } from 'vue'
+import { ref, reactive, nextTick, watch } from 'vue'
+import { ButtonGlassmorphism } from '@/@core/components'
 
-// Define props para tornar o componente reutilizável e emits para comunicação
 const props = defineProps({
+    modelValue: {
+        type: String,
+        default: '',
+    },
     codeLength: {
         type: Number,
         default: 6,
     },
+    buttonText: {
+        type: String,
+        required: false,
+    },
 })
-const emit = defineEmits(['update:code'])
 
-// Array reativo para os valores dos inputs e referências para os elementos do DOM
-const code = reactive(new Array(props.codeLength).fill(''))
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: string | number | boolean | null): void
+    (e: 'submit', values: Record<string, any>): void
+}>()
+
+const code = reactive<string[]>(Array(props.codeLength).fill(''))
 const inputRefs = ref<HTMLInputElement[]>([])
+const formData = reactive<Record<string, any>>({})
 
-/* Lida com a entrada de dados do usuário em cada input. */
+// Atualiza quando já existe valor inicial
+if (props.modelValue) {
+    props.modelValue.split('').forEach((char, i) => {
+        if (i < props.codeLength) code[i] = char
+    })
+}
+
+// Mantém sincronizado se modelValue mudar externamente
+watch(
+    () => props.modelValue,
+    (newVal) => {
+        code.fill('')
+        newVal.split('').forEach((char, i) => {
+            if (i < props.codeLength) code[i] = char
+        })
+    },
+)
+
+const updateCode = () => {
+    emit('update:modelValue', code.join(''))
+}
+function handleSubmit() {
+    emit('submit', { ...formData })
+}
+
 const handleInput = (e: Event, index: number) => {
     const input = e.target as HTMLInputElement
-    let value = input.value
+    const value = input.value.slice(0, 1)
 
-    // Garante que apenas um dígito seja mantido
-    if (value.length > 1) {
-        value = value.slice(0, 1)
-    }
     code[index] = value
+    updateCode()
 
-    // Se um dígito for inserido, foca no próximo input
     if (value && index < props.codeLength - 1) {
         inputRefs.value[index + 1]?.focus()
     }
-
-    // Emite o código completo quando todos os campos estiverem preenchidos
-    if (code.every((val) => val !== '')) {
-        emit('update:code', code.join(''))
-    }
 }
 
-/**
- * Lida com eventos de teclado como Backspace e setas de navegação.
- */
 const handleKeydown = (e: KeyboardEvent, index: number) => {
-    // Move o foco para o input anterior no Backspace se o atual estiver vazio
     if (e.key === 'Backspace' && !code[index] && index > 0) {
         inputRefs.value[index - 1]?.focus()
     }
-    // Permite navegação com as setas esquerda e direita
     if (e.key === 'ArrowLeft' && index > 0) {
         inputRefs.value[index - 1]?.focus()
     }
@@ -53,55 +75,48 @@ const handleKeydown = (e: KeyboardEvent, index: number) => {
     }
 }
 
-/**
- * Lida com o evento de colar um código.
- */
 const handlePaste = (e: ClipboardEvent) => {
     e.preventDefault()
     const pastedData = e.clipboardData?.getData('text').trim()
 
-    // Verifica se o dado colado é válido (apenas dígitos)
-    if (!pastedData || !/^\d+$/.test(pastedData)) {
-        return
-    }
+    if (!pastedData || !/^\d+$/.test(pastedData)) return
 
-    // Preenche os inputs com os dados colados
     for (let i = 0; i < props.codeLength; i++) {
         code[i] = i < pastedData.length ? pastedData[i] : ''
     }
 
-    // Foca no último input preenchido
+    updateCode()
+
     const focusIndex = Math.min(pastedData.length, props.codeLength - 1)
     nextTick(() => {
         inputRefs.value[focusIndex]?.focus()
     })
-
-    // Emite o código completo se todos os campos foram preenchidos
-    if (code.every((val) => val !== '')) {
-        emit('update:code', code.join(''))
-    }
 }
 </script>
 
 <template>
-    <div class="mt-10 mb-5 flex justify-center gap-2">
-        <template v-for="(_, index) in codeLength" :key="index">
-            <input
-                :ref="
-                    (el) => {
-                        if (el) inputRefs[index] = el as HTMLInputElement
-                    }
-                "
-                v-model="code[index]"
-                type="text"
-                maxlength="1"
-                pattern="\d*"
-                inputmode="numeric"
-                class="h-14 w-12 rounded-lg border-2 border-gray-400 bg-gray-300 text-center text-2xl text-gray-800 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-500/50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:focus:bg-gray-900"
-                @input="handleInput($event, index)"
-                @keydown="handleKeydown($event, index)"
-                @paste="handlePaste"
-            />
-        </template>
-    </div>
+    <form @submit.prevent="handleSubmit">
+        <div class="mt-10 mb-5 flex justify-center gap-2">
+            <template v-for="(_, index) in codeLength" :key="index">
+                <input
+                    :ref="
+                        (el) => {
+                            if (el) inputRefs[index] = el as HTMLInputElement
+                        }
+                    "
+                    v-model="code[index]"
+                    type="text"
+                    maxlength="1"
+                    pattern="\d*"
+                    inputmode="numeric"
+                    class="h-14 w-12 rounded-lg border-2 border-gray-400 bg-gray-300 text-center text-2xl text-gray-800 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-500/50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:focus:bg-gray-900"
+                    @input="handleInput($event, index)"
+                    @keydown="handleKeydown($event, index)"
+                    @paste="handlePaste"
+                />
+            </template>
+        </div>
+
+        <ButtonGlassmorphism v-if="buttonText" :buttonText="buttonText" type="submit" />
+    </form>
 </template>
