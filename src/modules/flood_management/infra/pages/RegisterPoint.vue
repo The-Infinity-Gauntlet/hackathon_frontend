@@ -7,6 +7,7 @@ import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useNeighborhood } from '@/@core/composables/neighborhood'
 import { useFloodController } from '../../controllers/FloodController'
 import { TextField } from '@/@core/components'
+import moment from 'moment'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 const { loadNeighborhoods, getLocalization } = useNeighborhood()
@@ -152,16 +153,6 @@ onMounted(async () => {
         const { lng, lat } = e.lngLat
         neighborhood.value = getLocalization(lng, lat)
         console.log('Bairro encontrado:', neighborhood.value)
-        // const elevation = map.queryTerrainElevation([e.lngLat.lng, e.lngLat.lat])
-        // new mapboxgl.Popup()
-        //   .setLngLat(e.lngLat)
-        //   .setHTML(
-        //     `<strong>Elevação:</strong> ${elevation !== null ? elevation.toFixed(2) + ' m' : 'não disponível'} <br>
-        //     <strong>Coordenadas:</strong><br>
-        //     Longitude: ${lng}<br>
-        //     Latitude: ${lat}`,
-        //   )
-        //   .addTo(map)
     })
 })
 
@@ -171,14 +162,14 @@ async function handleRegisterPoint(values: Record<string, any>) {
         console.log('Coordenadas do polígono:', drawnCoordinates.value)
 
         // Merge form values with any auto-detected values
-        const finalValues = { ...formValues.value, ...values }
+        const finished_at = moment().add(formValues.value.duration, 'minutes').toISOString()
+        const finalValues = { ...formValues.value, ...values, props: drawnCoordinates.value, finished_at }
 
         // Send the data to the backend with coordinates
-        const result = await registerFloodPoint(finalValues, drawnCoordinates.value)
+        const result = await registerFloodPoint(finalValues)
         console.log('Flood point registered successfully:', result)
 
-        // Redirect or show success message
-        router.push('/flood-map')
+        router.push('/')
     } catch (error) {
         console.error('Error registering flood point:', error)
         // You can add error handling UI here

@@ -4,6 +4,10 @@ export interface IFlood {
     createdAt?: string
     updatedAt?: string
     deletedAt?: string
+    neighborhood: string
+    probability: number
+    duration: number
+    props: any
 }
 
 export interface IFloodControllerState {
