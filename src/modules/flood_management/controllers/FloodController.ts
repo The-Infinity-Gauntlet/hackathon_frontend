@@ -116,6 +116,35 @@ export const useFloodController = defineStore('flood', () => {
         } finally {
             state.loading = false
         }
+        
+
+
+    }
+
+   const getOccurrences  = async () => {
+        try {
+            state.loading = true
+            const data = await floodRepository.getFloodPoints()
+            return data
+        } catch (error) {
+            throw error
+        } finally {
+            state.loading = false
+        }
+    }
+
+    const registerOccurrences = async (payload: Record<string, any>) => {
+        try {
+            state.loading = true
+            const data = await floodRepository.registerOccurrences(payload)
+            console.log('Occurence registered successfully:', data)
+            return data
+        } catch(error) {
+            console.log('Occurence registered successfully:', error)
+            throw error
+        } finally {
+            state.loading = false
+        }
     }
 
     return {
@@ -127,11 +156,13 @@ export const useFloodController = defineStore('flood', () => {
         search,
         getFloods,
         getFloodById,
+        registerFloodPoint,
         clearCurrentFlood,
         createFlood,
         updateFlood,
         deleteFlood,
-        registerFloodPoint,
+        getOccurrences,
+        registerOccurrences,
     }
 })
 

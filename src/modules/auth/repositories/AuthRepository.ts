@@ -12,10 +12,9 @@ export class AuthRepository extends BaseRepository<IAuth> {
 
     // POST /auth/ with { email, password }
     authenticate(payload: { email: string; password: string }) {
-        return this.apiRef.post(`${this.basePath}/auth/token`, payload)
+        return this.apiRef.post(`${this.basePath}/auth/token/`, payload)
     }
 
-    // POST /auth/register/ with register fields
     register(payload: {
         name: string
         email: string
@@ -23,6 +22,6 @@ export class AuthRepository extends BaseRepository<IAuth> {
         password: string
         'password-confirm': string
     }) {
-        return this.apiRef.post(`${this.basePath}/users/register/`, payload)
+        return this.apiRef.post(`${this.basePath}/users/signup/`, payload)
     }
 }

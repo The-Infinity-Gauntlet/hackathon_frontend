@@ -94,7 +94,6 @@ async function handleRegister(values: Record<string, any>) {
             'password-confirm': values['password-confirm'],
         })
         toast.success('Cadastro realizado com sucesso!', { autoClose: 2000 })
-        // após cadastro, vai para login
         isLogin.value = true
     } catch (e: any) {
         toast.error(e?.message || 'Erro ao realizar cadastro')

@@ -35,15 +35,15 @@ export class Api implements IApi {
     constructor() {
         // Adiciona token Bearer automaticamente, se existir no localStorage
         this.client.interceptors.request.use((config) => {
-            try {
+            const isAuthRequest = config.headers?.auth === 'true'
+            if (isAuthRequest) {
                 const token = localStorage.getItem('token')
                 if (token) {
                     config.headers = config.headers ?? {}
-                    ;(config.headers as any).Authorization = `Bearer ${token}`
+                    config.headers.Authorization = `Bearer ${token}`
                 }
-            } catch (_) {
-                // fail silently in non-browser contexts
             }
+            delete config.headers?.auth
             return config
         })
     }
