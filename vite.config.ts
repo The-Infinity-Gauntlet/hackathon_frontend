@@ -64,8 +64,8 @@ export default defineConfig(({ mode }) => {
       proxy: {
         // Dev proxy to avoid CORS: calls to /api/* will be forwarded to the backend
         '/api': {
-          target: 'http://127.0.0.1:8000/',
-          // target: 'https://aquaapi.fabricadesoftware.ifc.edu.br/',
+          // target: 'http://127.0.0.1:8000/',
+          target: 'https://aquaapi.fabricadesoftware.ifc.edu.br/',
           // target: http://192.168.7.10:8000/
           changeOrigin: true,
           secure: false,
