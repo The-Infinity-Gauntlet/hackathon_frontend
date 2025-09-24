@@ -51,7 +51,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="grid justify-center lg:bg-white lg:dark:bg-[#000d19]">
+    <div class="grid justify-center">
         <div class="mt-8 flex justify-center gap-10">
             <div v-for="step in totalSteps" :key="step" class="flex items-center">
                 <div

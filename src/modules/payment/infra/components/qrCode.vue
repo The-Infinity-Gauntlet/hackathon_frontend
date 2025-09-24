@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import { toast } from 'vue3-toastify'
 import { ButtonGlassmorphism } from '@/@core/components'
 
 const props = defineProps({
     qrcode: {
         type: String,
-        default: '/qrcode.svg',
     },
     code: {
         type: String,
@@ -13,7 +13,7 @@ const props = defineProps({
     },
     time: {
         type: String,
-        default: '',
+        default: '300',
     },
     showPopup: {
         type: Boolean,
@@ -22,6 +22,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close'])
+const countdown = ref(props.time)
 
 const closePopup = () => {
     emit('close')
@@ -44,6 +45,19 @@ const copyCode = async () => {
         })
     }
 }
+
+watch(
+    () => props.showPopup,
+    (val) => {
+        if (val) {
+            countdown.value = props.time
+            const interval = setInterval(() => {
+                countdown.value--
+                if (countdown.value <= 0) clearInterval(interval)
+            }, 1000)
+        }
+    },
+)
 </script>
 
 <template>
@@ -53,7 +67,7 @@ const copyCode = async () => {
         >
             <div class="flex justify-between px-5">
                 <button
-                    class="text-2xl text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                    class="cursor-pointer text-2xl text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                     @click="closePopup"
                 >
                     ×
@@ -67,14 +81,11 @@ const copyCode = async () => {
                 <p class="text-xs text-[#999999]">
                     Escaneie com a câmera do seu celular para realizar o pagamento
                 </p>
-                <img v-if="qrcode" :src="qrcode" alt="QRCode" class="max-w-full rounded-md" />
+                <img v-if="qrcode" :src="qrcode" alt="QRCode" class="w-70 rounded-md" />
                 <p class="text-xs text-[#999999]">ou insira o código abaixo</p>
-                <p class="break-all text-[#0453AF]">{{ code }}</p>
+                <p class="-mb-10 break-all text-[#0453AF]">{{ code }}</p>
                 <ButtonGlassmorphism buttonText="Copiar código" @click="copyCode" />
-                <p class="text-xs text-[#999999]">Expira em {{ time }} segundos</p>
-                <RouterLink to="/pagamento" class="text-[#0453AF] underline"
-                    >Doe com pix</RouterLink
-                >
+                <p class="text-xs text-[#999999]">Expira em {{ countdown }} segundos</p>
             </div>
         </div>
     </div>
