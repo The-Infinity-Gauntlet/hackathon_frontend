@@ -10,7 +10,7 @@ interface DemoResponse {
 @injectable()
 export class FloodDemoRepository extends BaseRepository<any> {
     constructor(@inject('ApiService') api: Api) {
-        super(api, 'flood_monitoring/demo')
+        super(api, 'flood_monitoring/demo/')
     }
 
     private _getPromise: Promise<string> | null = null
@@ -59,7 +59,7 @@ export class FloodDemoRepository extends BaseRepository<any> {
     async predictDemo(): Promise<any> {
         if (this._predictPromise) return this._predictPromise
         this._predictPromise = (async () => {
-            const { data } = await this.api.get<any>('flood_monitoring/demo/predict')
+            const { data } = await this.api.get<any>('flood_monitoring/demo/predict/')
             if (!data) throw new Error('Resposta vazia do endpoint de predição do demo')
             return data
         })()

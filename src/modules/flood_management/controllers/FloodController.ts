@@ -41,9 +41,37 @@ export const useFloodController = defineStore('flood', () => {
 
     const getFloods = async () => {
         try {
-            console.log('Creating flood')
             state.loading = true
             const data = await floodRepository.getFloodPoints()
+            const list = (data as any)?.results ?? data
+            const mapped: IFlood[] = Array.isArray(list)
+                ? list.map((p: any) => {
+                      const start = p.created_at ? new Date(p.created_at).getTime() : undefined
+                      const end = p.finished_at ? new Date(p.finished_at).getTime() : undefined
+                      const durationMin =
+                          start && end && end >= start ? Math.round((end - start) / 60000) : 0
+
+                      let finalProb: number = 0
+                      if (typeof p.possibility === 'number') {
+                          finalProb = p.possibility <= 1 ? Math.round(p.possibility * 100) : Math.round(p.possibility)
+                      } else if (typeof p.probability === 'number') {
+                          finalProb = p.probability
+                      }
+
+                      return {
+                          id: String(p.id ?? ''),
+                          neighborhood: p.neighborhood_name ?? p.neighborhood ?? '',
+                          probability: finalProb,
+                          duration: durationMin,
+                          props: p.props ?? null,
+                          descricao: p.descricao,
+                          createdAt: p.created_at,
+                          updatedAt: p.updated_at ?? p.finished_at,
+                          deletedAt: p.deleted_at,
+                      }
+                  })
+                : []
+            state.floods = mapped
             return data
         } catch (error) {
             throw error

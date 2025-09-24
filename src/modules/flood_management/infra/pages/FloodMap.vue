@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
@@ -9,32 +9,29 @@ import { useNeighborhood } from '@/@core/composables/neighborhood'
 import { useNavigation } from '@/@core/composables/navigation'
 import Table from '../components/table.vue'
 import { useFloodMapIA } from '@/@core/composables/useFloodMap'
-import { useFloodIAController } from '../../controllers/FloodController'
 import { useFloodController } from '../../controllers/FloodController'
-import moment from 'moment'
+// Using local loose typing to avoid module resolution issues during build
+type IFlood = any
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
-const neighborhood = ref<string | null>(null)
+const neighborhood = ref<{ city: string; neighborhood: string } | null>(null)
 const isOpen = ref(false)
 const { loadNeighborhoods, getLocalization } = useNeighborhood()
 const { routerBack } = useNavigation()
-const { getFloods, floods } = useFloodController()
+const { getFloods, state } = useFloodController()
 
 const toggleSheet = () => {
     isOpen.value = !isOpen.value
 }
 
-const floodPoints = ref([])
+const floodPoints = ref<IFlood[]>([])
 const { points, init, toGeoJSON } = useFloodMapIA()
 
 onMounted(async () => {
     await loadNeighborhoods()
-    floodPoints.value = (await getFloods()).results.map((flood) => ({
-        ...flood,
-        neighborhood: flood.neighborhood_name,
-        probability: flood.possibility * 100,
-        duration: `${moment(flood.finished_at).diff(moment(), 'minutes')} min`,
-    }))
+    await getFloods()
+    floodPoints.value = state.floods
+    console.log('[FloodMap] state.floods:', state.floods)
 
     const map = new mapboxgl.Map({
         container: 'map-admin',
@@ -85,17 +82,22 @@ onMounted(async () => {
     map.on('load', async () => {
         await init()
         try {
-            floodPoints.value.forEach((fp) => {
+            floodPoints.value.forEach((fp: IFlood) => {
                 console.log('Ponto de alagamento: ', fp)
+                console.log('Props do ponto:', fp.props)
                 if (fp.props) {
                     const sourceId = `flood-point-${fp.id}`
 
                     // Adiciona a propriedade probability em cada feature
-                    const featuresWithProbability = fp.props.map((feature) => ({
+                    const featuresWithProbability = fp.props.map((feature: any) => ({
                         ...feature,
                         properties: {
                             ...feature.properties,
                             probability: fp.probability, // 0 a 100
+                            floodId: fp.id,
+                            neighborhood: fp.neighborhood,
+                            createdAt: fp.createdAt,
+                            duration: fp.duration,
                         },
                     }))
 
@@ -142,6 +144,21 @@ onMounted(async () => {
                             'fill-extrusion-base': 0,
                             'fill-extrusion-opacity': 0.5,
                         },
+                    })
+                    // Popup com props ao clicar na área
+                    map.on('click', sourceId + '-fill', (e) => {
+                        const f = e.features?.[0]
+                        const p: any = f?.properties || {}
+                        const html = `
+                            <div style="font-size:12px">
+                                <div><strong>Bairro:</strong> ${p.neighborhood ?? '-'}</div>
+                                <div><strong>Probabilidade:</strong> ${p.probability ?? '-'}%</div>
+                                <div><strong>Duração:</strong> ${p.duration ?? '-'} min</div>
+                                <div><strong>Criado em:</strong> ${p.createdAt ?? '-'}</div>
+                                <div><strong>ID:</strong> ${p.floodId ?? '-'}</div>
+                            </div>
+                        `
+                        new mapboxgl.Popup().setLngLat((e as any).lngLat).setHTML(html).addTo(map)
                     })
 
                     // Contorno do ponto
@@ -257,8 +274,9 @@ onMounted(async () => {
 
     map.on('click', (e) => {
         const { lng, lat } = e.lngLat
-        neighborhood.value = getLocalization(lng, lat)
-        console.log('Bairro encontrado:', neighborhood.value)
+    const loc = getLocalization(lng, lat)
+    neighborhood.value = loc
+    console.log('Bairro encontrado:', neighborhood.value)
     })
 })
 

@@ -10,6 +10,7 @@ import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocatio
 import { MapboxFilters, InfoPoints } from '../components'
 import { useFloodMapIA } from '@/@core/composables/useFloodMap'
 import { useFloodController } from '@/modules/flood_management/controllers/FloodController'
+import type { IFlood } from '@/modules/flood_management/interfaces/flood'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 
@@ -21,10 +22,24 @@ const { getFloods, state } = useFloodController()
 const { points, init, toGeoJSON } = useFloodMapIA()
 
 onMounted(async () => {
+    // Carrega os pontos de alagamento e loga os retornos
+    const resp = await getFloods()
+    console.log('[Map] getFloods response:', resp)
+    console.log('[Map] state.floods (after fetch):', state.floods)
+
+    // Log também quando a lista for atualizada
+    watch(
+        () => state.floods.length,
+        () => {
+            console.log('[Map] state.floods (updated):', state.floods)
+        },
+        { immediate: true },
+    )
+
     const map = new mapboxgl.Map({
         container: 'map-fixed',
         style: 'mapbox://styles/mapbox/outdoors-v12',
-        center: [geolocation.longitude, geolocation.latitude],
+        center: [geolocation.longitude ?? 0, geolocation.latitude ?? 0],
         zoom: 13,
         pitch: 60,
         bearing: -30,
@@ -69,10 +84,8 @@ onMounted(async () => {
         await ctrl.load()
         await init()
 
-        const floodPoints = await getFloods()
-        console.log(floodPoints)
-
-        floodPoints.results.forEach((fp) => {
+        // Reaproveita os dados já carregados no estado
+    state.floods.forEach((fp: IFlood) => {
             console.log('Ponto de alagamento: ', fp)
             if (fp.props) {
                 const sourceId = `flood-point-${fp.id}`
@@ -226,7 +239,7 @@ onMounted(async () => {
             <MapboxFilters class="hidden lg:block" />
         </div>
 
-        <MapboxFilters class="lg:hidden" />
-        <InfoPoints :points="state.floods" />
+    <MapboxFilters class="lg:hidden" />
+    <InfoPoints :points="state.floods" />
     </section>
 </template>

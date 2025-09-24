@@ -2,15 +2,15 @@
 import { computed, reactive, ref, onMounted } from 'vue'
 import { useFloodCameraMonitoringController } from '@/modules/flood_camera_monitoring/controller/FloodCameraMonitoringController'
 import { CameraItems } from '@/@core/components'
-
-interface FloodPoint {
+type FloodListItem = {
+    id: string | number
     neighborhood: string
-    probability: number
-    duration: string
+    duration: number
+    createdAt?: string
 }
 
 defineProps<{
-    points: FloodPoint[]
+    points: FloodListItem[]
 }>()
 
 type ViewMode = 'embed' | 'hls'
@@ -29,7 +29,7 @@ const orderedCams = computed(() => {
         return String(a.name || '').localeCompare(String(b.name || ''))
     })
 })
-function displayFloodPercent(cam: CameraWithPrediction): number {
+function displayFloodPercent(cam: any): number {
     if (cam.prediction && typeof cam.prediction.probabilities?.flooded === 'number') {
         const v = cam.prediction.probabilities.flooded
         const clamped = Math.min(100, Math.max(0, v))
@@ -54,26 +54,52 @@ const prev = () => {
     }
 }
 
+// Normaliza probabilidade (aceita 0..1 ou 0..100)
+const normProb = (p: number) => (p > 1 ? p / 100 : p)
+const displayPercent = (p: number) => Math.round(normProb(p) * 100)
 const riskLabel = (prob: number) => {
-    if (prob > 0.7) return 'Alta probabilidade de risco'
-    if (prob > 0.4) return 'Média probabilidade de risco'
+    const p = normProb(prob)
+    if (p > 0.7) return 'Alta probabilidade de risco'
+    if (p > 0.4) return 'Média probabilidade de risco'
     return 'Baixa probabilidade de risco'
 }
+const riskLevel = (prob: number) => {
+    const p = normProb(prob)
+    if (p > 0.7) return 'Alto'
+    if (p > 0.4) return 'Médio'
+    return 'Baixo'
+}
 const riskClass = (prob: number) => {
-    if (prob > 0.7) return 'text-red-600 font-bold text-lg'
-    if (prob > 0.4) return 'text-yellow-500 font-bold text-lg'
+    const p = normProb(prob)
+    if (p > 0.7) return 'text-red-600 font-bold text-lg'
+    if (p > 0.4) return 'text-yellow-500 font-bold text-lg'
     return 'text-green-600 font-bold text-lg'
 }
 
 onMounted(async () => {
     await ctrl.load()
-    const currentLocation = await geolocation.findNeighborhood()
-    location.value.neighborhood = currentLocation.neighborhood
-    location.value.city = currentLocation.city
     cams.value.forEach((c: any) => {
         modes[c.id] = 'hls'
     })
 })
+function formatDuration(mins?: number) {
+    if (!mins && mins !== 0) return '-'
+    const m = Math.max(0, Math.trunc(mins))
+    if (m < 60) return `${m} min`
+    const h = Math.floor(m / 60)
+    const rest = m % 60
+    return `${h}h ${rest}m`
+}
+
+function formatDate(iso?: string) {
+    if (!iso) return '-'
+    const d = new Date(iso)
+    if (isNaN(d.getTime())) return '-'
+    return d.toLocaleString('pt-BR', {
+        dateStyle: 'short',
+        timeStyle: 'short',
+    })
+}
 </script>
 
 <template>
@@ -85,8 +111,8 @@ onMounted(async () => {
                 <thead>
                     <tr class="text-center text-sm font-semibold text-[#999999]">
                         <th class="py-2">Bairro</th>
-                        <th class="py-2">Probabilidade</th>
                         <th class="py-2">Duração</th>
+                        <th class="py-2">Criado em</th>
                     </tr>
                 </thead>
 
@@ -97,12 +123,8 @@ onMounted(async () => {
                         class="text-center text-xs font-semibold"
                     >
                         <td class="py-2">{{ point.neighborhood }}</td>
-                        <td class="py-2">{{ point.probability }}%</td>
-                        <td class="py-2">
-                            <div class="flex items-center justify-center gap-2">
-                                {{ point.duration }}
-                            </div>
-                        </td>
+                        <td class="py-2">{{ formatDuration(point.duration) }}</td>
+                        <td class="py-2">{{ formatDate(point.createdAt) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -124,7 +146,7 @@ onMounted(async () => {
                     :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
                 >
                     <div
-                        v-for="(cam, index) in orderedCams"
+                        v-for="cam in orderedCams"
                         :key="cam.id"
                         class="flex min-w-full flex-col items-center justify-center"
                     >
@@ -134,8 +156,12 @@ onMounted(async () => {
 
                         <div class="mt-4 text-center">
                             <p class="font-semibold">Situação:</p>
-                            <p :class="riskClass(cam.probability)">
-                                {{ riskLabel(cam.probability) }}
+                            <p :class="riskClass(displayFloodPercent(cam))">
+                                {{ riskLabel(displayFloodPercent(cam)) }}
+                            </p>
+                            <p class="text-sm text-[#666]">
+                                Risco: {{ riskLevel(displayFloodPercent(cam)) }}
+                                ({{ displayPercent(displayFloodPercent(cam)) }}%)
                             </p>
                         </div>
                     </div>
@@ -154,14 +180,18 @@ onMounted(async () => {
                     :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
                 >
                     <div
-                        v-for="(cam, index) in orderedCams"
+                        v-for="cam in orderedCams"
                         :key="cam.id"
                         class="flex min-w-full flex-col items-center justify-center"
                     >
                         <div class="mt-4 text-center">
                             <p class="font-semibold">Situação:</p>
-                            <p :class="riskClass(cam.probability)">
-                                {{ riskLabel(cam.probability) }}
+                            <p :class="riskClass(displayFloodPercent(cam))">
+                                {{ riskLabel(displayFloodPercent(cam)) }}
+                            </p>
+                            <p class="text-sm text-[#666]">
+                                Risco: {{ riskLevel(displayFloodPercent(cam)) }}
+                                ({{ displayPercent(displayFloodPercent(cam)) }}%)
                             </p>
                         </div>
                     </div>
