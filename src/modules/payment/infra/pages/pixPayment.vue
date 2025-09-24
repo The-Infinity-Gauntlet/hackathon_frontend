@@ -90,6 +90,18 @@ async function handlePixPayment(values: Record<string, any>) {
         showPopup.value = true
         console.log('Code: ', showPopup.value)
         console.log('Resposta: ', response)
+
+        const paymentId = response.id
+        const status = pixStore.getStatus(paymentId)
+        const interval = setInterval(async () => {
+            const s = await pixStore.getStatus(paymentId)
+            console.log("Status atualizado:", s)
+            if (s.status === "approved" || s.status === "rejected") {
+                clearInterval(interval)
+            }
+            console.log("Status: ", s.status) // em s.status, o mesmo retorna com "approved", "pending" ou "rejected"
+        }, 5000)
+        console.log("Status do pagamento: ", status)
     } catch (error) {
         console.error('Erro ao criar pagamento Pix:', error)
         alert('Ocorreu um erro ao processar o pagamento. Tente novamente.')

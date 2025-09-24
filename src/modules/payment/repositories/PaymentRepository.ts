@@ -8,6 +8,10 @@ import { IPayment, IPaymentPix } from '../interfaces/payment'
 export class PaymentPixRepository extends BaseRepository<IPaymentPix> {
     constructor(@inject('ApiService') api: Api) {
         super(api, 'donate/pix/')
-        super(api, 'donate/status/:id')
+        this.api = api
+    }
+    async getStatus(paymentId: string) {
+        const { data } = await this.api.get(`donate/status/${paymentId}`)
+        return data
     }
 }

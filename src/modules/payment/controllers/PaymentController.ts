@@ -20,7 +20,7 @@ export interface IPaymentControllerState {
 }
 
 export const usePaymentController = defineStore('payment', () => {
-    const paymentRepository = container.resolve(PaymentRepository)
+    const paymentRepository = container.resolve(PaymentPixRepository)
 
     const state = reactive<IPaymentControllerState>({
         payments: [],
@@ -161,8 +161,19 @@ export const usePixPayment = defineStore('pix', () => {
         }
     }
 
+    const getStatus = async (id: string) => {
+        try {
+            const result = await paymentPixRepository.getStatus(id)
+            state.currentPayment = result
+            return result
+        } catch (error) {
+            console.error("Erro ao buscar status de pagamento: ", error)
+        }
+    }
+
     return {
         state,
         createPaymentPix,
+        getStatus
     }
 })
