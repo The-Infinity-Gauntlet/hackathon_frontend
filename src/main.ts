@@ -32,31 +32,56 @@ onMessage(messaging, (payload) => {
     console.log('Message received in foreground: ', payload)
 })
 
+import { toast } from 'vue3-toastify'
 function showNotification(title: string, body: string) {
-    alert(body)
-    navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification(title, {
-            body,
-            icon: '/pwa_icons/pwa-192x192.png',
-        })
+    toast.success(body, {
+        autoClose: 10000,
+        position: 'top-right',
     })
+    
+    // navigator.serviceWorker.ready.then((registration) => {
+    //     registration.showNotification(title, {
+    //         body,
+    //         icon: '/pwa_icons/pwa-192x192.png',
+    //     })
+    // })
 }
+
+const clientId = (() => {
+  const saved = localStorage.getItem('cId')
+  if (saved) return saved
+  const id = crypto.randomUUID()
+  localStorage.setItem('cId', id)
+  return id
+})()
 
 const db = getFirestore(firebaseApp);
 const docRef = doc(db, "notification", "notify");
 
+let initialized = false
 onSnapshot(docRef, (snap) => {
     if (snap.exists()) {
-        const text = snap.data().text;
-        console.log('Notification:', { id: snap.id, text });
-        showNotification("Nova notificação recebida", text);
+        const data = snap.data();
+       
+        if (data.senderId === clientId) {
+            initialized = true
+            return
+        }
+
+        if (!initialized) {
+            initialized = true
+            return
+        }
+
+        console.log('Notification:', { id: snap.id, ...data });
+        showNotification("Nova notificação recebida", data.text);
     } else {
         console.log('Ainda não existe o documento.');
     }
 });
 
 window.sendNotification = (text: string) => {
-    setDoc(docRef, { text });
+    setDoc(docRef, { text, senderId: clientId, createdAt: Date.now() });
 }
 const app = createApp(App)
 
