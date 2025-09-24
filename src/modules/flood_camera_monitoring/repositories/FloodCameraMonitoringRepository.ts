@@ -8,7 +8,7 @@ import type { IGlobalResponse } from '@/@core/interfaces/api'
 export class FloodCameraMonitoringRepository extends BaseRepository<ICamera> {
     constructor(@inject('ApiService') api: Api) {
         // Base para câmeras, permitindo usar list()/listAll() sem concatenar manualmente
-        super(api, 'flood_monitoring/cameras')
+        super(api, 'flood_monitoring/cameras/')
     }
 
     // O endpoint de câmeras é paginado (count/next/previous/ordering/results).

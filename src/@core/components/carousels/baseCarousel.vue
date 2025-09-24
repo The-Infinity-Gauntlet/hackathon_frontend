@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CameraItems from './cameraItems.vue'
 import ChartItems from './chartItems.vue'
 import MenuItems from './menuItems.vue'
 
@@ -12,6 +13,8 @@ const getComponent = (items) => {
             return MenuItems
         case 'charts':
             return ChartItems
+        default:
+            return CameraItems
     }
 }
 </script>

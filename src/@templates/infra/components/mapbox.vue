@@ -2,33 +2,57 @@
 import { onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import mapboxgl from 'mapbox-gl'
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useFloodCameraMonitoringController } from '@/modules/flood_camera_monitoring/controller/FloodCameraMonitoringController'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
-import { MapboxFilters } from '../components'
+import { MapboxFilters, InfoPoints } from '../components'
 import { useFloodMapIA } from '@/@core/composables/useFloodMap'
 import { useFloodController } from '@/modules/flood_management/controllers/FloodController'
+import type { IFlood } from '@/modules/flood_management/interfaces/flood'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 
 const router = useRouter()
 const ctrl = useFloodCameraMonitoringController()
 const geolocation = useGeolocationStore()
-const { getFloods } = useFloodController()
+const { getFloods, state } = useFloodController()
 
 const { points, init, toGeoJSON } = useFloodMapIA()
 
 onMounted(async () => {
+    // Carrega os pontos de alagamento e loga os retornos
+    const resp = await getFloods()
+    console.log('[Map] getFloods response:', resp)
+    console.log('[Map] state.floods (after fetch):', state.floods)
+
+    // Log também quando a lista for atualizada
+    watch(
+        () => state.floods.length,
+        () => {
+            console.log('[Map] state.floods (updated):', state.floods)
+        },
+        { immediate: true },
+    )
+
     const map = new mapboxgl.Map({
         container: 'map-fixed',
         style: 'mapbox://styles/mapbox/outdoors-v12',
-        center: [-48.88124, -26.26965], // Coordenadas iniciais [longitude, latitude]
+        center: [geolocation.longitude ?? 0, geolocation.latitude ?? 0],
         zoom: 13,
         pitch: 60,
         bearing: -30,
         antialias: true,
     })
+
+    const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl,
+        marker: true,
+        placeholder: 'Buscar local...',
+    })
+    map.addControl(geocoder, 'top-right')
 
     geolocation.getCurrentPosition().then((position) => {
         new mapboxgl.Marker().setLngLat([position.longitude, position.latitude]).addTo(map)
@@ -61,9 +85,8 @@ onMounted(async () => {
         await ctrl.load()
         await init()
 
-        const floodPoints = await getFloods()
-
-        floodPoints.results.forEach((fp) => {
+        // Reaproveita os dados já carregados no estado
+        state.floods.forEach((fp: IFlood) => {
             console.log('Ponto de alagamento: ', fp)
             if (fp.props) {
                 const sourceId = `flood-point-${fp.id}`
@@ -218,5 +241,6 @@ onMounted(async () => {
         </div>
 
         <MapboxFilters class="lg:hidden" />
+        <InfoPoints :points="state.floods" />
     </section>
 </template>

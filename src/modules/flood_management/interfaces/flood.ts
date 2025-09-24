@@ -1,4 +1,4 @@
-export interface IFlood {
+/* export interface IFlood {
     id: string
     descricao?: string
     createdAt?: string
@@ -9,7 +9,6 @@ export interface IFlood {
     duration: number
     props: any
 }
-
 export interface IFloodControllerState {
     floods: IFlood[]
     currentFlood: Partial<IFlood>
@@ -44,3 +43,4 @@ export interface IFloodIAControllerState {
     loading: boolean
     search: string
 }
+*/

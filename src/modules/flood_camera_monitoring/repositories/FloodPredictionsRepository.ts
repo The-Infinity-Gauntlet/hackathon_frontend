@@ -7,7 +7,7 @@ import type { IGlobalResponse } from '@/@core/interfaces/api'
 @injectable()
 export class FloodPredictionsRepository extends BaseRepository<FloodPredictionItem> {
     constructor(@inject('ApiService') api: Api) {
-        super(api, 'flood_monitoring/predict/all')
+        super(api, 'flood_monitoring/predict/all/')
     }
 
     async list(): Promise<IGlobalResponse<FloodPredictionItem>> {
