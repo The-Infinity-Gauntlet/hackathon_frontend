@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import {
-    ButtonGlassmorphism,
-    FloodAlert,
-    MapboxPopup,
-} from '@/@core/components'
+import { ButtonGlassmorphism, FloodAlert, MapboxPopup } from '@/@core/components'
 import { Mapbox } from '../components'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 
@@ -37,39 +33,54 @@ onMounted(async () => {
 
 <template>
     <div>
-        <section class="flex justify-between items-center px-5 pt-30 h-screen -mt-30">
-            <div class="w-[50%] grid gap-2">
-                <h1 class="grid gap-2 text-6xl font-semibold mb-5 lg:gap-5 lg:text-8xl">Bem-vindo ao
+        <section class="-mt-30 flex h-screen items-center justify-between px-5 pt-30">
+            <div class="grid w-[50%] gap-2">
+                <h1 class="mb-5 grid gap-2 text-6xl font-semibold lg:gap-5 lg:text-8xl">
+                    Bem-vindo ao
                     <span class="text-[#2768CA]">AQUA!</span>
                 </h1>
 
-                <p class="text-[#999999] font-semibold text-xl lg:text-3xl">Acompanhe em tempo real áreas de risco,
-                    probabilidade
-                    de alagamentos e câmeras ao vivo. Informação <span class="text-[#2768CA]">rápida</span> e
+                <p class="text-xl font-semibold text-[#999999] lg:text-3xl">
+                    Acompanhe em tempo real áreas de risco, probabilidade de alagamentos e câmeras
+                    ao vivo. Informação <span class="text-[#2768CA]">rápida</span> e
                     <span class="text-[#2768CA]">confiável</span> para sua segurança.
                 </p>
 
-                <RouterLink to="/blog"
-                    class="text-center mt-5 block w-[250px] lg:w-[300px] text-[#2768CA] cursor-pointer rounded-lg bg-[#7AA6C8]/30 p-2 lg:p-3 font-semibold shadow-xl backdrop-blur-xs lg:text-2xl">
+                <RouterLink
+                    to="/blog"
+                    class="mt-5 block w-[250px] cursor-pointer rounded-lg bg-[#7AA6C8]/30 p-2 text-center font-semibold text-[#2768CA] shadow-xl backdrop-blur-xs lg:w-[300px] lg:p-3 lg:text-2xl"
+                >
                     Explorar
                 </RouterLink>
             </div>
 
             <div class="relative">
-                <img src="/icons/background-home.svg" alt=""
-                    class="hidden lg:block absolute -z-10 h-350 w-350 -top-120 -right-15" />
-                <img src="/gifs/home.gif" alt="Animação" class="mr-20 hidden h-120 w-120 lg:block" />
+                <img
+                    src="/icons/background-home.svg"
+                    alt=""
+                    class="absolute -top-120 -right-15 -z-10 hidden h-350 w-350 lg:block"
+                />
+                <img
+                    src="/gifs/home.gif"
+                    alt="Animação"
+                    class="mr-20 hidden h-120 w-120 lg:block"
+                />
             </div>
         </section>
 
         <section>
-            <div class="flex cursor-pointer items-center justify-center py-5 lg:text-xl" @click="togglePopup">
-                <p class="font-semibold">Localização: {{ location.neighborhood }}, {{ location.city }}</p>
+            <div
+                class="flex cursor-pointer items-center justify-center py-5 lg:text-xl"
+                @click="togglePopup"
+            >
+                <p class="font-semibold">
+                    Localização: {{ location.neighborhood }}, {{ location.city }}
+                </p>
                 <span class="material-symbols-outlined pl-2 text-[#999999]">edit_square</span>
             </div>
             <MapboxPopup v-if="showPopup" @close="showPopup = false" />
-            <Mapbox />
             <FloodAlert :alert="location.data[1].message" />
+            <Mapbox />
         </section>
     </div>
 </template>

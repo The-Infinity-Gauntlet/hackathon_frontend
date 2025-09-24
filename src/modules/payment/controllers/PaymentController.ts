@@ -167,13 +167,13 @@ export const usePixPayment = defineStore('pix', () => {
             state.currentPayment = result
             return result
         } catch (error) {
-            console.error("Erro ao buscar status de pagamento: ", error)
+            console.error('Erro ao buscar status de pagamento: ', error)
         }
     }
 
     return {
         state,
         createPaymentPix,
-        getStatus
+        getStatus,
     }
 })
