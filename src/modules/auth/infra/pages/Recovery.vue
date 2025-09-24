@@ -27,8 +27,9 @@ const closePopup = () => {
     showPopup.value = false
 }
 const contentPopup = ref({
-    title: 'Sua conta foi recuperada!',
-    message: 'Você será redirecionado para a página de login.',
+    title: '',
+    message: '',
+    gif: '',
 })
 const success = ref(false)
 
@@ -45,6 +46,7 @@ function handleFinish(values: Record<string, any>) {
         contentPopup.value = {
             title: 'Sua conta foi recuperada!',
             message: 'Você será redirecionado para a sua conta.',
+            gif: '/gifs/true.gif',
         }
         showPopup.value = true
 
@@ -56,13 +58,14 @@ function handleFinish(values: Record<string, any>) {
             })
         }
         setTimeout(() => {
-            router.push('/minha-conta')
+            router.push('/minha-conta/nicolefemello')
         }, 1000)
     } else {
         console.log('Código enviado:', recoveryCode.value)
         contentPopup.value = {
             title: 'Sua conta não foi recuperada!',
             message: 'Você será redirecionado para a página de inicial.',
+            gif: '/gifs/false.gif',
         }
         showPopup.value = true
 

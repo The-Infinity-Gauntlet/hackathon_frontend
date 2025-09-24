@@ -3,7 +3,7 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
 </script>
 
 <template>
-    <div class="relative">
+    <div class="">
         <HeaderComp :title="$route.name" />
         <RouterView v-slot="{ Component }">
             <Transition
@@ -28,7 +28,6 @@ import { HeaderComp, MobileMenu } from '@/@core/components'
             style="background-image: url('/layouts/wavesMobile.svg')"
             aria-hidden="true"
         ></div>
-
         <MobileMenu class="fixed bottom-0 lg:hidden" />
     </div>
 </template>
