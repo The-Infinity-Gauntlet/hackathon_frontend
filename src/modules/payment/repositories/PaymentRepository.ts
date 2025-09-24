@@ -8,5 +8,6 @@ import { IPayment, IPaymentPix } from '../interfaces/payment'
 export class PaymentPixRepository extends BaseRepository<IPaymentPix> {
     constructor(@inject('ApiService') api: Api) {
         super(api, 'donate/pix/')
+        super(api, 'donate/status/:id')
     }
 }

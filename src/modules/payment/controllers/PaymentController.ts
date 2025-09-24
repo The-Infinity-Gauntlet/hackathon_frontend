@@ -16,6 +16,7 @@ export interface IPaymentControllerState {
     }
     loading: boolean
     search: string
+    status?: string
 }
 
 export const usePaymentController = defineStore('payment', () => {
@@ -32,6 +33,7 @@ export const usePaymentController = defineStore('payment', () => {
         },
         loading: false,
         search: '',
+        status: '',
     })
 
     const payments = computed(() => state.payments)
