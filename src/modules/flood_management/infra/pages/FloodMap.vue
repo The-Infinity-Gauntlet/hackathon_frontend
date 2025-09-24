@@ -85,37 +85,6 @@ onMounted(async () => {
     map.on('load', async () => {
         await init()
         try {
-            // Carregar floodGeojson via fetch (não como import)
-            const response = await fetch('/flooding.json')
-            const floodGeojson = await response.json()
-
-            // Adicionar fonte de dados do flood
-            map.addSource('flood-area', {
-                type: 'geojson',
-                data: floodGeojson,
-            })
-
-            // Camada 3D para simular volume/profundidade de alagamento
-            map.addLayer({
-                id: 'flood-area-volume',
-                type: 'fill-extrusion',
-                source: 'flood-area',
-                paint: {
-                    'fill-extrusion-color': [
-                        'interpolate',
-                        ['linear'],
-                        ['get', 'risk_level'],
-                        0.0,
-                        '#add8e6', // lightblue
-                        1.0,
-                        '#00008b', // darkblue
-                    ],
-                    'fill-extrusion-height': ['get', 'depth'],
-                    'fill-extrusion-base': 0,
-                    'fill-extrusion-opacity': 0.5,
-                },
-            })
-
             floodPoints.value.forEach((fp) => {
                 console.log('Ponto de alagamento: ', fp)
                 if (fp.props) {
@@ -141,10 +110,10 @@ onMounted(async () => {
                     // Área do ponto
                     map.addLayer({
                         id: sourceId + '-fill',
-                        type: 'fill',
+                        type: 'fill-extrusion',
                         source: sourceId,
                         paint: {
-                            'fill-color': [
+                            'fill-extrusion-color': [
                                 'interpolate',
                                 ['linear'],
                                 ['get', 'probability'],
@@ -169,7 +138,9 @@ onMounted(async () => {
                                 100,
                                 '#10439F',
                             ],
-                            'fill-opacity': 0.4,
+                            'fill-extrusion-height': 10,
+                            'fill-extrusion-base': 0,
+                            'fill-extrusion-opacity': 0.5,
                         },
                     })
 
@@ -204,7 +175,7 @@ onMounted(async () => {
                                 1,
                                 '#10439F',
                             ],
-                            'line-width': 2,
+                            'line-width': 1,
                         },
                     })
                 }

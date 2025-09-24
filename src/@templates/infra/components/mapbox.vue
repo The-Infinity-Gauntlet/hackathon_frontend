@@ -2,11 +2,12 @@
 import { onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import mapboxgl from 'mapbox-gl'
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { useFloodCameraMonitoringController } from '@/modules/flood_camera_monitoring/controller/FloodCameraMonitoringController'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
-import { MapboxFilters } from '../components'
+import { MapboxFilters, InfoPoints } from '../components'
 import { useFloodMapIA } from '@/@core/composables/useFloodMap'
 import { useFloodController } from '@/modules/flood_management/controllers/FloodController'
 
@@ -15,7 +16,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY
 const router = useRouter()
 const ctrl = useFloodCameraMonitoringController()
 const geolocation = useGeolocationStore()
-const { getFloods } = useFloodController()
+const { getFloods, state } = useFloodController()
 
 const { points, init, toGeoJSON } = useFloodMapIA()
 
@@ -29,6 +30,14 @@ onMounted(async () => {
         bearing: -30,
         antialias: true,
     })
+
+    const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl,
+        marker: true,
+        placeholder: 'Buscar local...',
+    })
+    map.addControl(geocoder, 'top-right')
 
     geolocation.getCurrentPosition().then((position) => {
         new mapboxgl.Marker().setLngLat([position.longitude, position.latitude]).addTo(map)
@@ -61,6 +70,7 @@ onMounted(async () => {
         await init()
 
         const floodPoints = await getFloods()
+        console.log(floodPoints)
 
         floodPoints.results.forEach((fp) => {
             console.log('Ponto de alagamento: ', fp)
@@ -217,5 +227,6 @@ onMounted(async () => {
         </div>
 
         <MapboxFilters class="lg:hidden" />
+        <InfoPoints :points="state.floods" />
     </section>
 </template>

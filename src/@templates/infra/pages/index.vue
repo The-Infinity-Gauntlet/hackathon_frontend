@@ -1,20 +1,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import {
-    ChartItems,
-    CurrentWeatherPanel,
+    ButtonGlassmorphism,
     FloodAlert,
-    ForecastWeatherPanel,
     MapboxPopup,
 } from '@/@core/components'
-import { useTheme } from '@/@core/composables/useTheme'
 import { Mapbox } from '../components'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 
 const showPopup = ref(false)
 const togglePopup = () => (showPopup.value = !showPopup.value)
 const geolocation = useGeolocationStore()
-const { isDark } = useTheme()
 
 const location = ref({
     neighborhood: null as string | null,
@@ -32,60 +28,6 @@ const location = ref({
     date: 'Seg, 22:00',
 })
 
-const data = {
-    id: 'charts',
-    options: [
-        {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
-            datasets: [
-                {
-                    label: 'Precipitação',
-                    data: [12, 19, 3, 5, 2],
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                },
-            ],
-        },
-        {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
-            datasets: [
-                {
-                    label: 'Vazão do rio',
-                    data: [12, 19, 3, 5, 2],
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                },
-            ],
-        },
-        {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
-            datasets: [
-                {
-                    label: 'Umidade do ar',
-                    data: [12, 19, 3, 5, 2],
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                },
-            ],
-        },
-        {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
-            datasets: [
-                {
-                    label: 'Pressão atmosférica',
-                    data: [12, 19, 3, 5, 2],
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                },
-            ],
-        },
-    ],
-}
-
 onMounted(async () => {
     const currentLocation = await geolocation.findNeighborhood()
     location.value.neighborhood = currentLocation.neighborhood
@@ -95,31 +37,39 @@ onMounted(async () => {
 
 <template>
     <div>
-        <section class="flex items-center justify-between p-5">
-            <div class="grid gap-2 text-4xl font-semibold lg:gap-5 lg:text-5xl">
-                <h1>Bem-vindo ao</h1>
-                <h1>AQUA!</h1>
+        <section class="flex justify-between items-center px-5 pt-30 h-screen -mt-30">
+            <div class="w-[50%] grid gap-2">
+                <h1 class="grid gap-2 text-6xl font-semibold mb-5 lg:gap-5 lg:text-8xl">Bem-vindo ao
+                    <span class="text-[#2768CA]">AQUA!</span>
+                </h1>
+
+                <p class="text-[#999999] font-semibold text-xl lg:text-3xl">Acompanhe em tempo real áreas de risco,
+                    probabilidade
+                    de alagamentos e câmeras ao vivo. Informação <span class="text-[#2768CA]">rápida</span> e
+                    <span class="text-[#2768CA]">confiável</span> para sua segurança.
+                </p>
+
+                <RouterLink to="/blog"
+                    class="text-center mt-5 block w-[250px] lg:w-[300px] text-[#2768CA] cursor-pointer rounded-lg bg-[#7AA6C8]/30 p-2 lg:p-3 font-semibold shadow-xl backdrop-blur-xs lg:text-2xl">
+                    Explorar
+                </RouterLink>
             </div>
 
-            <img src="/gifs/home.gif" alt="Animação" class="mr-20 hidden h-70 w-70 lg:block" />
+            <div class="relative">
+                <img src="/icons/background-home.svg" alt=""
+                    class="hidden lg:block absolute -z-10 h-350 w-350 -top-120 -right-15" />
+                <img src="/gifs/home.gif" alt="Animação" class="mr-20 hidden h-120 w-120 lg:block" />
+            </div>
         </section>
 
         <section>
-            <div
-                class="flex cursor-pointer items-center justify-center py-5 lg:text-xl"
-                @click="togglePopup"
-            >
-                <img src="/icons/location.svg" alt="Localização" />
-                <p class="font-semibold">{{ location.neighborhood }}, {{ location.city }}</p>
+            <div class="flex cursor-pointer items-center justify-center py-5 lg:text-xl" @click="togglePopup">
+                <p class="font-semibold">Localização: {{ location.neighborhood }}, {{ location.city }}</p>
                 <span class="material-symbols-outlined pl-2 text-[#999999]">edit_square</span>
             </div>
             <MapboxPopup v-if="showPopup" @close="showPopup = false" />
-
+            <Mapbox />
             <FloodAlert :alert="location.data[1].message" />
         </section>
-
-        <Mapbox />
-        <CurrentWeatherPanel :data="data" :location="location" />
-        <ForecastWeatherPanel :data="data" :location="location" />
     </div>
 </template>
