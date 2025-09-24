@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+const props = defineProps<{ title?: string }>()
+
 const menubar = [
-    { icon: 'person', link: '/minha-conta' },
-    { icon: 'location_on', link: '/' },
+    { label: 'Meu perfil', icon: 'person', link: '/minha-conta' },
+    { label: 'Home', icon: 'location_on', link: '/' },
     {
         id: 0,
         icon: 'stacks',
         options: [
-            { icon: 'speed_camera', link: '/cameras' },
-            { icon: 'signal_cellular_alt', link: '/dashboard' },
+            { label: 'Câmeras', icon: 'speed_camera', link: '/cameras' },
+            { label: 'Dashboard', icon: 'signal_cellular_alt', link: '/dashboard' },
         ],
     },
 ]
@@ -28,7 +30,10 @@ const toggleMenu = (id: number) => {
             <li v-for="item in menubar" :key="item.icon">
                 <RouterLink v-if="!item.options" :to="item.link" class="flex flex-col items-center">
                     <span class="material-symbols-outlined">{{ item.icon }}</span>
-                    <div class="mt-1 h-1 w-1 rounded-full bg-[#0453AF] dark:bg-white"></div>
+                    <div
+                        v-if="item.label == title"
+                        class="mt-1 h-1 w-1 rounded-full bg-[#0453AF] dark:bg-white"
+                    ></div>
                 </RouterLink>
 
                 <div v-else>
@@ -38,7 +43,6 @@ const toggleMenu = (id: number) => {
                         class="flex flex-col items-center"
                     >
                         <span class="material-symbols-outlined">{{ item.icon }}</span>
-                        <div class="mt-1 h-1 w-1 rounded-full bg-[#0453AF] dark:bg-white"></div>
                     </button>
                     <transition name="fade">
                         <ul
@@ -49,6 +53,7 @@ const toggleMenu = (id: number) => {
                                 <RouterLink :to="menu.link" class="flex flex-col items-center">
                                     <span class="material-symbols-outlined">{{ menu.icon }}</span>
                                     <div
+                                        v-if="item.label == title"
                                         class="mt-1 h-1 w-1 rounded-full bg-[#0453AF] dark:bg-white"
                                     ></div>
                                 </RouterLink>

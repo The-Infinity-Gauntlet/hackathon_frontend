@@ -127,6 +127,7 @@ function handleFinish(values: Record<string, any>) {
                 <BasePopup
                     :title="contentPopup.title"
                     :text="contentPopup.message"
+                    :gifUrl="contentPopup.gif"
                     :showPopup="showPopup"
                     @close="closePopup"
                     class="lg:hidden"
