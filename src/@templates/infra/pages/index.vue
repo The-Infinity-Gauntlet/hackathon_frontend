@@ -101,18 +101,7 @@ onMounted(async () => {
                 <h1>AQUA!</h1>
             </div>
 
-            <img
-                v-if="isDark"
-                src="/gifs/home-dark.gif"
-                alt="Animação"
-                class="mr-20 hidden h-70 w-70 lg:block"
-            />
-            <img
-                v-else
-                src="/gifs/home-light.gif"
-                alt="Animação"
-                class="mr-20 hidden h-70 w-70 lg:block"
-            />
+            <img src="/gifs/home.gif" alt="Animação" class="mr-20 hidden h-70 w-70 lg:block" />
         </section>
 
         <section>

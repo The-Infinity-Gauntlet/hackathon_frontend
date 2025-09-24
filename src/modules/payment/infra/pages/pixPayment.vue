@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { BaseForm } from '@/@core/components'
 import { loadMercadoPago } from '@mercadopago/sdk-js'
-import type { IFormField } from '@/@core/interfaces/form'
+import { BaseForm } from '@/@core/components'
+import { QrCode } from '../components'
 import { usePixPayment } from '../../controllers/PaymentController'
+import type { IFormField } from '@/@core/interfaces/form'
 
 onMounted(async () => {
     await loadMercadoPago()
@@ -87,7 +88,6 @@ async function handlePixPayment(values: Record<string, any>) {
         qrBase64.value = response.point_of_interaction?.transaction_data?.qr_code_base64
         pixUrl.value = response?.point_of_interaction?.transaction_data?.pix_url
         showPopup.value = true
-        alert('Pagamento enviado com sucesso!')
         console.log('Code: ', showPopup.value)
         console.log('Resposta: ', response)
     } catch (error) {
@@ -96,15 +96,20 @@ async function handlePixPayment(values: Record<string, any>) {
     }
 }
 
-//const closePopup = () => {
-//showPopup.value = false
-//}
-
-console.log('Code: ', showPopup.value)
+const closePopup = () => {
+    showPopup.value = false
+}
 </script>
 
 <template>
-    <BaseForm :form-fields="fieldsPix" buttonText="Pagar com Pix" @submit="handlePixPayment" />
-    <!--<QrCode v-if="showPopup" :showPopup="showPopup" :code="qrBase64" time="90" />-->
-    <img v-if="showPopup" :src="`data:image/jpeg;base64,${qrBase64}`" alt="QR" />
+    <div class="grid justify-center pb-20">
+        <h1 class="mb-2 hidden text-center text-2xl font-semibold lg:block">Doação</h1>
+        <BaseForm :form-fields="fieldsPix" buttonText="Pagar com Pix" @submit="handlePixPayment" />
+        <QrCode
+            :showPopup="showPopup"
+            :qrcode="`data:image/jpeg;base64,${qrBase64}`"
+            :code="qrCode"
+            @close="closePopup"
+        />
+    </div>
 </template>

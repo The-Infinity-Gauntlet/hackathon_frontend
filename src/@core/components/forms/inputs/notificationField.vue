@@ -47,7 +47,7 @@ watch(selected, (val) => {
             class="peer hidden"
         />
         <div
-            class="mt-3 flex cursor-pointer items-center justify-between rounded-2xl border-2 border-transparent bg-[#F3F3F3] p-5 text-black transition peer-checked:border-blue-600 dark:bg-[#00182F]"
+            class="mt-3 flex cursor-pointer items-center justify-between rounded-2xl border-2 border-transparent bg-[#F3F3F3] p-5 transition peer-checked:border-blue-600 dark:bg-[#00182F]"
         >
             <div class="w-[60%]">
                 <h4>{{ notification.alert }}</h4>

@@ -120,30 +120,90 @@ onMounted(async () => {
                 console.log('Ponto de alagamento: ', fp)
                 if (fp.props) {
                     const sourceId = `flood-point-${fp.id}`
+
+                    // Adiciona a propriedade probability em cada feature
+                    const featuresWithProbability = fp.props.map((feature) => ({
+                        ...feature,
+                        properties: {
+                            ...feature.properties,
+                            probability: fp.probability, // 0 a 100
+                        },
+                    }))
+
                     map.addSource(sourceId, {
                         type: 'geojson',
                         data: {
                             type: 'FeatureCollection',
-                            features: fp.props,
+                            features: featuresWithProbability,
                         },
                     })
 
+                    // Área do ponto
                     map.addLayer({
                         id: sourceId + '-fill',
                         type: 'fill',
                         source: sourceId,
                         paint: {
-                            'fill-color': '#ff0000',
-                            'fill-opacity': 0.3,
+                            'fill-color': [
+                                'interpolate',
+                                ['linear'],
+                                ['get', 'probability'],
+                                0,
+                                '#6DBFC5',
+                                20,
+                                '#6DBFC5',
+                                21,
+                                '#469AA0',
+                                40,
+                                '#469AA0',
+                                41,
+                                '#2A7D93',
+                                60,
+                                '#2A7D93',
+                                61,
+                                '#3981BF',
+                                80,
+                                '#3981BF',
+                                81,
+                                '#10439F',
+                                100,
+                                '#10439F',
+                            ],
+                            'fill-opacity': 0.4,
                         },
                     })
 
+                    // Contorno do ponto
                     map.addLayer({
                         id: sourceId + '-outline',
                         type: 'line',
                         source: sourceId,
                         paint: {
-                            'line-color': '#ff0000',
+                            'line-color': [
+                                'interpolate',
+                                ['linear'],
+                                ['get', 'probability'],
+                                0,
+                                '#6DBFC5',
+                                0.2,
+                                '#6DBFC5',
+                                0.21,
+                                '#469AA0',
+                                0.4,
+                                '#469AA0',
+                                0.41,
+                                '#2A7D93',
+                                0.6,
+                                '#2A7D93',
+                                0.61,
+                                '#3981BF',
+                                0.8,
+                                '#3981BF',
+                                0.81,
+                                '#10439F',
+                                1,
+                                '#10439F',
+                            ],
                             'line-width': 2,
                         },
                     })

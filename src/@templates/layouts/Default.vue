@@ -22,7 +22,7 @@ import { FooterComp, HeaderComp, MobileMenu } from '@/@core/components'
                 />
             </Transition>
         </RouterView>
-        <MobileMenu class="fixed bottom-0 lg:hidden" />
+        <MobileMenu :title="$route.name" class="fixed bottom-0 lg:hidden" />
         <FooterComp />
     </div>
 </template>
