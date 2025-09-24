@@ -1,4 +1,4 @@
-export interface IAuth {
+export interface IBlog {
     id: string
     descricao?: string
     createdAt?: string

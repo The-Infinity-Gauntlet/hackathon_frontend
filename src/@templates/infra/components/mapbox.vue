@@ -56,6 +56,7 @@ onMounted(async () => {
 
     geolocation.getCurrentPosition().then((position) => {
         new mapboxgl.Marker().setLngLat([position.longitude, position.latitude]).addTo(map)
+        console.log('Posição atual: ', position)
     })
 
     map.addControl(new mapboxgl.NavigationControl(), 'top-right')
@@ -85,7 +86,7 @@ onMounted(async () => {
         await init()
 
         // Reaproveita os dados já carregados no estado
-    state.floods.forEach((fp: IFlood) => {
+        state.floods.forEach((fp: IFlood) => {
             console.log('Ponto de alagamento: ', fp)
             if (fp.props) {
                 const sourceId = `flood-point-${fp.id}`
@@ -239,7 +240,7 @@ onMounted(async () => {
             <MapboxFilters class="hidden lg:block" />
         </div>
 
-    <MapboxFilters class="lg:hidden" />
-    <InfoPoints :points="state.floods" />
+        <MapboxFilters class="lg:hidden" />
+        <InfoPoints :points="state.floods" />
     </section>
 </template>

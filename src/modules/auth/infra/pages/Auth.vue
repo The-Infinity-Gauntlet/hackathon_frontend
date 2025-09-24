@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { toast } from 'vue3-toastify'
 import { BaseForm } from '@/@core/components'
 import { GoogleAuthButton } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
+import { useAuthController } from '@/modules/auth/controllers/AuthController'
 
 const route = useRoute()
+const router = useRouter()
+const auth = useAuthController()
 
 const isLogin = ref(route.query.mode !== 'register')
 
@@ -71,11 +75,29 @@ function toggleWave() {
     isLogin.value = !isLogin.value
 }
 
-function handleLogin(values: Record<string, any>) {
-    console.log('Login values:', values)
+async function handleLogin(values: Record<string, any>) {
+    try {
+        await auth.login({ email: values.email, password: values.password })
+        toast.success('Login realizado com sucesso!', { autoClose: 2000 })
+        router.push('/')
+    } catch (e: any) {
+        toast.error(e?.message || 'Erro ao realizar login')
+    }
 }
-function handleRegister(values: Record<string, any>) {
-    console.log('Register values:', values)
+async function handleRegister(values: Record<string, any>) {
+    try {
+        await auth.register({
+            name: values.name,
+            email: values.email,
+            dateborn: values.dateborn,
+            password: values.password,
+            'password-confirm': values['password-confirm'],
+        })
+        toast.success('Cadastro realizado com sucesso!', { autoClose: 2000 })
+        isLogin.value = true
+    } catch (e: any) {
+        toast.error(e?.message || 'Erro ao realizar cadastro')
+    }
 }
 </script>
 

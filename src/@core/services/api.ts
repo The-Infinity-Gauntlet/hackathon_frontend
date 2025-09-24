@@ -32,6 +32,22 @@ export class Api implements IApi {
         timeout: 10000000, // Timeout de 30 segundos para requisições
     })
 
+    constructor() {
+        // Adiciona token Bearer automaticamente, se existir no localStorage
+        this.client.interceptors.request.use((config) => {
+            const isAuthRequest = config.headers?.auth === 'true'
+            if (isAuthRequest) {
+                const token = localStorage.getItem('token')
+                if (token) {
+                    config.headers = config.headers ?? {}
+                    config.headers.Authorization = `Bearer ${token}`
+                }
+            }
+            delete config.headers?.auth
+            return config
+        })
+    }
+
     /**
      * Realiza uma requisição HTTP GET para a URL informada.
      *
