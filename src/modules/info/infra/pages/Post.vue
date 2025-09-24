@@ -22,7 +22,7 @@ const post = computed(() => posts.find(p => p.id === postId));
 
     <div class="prose max-w-none" v-html="post.text"></div>
   </div>
-  <div v-else class="text-center p-10">
+  <div v-else class="text-center p-10 lg:text-lg">
     <p>Post não encontrado.</p>
   </div>
 </template>

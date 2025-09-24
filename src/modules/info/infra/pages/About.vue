@@ -6,27 +6,37 @@
     <section class="my-4 grid gap-5">
       <h2 class="text-center font-semibold lg:text-2xl">A nossa história</h2>
       <img src="" alt="História" class="w-full mx-auto rounded-2xl bg-[#D9D9D9] object-cover lg:w-[40%]" />
-      <p class="text-justify">
-        Em 2025, um grupo de estudantes do curso técnico em Informática do Instituto Federal Catarinense - IFC
-        participou do Hackathon, uma maratona anual de inovação para todas as turmas do 2º ano. O tema proposto para o
-        evento foi desafios sociais do cotidiano, e, entre várias possibilidades, nosso grupo decidiu focar em um
-        problema que afeta diretamente a vida de muitas pessoas em nossa região: os alagamentos. Cada grupo tem três
-        meses para tirar a ideia do papel, passando desde o planejamento até a entrega do protótipo final. Diante dessas
-        condições, escolhemos desenvolver o AQUA, uma plataforma voltada para informar, alertar e auxiliar a população
-        em situações de alagamento. Para fortalecer nosso projeto, contamos com o apoio e a orientação da Defesa Civil
-        de Joinville, que nos ajudou a compreender melhor o assunto e nos forneceu dados importantes que serviram de
-        base para o desenvolvimento da plataforma.
-      </p>
+      <div class="text-justify lg:text-lg">
+        <p>
+          Em 2025, um grupo de estudantes do curso técnico de Informática para Internet do Instituto Federal Catarinense
+          (IFC)
+          participou do Hackathon, uma maratona anual de inovação destinada a todas as turmas do 2º ano. O tema proposto
+          para o evento foi “Desafios sociais do cotidiano” e, entre várias possibilidades, nosso grupo decidiu focar em
+          um problema que afeta diretamente a vida de muitas pessoas em nossa região: os alagamentos.
+        </p>
+        <p>
+          Cada grupo teve três meses para tirar a ideia do papel, passando pelo planejamento até a entrega do protótipo
+          final. Diante desse desafio, escolhemos desenvolver o AQUA, uma plataforma voltada a informar, alertar e
+          auxiliar a população em situações de alagamento.
+        </p>
+        <p>
+          Para fortalecer nosso projeto, contamos com o apoio e a orientação da Defesa Civil de Joinville, que nos
+          ajudou
+          a compreender melhor o tema e nos forneceu dados importantes, os quais serviram de base para o desenvolvimento
+          da plataforma.
+        </p>
+      </div>
     </section>
 
     <section class="my-4 grid gap-5">
       <h2 class="text-center font-semibold lg:text-2xl">Nossos objetivos</h2>
       <img src="/public/about/27cdc945-b5f5-4404-be59-15c95e7c601e.jpg" alt="Objetivos"
         class="w-full mx-auto rounded-2xl bg-[#D9D9D9] object-cover lg:w-[40%]" />
-      <p>O sistema tem como objetivo principal oferecer uma plataforma web integrada para o monitoramento em tempo real
+      <p class="text-justify lg:text-lg">O sistema tem como objetivo principal oferecer uma plataforma web integrada
+        para o monitoramento em tempo real
         de alagamentos e eventos hidrológicos extremos em Joinville, apoiando a tomada de decisões preventivas e
         estratégicas. Para isso, busca:</p>
-      <ul class="text-justify list-disc mx-5">
+      <ul class="text-justify lg:text-lg list-disc mx-5">
         <li class="my-2">
           <p>Monitorar em tempo real áreas críticas da cidade, utilizando câmeras públicas estrategicamente posicionadas
             e técnicas de visão computacional para detectar ocorrências de alagamentos;</p>

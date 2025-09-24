@@ -9,7 +9,7 @@ import posts from '/public/info/posts.json'
       <h1 class="grid gap-3 text-4xl font-semibold lg:text-6xl">
         Blog <span class="text-[#2768CA]">Informativo</span>
       </h1>
-      <p class="w-[90%] py-5 text-sm text-[#999999]">
+      <p class="w-[90%] py-5 text-sm text-[#999999] lg:text-base">
         Causas, consequências, histórias e soluções num só lugar. Entenda, acompanhe as informações
         sobre enchentes e o impacto das chuvas em
         <span class="text-black dark:text-white">Joinville</span>.
@@ -19,7 +19,7 @@ import posts from '/public/info/posts.json'
     <hr class="color-black dark:color-white" />
 
     <section class="px-3 py-5">
-      <h2 class="py-5 font-semibold">Publicações mais acessadas</h2>
+      <h2 class="py-5 font-semibold lg:text-xl">Publicações mais acessadas</h2>
       <ul>
         <li v-for="post in posts" :key="post.id" class="my-4">
           <RouterLink :to="post.link" class="flex items-center gap-5 font-semibold">
