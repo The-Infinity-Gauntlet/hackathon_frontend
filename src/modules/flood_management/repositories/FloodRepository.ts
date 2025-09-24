@@ -7,7 +7,7 @@ import { IFlood, IFloodIA } from '../interfaces/flood'
 @injectable()
 export class FloodRepository extends BaseRepository<IFlood> {
     constructor(@inject('ApiService') api: Api) {
-        super(api, 'flood/')
+        super(api, '')
     }
 
     /**
@@ -16,7 +16,8 @@ export class FloodRepository extends BaseRepository<IFlood> {
      * @returns Promise with the registered flood point response
      */
     async registerFloodPoint(payload: Record<string, any>): Promise<any> {
-        const { data } = await this.api.post('floods_point/registering/', payload)
+        const { data } = await this.api.post('floods_point/registering/', payload, { auth: true })
+        window.sendNotification(`Ponto de alagamento registrado em ${payload.city} - ${payload.neighborhood}`);
         return data
     }
 
@@ -28,6 +29,18 @@ export class FloodRepository extends BaseRepository<IFlood> {
         const { data } = await this.api.get('floods_point/registering/')
         console.log(data)
         return data
+    }
+
+    async getOccurrences(): Promise<{ results: IFlood[]; count: number }> {
+        const { data } = await this.api.get('floods_point/registering/')
+        console.log(data)
+        return data
+    }
+
+    async registerOccurrences(payload: Record<string,any>): Promise<any> {
+        const  { data } = await this.api.get("occurrences/")
+        console.log(data)
+        return data        
     }
 }
 

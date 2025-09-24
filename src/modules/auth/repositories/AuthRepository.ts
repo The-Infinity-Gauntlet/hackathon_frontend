@@ -6,7 +6,22 @@ import { IAuth } from '../interfaces/auth'
 
 @injectable()
 export class AuthRepository extends BaseRepository<IAuth> {
-    constructor(@inject('ApiService') api: Api) {
-        super(api, 'auth/')
+    constructor(@inject('ApiService') private apiRef: Api) {
+        super(apiRef, '')
+    }
+
+    // POST /auth/ with { email, password }
+    authenticate(payload: { email: string; password: string }) {
+        return this.apiRef.post(`${this.basePath}/auth/token/`, payload)
+    }
+
+    register(payload: {
+        name: string
+        email: string
+        dateborn: string
+        password: string
+        'password-confirm': string
+    }) {
+        return this.apiRef.post(`${this.basePath}/users/signup/`, payload)
     }
 }

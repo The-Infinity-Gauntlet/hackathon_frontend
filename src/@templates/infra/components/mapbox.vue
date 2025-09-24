@@ -23,7 +23,7 @@ onMounted(async () => {
     const map = new mapboxgl.Map({
         container: 'map-fixed',
         style: 'mapbox://styles/mapbox/outdoors-v12',
-        center: [geolocation.longitude, geolocation.latitude],
+        center: [-48.88124, -26.26965], // Coordenadas iniciais [longitude, latitude]
         zoom: 13,
         pitch: 60,
         bearing: -30,
@@ -32,6 +32,7 @@ onMounted(async () => {
 
     geolocation.getCurrentPosition().then((position) => {
         new mapboxgl.Marker().setLngLat([position.longitude, position.latitude]).addTo(map)
+        console.log('Posição atual: ', position)
     })
 
     map.addControl(new mapboxgl.NavigationControl(), 'top-right')
