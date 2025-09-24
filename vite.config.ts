@@ -51,6 +51,8 @@ export default defineConfig(({ mode }) => {
         workbox: {
           // Adiciona o service worker do firebase ao topo do service worker gerado
           importScripts: ['firebase-messaging-sw.js'],
+          // Increase max file size to cache (default 2 MiB). Our main chunk is ~2.3 MiB.
+          maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         },
         devOptions: {
           enabled: true,
@@ -60,7 +62,7 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       https: true,
-      host: true,   
+      host: true,
       proxy: {
         // Dev proxy to avoid CORS: calls to /api/* will be forwarded to the backend
         '/api': {

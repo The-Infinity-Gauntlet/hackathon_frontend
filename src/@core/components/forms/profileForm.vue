@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type PropType, reactive } from 'vue'
+import { reactive } from 'vue'
 import {
     DatebornField,
     DeleteField,
@@ -14,16 +14,10 @@ import {
 } from '@/@core/components'
 import type { IFormField } from '@/@core/interfaces/form'
 
-const props = defineProps({
-    formFields: {
-        type: Object as PropType<IFormField[]>,
-        required: true,
-    },
-    buttonText: {
-        type: String,
-        required: false,
-    },
-})
+defineProps<{
+    formFields: IFormField[]
+    buttonText?: string
+}>()
 const emit = defineEmits<{
     (e: 'submit', values: Record<string, any>): void
 }>()
@@ -87,13 +81,15 @@ function handleSubmit() {
             <li class="my-1 grid w-[332px]">
                 <FieldGroup
                     :fields="formFields.filter((f) => ['rain', 'humidity'].includes(f.id))"
-                    v-model="formData"
+                    :modelValue="formData"
+                    @update:modelValue="(v) => Object.assign(formData, v)"
                 />
             </li>
             <li class="my-1 grid w-[332px]">
                 <FieldGroup
                     :fields="formFields.filter((f) => ['probability', 'duration'].includes(f.id))"
-                    v-model="formData"
+                    :modelValue="formData"
+                    @update:modelValue="(v) => Object.assign(formData, v)"
                 />
             </li>
             <li class="my-1 grid w-[332px]">
@@ -103,19 +99,22 @@ function handleSubmit() {
                             ['atmospheric_pressure', 'river_discharge'].includes(f.id),
                         )
                     "
-                    v-model="formData"
+                    :modelValue="formData"
+                    @update:modelValue="(v) => Object.assign(formData, v)"
                 />
             </li>
             <li class="my-1 grid w-[332px]">
                 <FieldGroup
                     :fields="formFields.filter((f) => ['height'].includes(f.id))"
-                    v-model="formData"
+                    :modelValue="formData"
+                    @update:modelValue="(v) => Object.assign(formData, v)"
                 />
             </li>
             <li class="my-3 grid w-[332px]">
                 <FieldGroup
                     :fields="formFields.filter((f) => ['height'].includes(f.id))"
-                    v-model="formData"
+                    :modelValue="formData"
+                    @update:modelValue="(v) => Object.assign(formData, v)"
                 />
             </li>
         </ul>
