@@ -41,16 +41,21 @@ import posts from '/public/info/posts.json'
                     enter-to-class="opacity-100 translate-y-0"
                 >
                     <li
-                        v-for="post in posts"
+                        v-for="(post, idx) in posts"
                         :key="post.id"
-                        class="group flex items-center justify-between gap-4 p-4 transition-colors hover:bg-gray-50/70 dark:hover:bg-white/5"
+                        :style="{ transitionDelay: idx * 40 + 'ms' }"
+                        class="group relative flex items-center justify-between gap-4 p-4 transition-colors hover:bg-gray-50/70 dark:hover:bg-white/5"
                     >
+                        <span
+                            aria-hidden
+                            class="pointer-events-none absolute top-0 left-0 h-full w-1 origin-top scale-y-50 bg-[#2768CA] opacity-0 transition duration-200 group-hover:scale-y-100 group-hover:opacity-100"
+                        ></span>
                         <RouterLink
                             :to="post.link"
                             class="flex flex-1 items-center gap-4 focus:outline-none"
                         >
                             <span
-                                class="grid h-8 w-8 place-content-center rounded-full bg-gray-200 text-sm font-bold text-gray-800 ring-1 ring-gray-300 transition ring-inset group-hover:bg-[#2768CA] group-hover:text-white group-hover:ring-[#2768CA] dark:bg-zinc-800 dark:text-gray-200 dark:ring-zinc-700"
+                                class="grid h-7 w-7 place-content-center rounded-full bg-gray-200 text-xs font-bold text-gray-800 ring-1 ring-gray-300 transition ring-inset group-hover:bg-[#2768CA] group-hover:text-white group-hover:ring-[#2768CA] dark:bg-zinc-800 dark:text-gray-200 dark:ring-zinc-700"
                             >
                                 {{ post.position }}
                             </span>
