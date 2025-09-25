@@ -53,7 +53,10 @@ export const useFloodController = defineStore('flood', () => {
 
                       let finalProb: number = 0
                       if (typeof p.possibility === 'number') {
-                          finalProb = p.possibility <= 1 ? Math.round(p.possibility * 100) : Math.round(p.possibility)
+                          finalProb =
+                              p.possibility <= 1
+                                  ? Math.round(p.possibility * 100)
+                                  : Math.round(p.possibility)
                       } else if (typeof p.probability === 'number') {
                           finalProb = p.probability
                       }
@@ -144,12 +147,9 @@ export const useFloodController = defineStore('flood', () => {
         } finally {
             state.loading = false
         }
-        
-
-
     }
 
-   const getOccurrences  = async () => {
+    const getOccurrences = async () => {
         try {
             state.loading = true
             const data = await floodRepository.getFloodPoints()
@@ -167,7 +167,7 @@ export const useFloodController = defineStore('flood', () => {
             const data = await floodRepository.registerOccurrences(payload)
             console.log('Occurence registered successfully:', data)
             return data
-        } catch(error) {
+        } catch (error) {
             console.log('Occurence registered successfully:', error)
             throw error
         } finally {

@@ -33,14 +33,14 @@ onMounted(async () => {
 
 <template>
     <div>
-        <section class="-mt-30 flex h-screen items-center justify-between px-5 pt-30">
+        <section class="-z-20 -mt-30 flex h-screen items-center justify-between px-5 pt-30">
             <div class="grid w-[50%] gap-2">
-                <h1 class="mb-5 grid gap-2 text-6xl font-semibold lg:gap-5 lg:text-8xl">
+                <h1 class="mb-5 grid gap-2 text-4xl font-semibold lg:gap-5 lg:text-6xl xl:text-8xl">
                     Bem-vindo ao
                     <span class="text-[#2768CA]">AQUA!</span>
                 </h1>
 
-                <p class="text-xl font-semibold text-[#999999] lg:text-3xl">
+                <p class="text-xl font-semibold text-[#999999] xl:text-3xl">
                     Acompanhe em tempo real áreas de risco, probabilidade de alagamentos e câmeras
                     ao vivo. Informação <span class="text-[#2768CA]">rápida</span> e
                     <span class="text-[#2768CA]">confiável</span> para sua segurança.
@@ -58,7 +58,7 @@ onMounted(async () => {
                 <img
                     src="/icons/background-home.svg"
                     alt=""
-                    class="absolute -top-120 -right-15 -z-10 hidden h-350 w-350 lg:block"
+                    class="absolute -top-120 -right-15 -z-10 hidden lg:block lg:w-200 xl:h-300 xl:w-300 2xl:h-350 2xl:w-350"
                 />
                 <img
                     src="/gifs/home.gif"
@@ -81,6 +81,46 @@ onMounted(async () => {
             <MapboxPopup v-if="showPopup" @close="showPopup = false" />
             <FloodAlert :alert="location.data[1].message" />
             <Mapbox />
+        </section>
+
+        <section class="grid gap-10">
+            <div class="flex items-center justify-between rounded-xl bg-[#F2F7F9] px-20 py-10">
+                <div class="w-[40%]">
+                    <h2 class="text-3xl font-semibold">Fique informado!</h2>
+                    <p class="my-5 text-xl font-semibold text-[#999999]">
+                        As enchentes estão cada vez mais presentes no nosso dia a dia. Aqui você
+                        encontra informações simples e práticas para entender as causas, os impactos
+                        e, principalmente, como se proteger. Acesse e fique por dentro.
+                    </p>
+                    <RouterLink
+                        to="/blog"
+                        class="block w-[250px] cursor-pointer rounded-lg bg-blue-500 p-2 text-center text-lg font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
+                    >
+                        Informe-se</RouterLink
+                    >
+                </div>
+
+                <img src="/gifs/blog.gif" alt="Animação" class="h-80 w-120" />
+            </div>
+
+            <div class="flex items-center justify-between rounded-xl bg-[#F2F7F9] px-20 py-10">
+                <img src="/gifs/donation.gif" alt="Animação" class="h-80 w-120" />
+
+                <div class="w-[40%] text-right">
+                    <h2 class="text-3xl font-semibold">Ajude que precisa!</h2>
+                    <p class="my-5 text-xl font-semibold text-[#999999]">
+                        As enchentes trazem desafios que muitas famílias não conseguem enfrentar
+                        sozinhas. Sua doação ajuda a levar alimentos, abrigo e esperança para quem
+                        mais precisa. Doe e faça parte dessa mudança..
+                    </p>
+                    <RouterLink
+                        to="/pagamento"
+                        class="ml-auto block w-[250px] cursor-pointer rounded-lg bg-blue-500 p-2 text-center text-lg font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-blue-600"
+                    >
+                        Doe agora</RouterLink
+                    >
+                </div>
+            </div>
         </section>
     </div>
 </template>

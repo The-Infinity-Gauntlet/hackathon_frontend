@@ -17,7 +17,9 @@ export class FloodRepository extends BaseRepository<IFlood> {
      */
     async registerFloodPoint(payload: Record<string, any>): Promise<any> {
         const { data } = await this.api.post('floods_point/registering/', payload, { auth: true })
-        window.sendNotification(`Ponto de alagamento registrado em ${payload.city} - ${payload.neighborhood}`);
+        window.sendNotification(
+            `Ponto de alagamento registrado em ${payload.city} - ${payload.neighborhood}`,
+        )
         return data
     }
 
@@ -37,10 +39,10 @@ export class FloodRepository extends BaseRepository<IFlood> {
         return data
     }
 
-    async registerOccurrences(payload: Record<string,any>): Promise<any> {
-        const  { data } = await this.api.get("occurrences/")
+    async registerOccurrences(payload: Record<string, any>): Promise<any> {
+        const { data } = await this.api.get('occurrences/')
         console.log(data)
-        return data        
+        return data
     }
 }
 

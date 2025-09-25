@@ -39,11 +39,15 @@ onMounted(async () => {
     const map = new mapboxgl.Map({
         container: 'map-fixed',
         style: 'mapbox://styles/mapbox/outdoors-v12',
-        center: [geolocation.longitude ?? 0, geolocation.latitude ?? 0],
+        center: [geolocation.longitude ?? -48.8464, geolocation.latitude ?? -26.3044],
         zoom: 13,
         pitch: 60,
         bearing: -30,
         antialias: true,
+        maxBounds: [
+            [-49.5, -27.5],
+            [-47.5, -25.5],
+        ],
     })
 
     const geocoder = new MapboxGeocoder({
