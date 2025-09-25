@@ -4,6 +4,7 @@ import { useNavigation } from '@/@core/composables/navigation'
 import { ProfileForm } from '@/@core/components'
 import { SelectFloodAlert } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
+import { showNotification } from '@/main'
 
 const location = ref({
     neighborhood: null as string | null,
@@ -82,29 +83,40 @@ const selectedAlertInfo = computed(
     () => ALERTS.find((a) => a.title === location.value.data[1].message) ?? ALERTS[4],
 )
 
-function requestPermissionAndNotify(values: Record<string, any>) {
+// async function requestPermissionAndNotify(values: Record<string, any>) {
+//     console.log('Values:', values)
+//     console.log(Notification.permission)
+//     if (Notification.permission === 'default') {
+//         Notification.requestPermission().then((permission) => {
+//             if (permission === 'granted') {
+//                 await showNotification()
+//             } else {
+//                 console.log('Usuário negou permissão.')
+//             }
+//         })
+//     } else if (Notification.permission === 'granted') {
+//         await showNotification()
+//     } else {
+//         console.log('Permissão de notificação negada.')
+//     }
+// }
+
+async function requestPermissionAndNotify(values: Record<string, any>) {
     console.log('Values:', values)
-    console.log(Notification.permission)
+    console.log('Permissão atual:', Notification.permission)
+
     if (Notification.permission === 'default') {
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                showNotification()
-            } else {
-                console.log('Usuário negou permissão.')
-            }
-        })
+        const permission = await Notification.requestPermission()
+        if (permission === 'granted') {
+            await showNotification()
+        } else {
+            console.log('Usuário negou permissão.')
+        }
     } else if (Notification.permission === 'granted') {
-        showNotification()
+        await showNotification(selectedAlertInfo.value.title, selectedAlertInfo.value.description)
     } else {
         console.log('Permissão de notificação negada.')
     }
-}
-
-function showNotification() {
-    new Notification(selectedAlertInfo.value.title, {
-        body: selectedAlertInfo.value.description,
-        icon: '/pwa_icons/pwa-192x192.png',
-    })
 }
 
 const { routerBack } = useNavigation()

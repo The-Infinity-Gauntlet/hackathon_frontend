@@ -52,7 +52,7 @@ onMessage(messaging, (payload) => {
 })
 
 import { toast } from 'vue3-toastify'
-function showNotification(title: string, body: string) {
+export function showNotification(title: string, body: string) {
     toast.success(body, {
         autoClose: 10000,
         position: 'top-right',
