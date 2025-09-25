@@ -38,7 +38,7 @@ export class FloodRepository extends BaseRepository<IFlood> {
     }
 
     async registerOccurrences(payload: Record<string,any>): Promise<any> {
-        const  { data } = await this.api.get("occurrences/")
+        const  { data } = await this.api.get("/occurrences/occurrences/")
         console.log(data)
         return data        
     }

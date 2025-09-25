@@ -44,3 +44,24 @@ export interface IFloodIAControllerState {
     loading: boolean
     search: string
 }
+
+export interface IOccurrence {
+    id: string
+    date: Date
+    situation: string
+    type: string
+    neighborhood: string
+}
+
+export interface IOccurrenceControllerState {
+    occurrences: IOccurrence[]
+    currentOccurrence: Partial<IOccurrence>
+    pagination: {
+        page: number
+        pageSize: number
+        offset: number
+        limit: number
+    }
+    loading: boolean
+    search: string
+}

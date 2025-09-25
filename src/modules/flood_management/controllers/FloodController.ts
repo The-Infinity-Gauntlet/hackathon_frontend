@@ -6,6 +6,7 @@ import {
     IFloodIAControllerState,
     type IFlood,
     type IFloodControllerState,
+    IOccurrenceControllerState,
 } from '../interfaces/flood'
 import { FloodIARepository, FloodRepository } from '../repositories/FloodRepository'
 
@@ -226,5 +227,75 @@ export const useFloodIAController = defineStore('floodIA', () => {
         getForecasts,
         getForecastById,
         clearForecast,
+    }
+})
+
+export const useOccurrenceController = defineStore('occurrence', () => {
+    const occurrenceRepository = container.resolve(FloodRepository)
+
+    const state = reactive<IOccurrenceControllerState>({
+        occurrences: [],
+        currentOccurrence: {},
+        pagination: {
+            page: 1,
+            pageSize: 100,
+            offset: 0,
+            limit: 10,
+        },
+        loading: false,
+        search: '',
+    })
+
+    const occurrences = computed(() => state.occurrences)
+    const currentOccurrence = computed(() => state.currentOccurrence)
+    const loading = computed(() => state.loading)
+    const pagination = computed(() => state.pagination)
+
+    const search = computed({
+        get: () => state.search,
+        set: (value) => (state.search = value),
+    })
+
+    const getOccurrences = async () => {
+        state.loading = true
+        const result = await occurrenceRepository.list()
+        const data = result.results ?? result
+        console.log('Resultado: ', result)
+        state.occurrences = data.map(f => ({
+            id: f.id,
+            date: f.createdAt ? new Date(f.createdAt) : new Date(),
+            situation: f.props?.situation ?? 'NORMALIDADE', // pega de props se existir
+            type: f.descricao ?? 'Não informado',
+            neighborhood: f.neighborhood
+        }))     
+        state.pagination = {
+            ...state.pagination,
+            page: result.page_number,
+            pageSize: result.page_size,
+        }
+        state.loading = false
+    }
+
+    const getOccurrenceById = async (id: string) => {
+        state.loading = true
+        const result = await occurrenceRepository.getById(id)
+        state.currentOccurrence = result
+        state.loading = false
+    }
+
+    const clearOccurrence = async () => {
+        state.currentOccurrence = {}
+    }
+
+    return {
+        state,
+        occurrences,
+        currentOccurrence,
+        loading,
+        pagination,
+        search,
+        getOccurrences,
+        getOccurrenceById,
+        clearOccurrence,
     }
 })

@@ -6,6 +6,8 @@ import { SelectFloodAlert } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
 import { useFloodController } from '../../controllers/FloodController'
 
+const floodController = useFloodController()
+
 const location = ref({
     neighborhood: null as string | null,
     city: null as string | null,
@@ -28,7 +30,7 @@ const fields: IFormField[] = [
         label: 'Tipo',
         name: 'Alagamento',
         type: 'select',
-        options: ['Chuvas intensas', 'Enchurrada', 'Inundação'],
+        options: ['Chuvas intensas', 'Enxurrada', 'Inundação'],
     },
     {
         id: 'city',
@@ -48,8 +50,32 @@ const fields: IFormField[] = [
 
 const { routerBack } = useNavigation()
 
-function handleRegisterIncident(values: Record<string, any>) {
-    console.log('RegisterIncident values:', values)
+async function handleRegisterIncident(values: Record<string, any>) {
+    try {
+        console.log('RegisterIncident values:', values)
+
+        const payload = {
+            date: values.date,
+            situation: mapSituation(location.value.data[1].message),
+            type: values.type,
+            neighborhood: values.neighborhood
+        }
+
+        await floodController.registerOccurrences(payload)
+        alert("Ocorrência cadastrada")
+    } catch (e) {
+        alert("Erro ao cadastrar ocorrência")
+        console.error("Erro: ", e)
+    }
+}
+
+function mapSituation(message: string) {
+  switch (message.toUpperCase()) {
+    case 'ALERTA!': return 1
+    case 'ATENÇÃO!': return 2
+    case 'MOBILIZAÇÃO!': return 3
+    default: return 4 // NORMALIDADE
+  }
 }
 </script>
 
