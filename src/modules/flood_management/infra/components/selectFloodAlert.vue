@@ -68,7 +68,7 @@ const confirmSelection = () => {
 
 <template>
     <div
-        class="mb-5 w-full rounded-2xl bg-white shadow-lg lg:bg-transparent dark:bg-[#000D19] lg:dark:bg-transparent"
+        class="relative mb-5 w-full rounded-2xl bg-white shadow-lg lg:bg-transparent dark:bg-[#000D19] lg:dark:bg-transparent"
     >
         <p
             class="relative grid cursor-pointer rounded-lg p-1 text-center text-sm lg:rounded-md"
@@ -83,7 +83,10 @@ const confirmSelection = () => {
         </p>
 
         <transition name="fade">
-            <div v-if="showAll" class="mt-3 grid gap-3 px-5 pb-3">
+            <div
+                v-if="showAll"
+                class="absolute right-0 left-0 mt-3 grid gap-3 bg-white px-5 pb-3 dark:bg-[#000D19]"
+            >
                 <label v-for="alert in otherAlerts" :key="alert.id" class="cursor-pointer">
                     <input
                         type="radio"
