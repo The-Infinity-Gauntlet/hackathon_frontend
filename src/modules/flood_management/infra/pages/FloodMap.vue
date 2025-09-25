@@ -158,7 +158,10 @@ onMounted(async () => {
                                 <div><strong>ID:</strong> ${p.floodId ?? '-'}</div>
                             </div>
                         `
-                        new mapboxgl.Popup().setLngLat((e as any).lngLat).setHTML(html).addTo(map)
+                        new mapboxgl.Popup()
+                            .setLngLat((e as any).lngLat)
+                            .setHTML(html)
+                            .addTo(map)
                     })
 
                     // Contorno do ponto
@@ -274,9 +277,9 @@ onMounted(async () => {
 
     map.on('click', (e) => {
         const { lng, lat } = e.lngLat
-    const loc = getLocalization(lng, lat)
-    neighborhood.value = loc
-    console.log('Bairro encontrado:', neighborhood.value)
+        const loc = getLocalization(lng, lat)
+        neighborhood.value = loc
+        console.log('Bairro encontrado:', neighborhood.value)
     })
 })
 
