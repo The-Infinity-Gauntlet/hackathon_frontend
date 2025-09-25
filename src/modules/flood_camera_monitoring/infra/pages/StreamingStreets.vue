@@ -45,6 +45,19 @@ function displayFloodPercent(cam: CameraWithPrediction): number {
     }
     return cam.flood_percentage
 }
+
+// Formata a porcentagem usando vírgula como separador decimal (pt-BR)
+function formatFloodPercent(cam: CameraWithPrediction): string {
+    try {
+        return displayFloodPercent(cam).toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        })
+    } catch (e) {
+        // fallback simples caso algo inesperado ocorra
+        return String(displayFloodPercent(cam)).replace('.', ',')
+    }
+}
 </script>
 
 <template>
@@ -133,7 +146,7 @@ function displayFloodPercent(cam: CameraWithPrediction): number {
                                           ? 'text-[#F87400]'
                                           : 'text-[#FF0A0A]'
                                 "
-                                >{{ displayFloodPercent(cam) }}%</span
+                                >{{ formatFloodPercent(cam) }}%</span
                             >
                         </p>
                     </div>
