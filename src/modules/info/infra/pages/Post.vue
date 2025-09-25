@@ -21,10 +21,6 @@ const route = useRoute()
 const postId = Number(route.params.id)
 
 const post = computed(() => posts.find((p: PostItem) => p.id === postId))
-
-const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-}
 </script>
 
 <template>
