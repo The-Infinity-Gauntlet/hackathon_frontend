@@ -90,16 +90,6 @@ function formatDuration(mins?: number) {
     const rest = m % 60
     return `${h}h ${rest}m`
 }
-
-function formatDate(iso?: string) {
-    if (!iso) return '-'
-    const d = new Date(iso)
-    if (isNaN(d.getTime())) return '-'
-    return d.toLocaleString('pt-BR', {
-        dateStyle: 'short',
-        timeStyle: 'short',
-    })
-}
 </script>
 
 <template>
@@ -107,24 +97,37 @@ function formatDate(iso?: string) {
         <div class="flex w-1/2 flex-col items-center pr-4">
             <h3 class="mb-4 text-xl font-bold">Pontos atuais</h3>
 
-            <table class="w-full table-fixed border-collapse overflow-hidden rounded-t-2xl">
+            <table class="w-full table-fixed border-separate border-spacing-y-5 overflow-hidden">
                 <thead>
-                    <tr class="text-center text-sm font-semibold text-[#999999]">
+                    <tr class="text-center text-lg font-semibold text-[#999999]">
                         <th class="py-2">Bairro</th>
+                        <th class="py-2">Probabilidade</th>
                         <th class="py-2">Duração</th>
-                        <th class="py-2">Criado em</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr
-                        v-for="point in points"
-                        :key="point.id"
-                        class="text-center text-xs font-semibold"
-                    >
+                    <tr v-for="point in points" :key="point.id" class="text-center font-semibold">
                         <td class="py-2">{{ point.neighborhood }}</td>
+                        <td
+                            class="rounded-2xl py-2"
+                            :class="
+                                point.probability > 70
+                                    ? 'bg-[#FF000061] text-[#FF0000]'
+                                    : point.probability > 40
+                                      ? 'bg-[#FFE10130] text-[#FFE101]'
+                                      : 'bg-[#87FD8B] text-[#0F9900]'
+                            "
+                        >
+                            {{
+                                point.probability > 70
+                                    ? 'Alta'
+                                    : point.probability > 40
+                                      ? 'Média'
+                                      : 'Baixa'
+                            }}
+                        </td>
                         <td class="py-2">{{ formatDuration(point.duration) }}</td>
-                        <td class="py-2">{{ formatDate(point.createdAt) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -133,7 +136,7 @@ function formatDate(iso?: string) {
         <div class="flex w-1/2 flex-col items-center pl-4">
             <h3 class="mb-4 text-xl font-bold">Altas probabilidades</h3>
 
-            <div class="relative h-[15vw] w-[80%] overflow-hidden rounded-2xl bg-gray-200">
+            <div class="relative h-[15vw] w-[80%] overflow-hidden rounded-2xl">
                 <span
                     @click="prev"
                     class="material-symbols-outlined absolute top-1/2 left-2 z-10 -translate-y-1/2 cursor-pointer text-white"
@@ -150,19 +153,8 @@ function formatDate(iso?: string) {
                         :key="cam.id"
                         class="flex min-w-full flex-col items-center justify-center"
                     >
-                        <div class="flex w-full justify-center">
+                        <div class="mb-4 flex w-full justify-center">
                             <CameraItems :item="cam" />
-                        </div>
-
-                        <div class="mt-4 text-center">
-                            <p class="font-semibold">Situação:</p>
-                            <p :class="riskClass(displayFloodPercent(cam))">
-                                {{ riskLabel(displayFloodPercent(cam)) }}
-                            </p>
-                            <p class="text-sm text-[#666]">
-                                Risco: {{ riskLevel(displayFloodPercent(cam)) }}
-                                ({{ displayPercent(displayFloodPercent(cam)) }}%)
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -190,8 +182,9 @@ function formatDate(iso?: string) {
                                 {{ riskLabel(displayFloodPercent(cam)) }}
                             </p>
                             <p class="text-sm text-[#666]">
-                                Risco: {{ riskLevel(displayFloodPercent(cam)) }}
-                                ({{ displayPercent(displayFloodPercent(cam)) }}%)
+                                Risco: {{ riskLevel(displayFloodPercent(cam)) }} ({{
+                                    displayPercent(displayFloodPercent(cam))
+                                }}%)
                             </p>
                         </div>
                     </div>
