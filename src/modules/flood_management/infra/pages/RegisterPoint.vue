@@ -73,37 +73,6 @@ onMounted(async () => {
 
     map.on('load', async () => {
         try {
-            // Carregar floodGeojson via fetch (não como import)
-            const response = await fetch('/flooding.json')
-            const floodGeojson = await response.json()
-
-            // Adicionar fonte de dados do flood
-            map.addSource('flood-area', {
-                type: 'geojson',
-                data: floodGeojson,
-            })
-
-            // Camada 3D para simular volume/profundidade de alagamento
-            map.addLayer({
-                id: 'flood-area-volume',
-                type: 'fill-extrusion',
-                source: 'flood-area',
-                paint: {
-                    'fill-extrusion-color': [
-                        'interpolate',
-                        ['linear'],
-                        ['get', 'risk_level'],
-                        0.0,
-                        '#add8e6', // lightblue
-                        1.0,
-                        '#00008b', // darkblue
-                    ],
-                    'fill-extrusion-height': ['get', 'depth'],
-                    'fill-extrusion-base': 0,
-                    'fill-extrusion-opacity': 0.5,
-                },
-            })
-
             // Load and display drawn coordinates from FloodMap
             if (drawnCoordinates.value.length > 0) {
                 // Add source for drawn polygons
