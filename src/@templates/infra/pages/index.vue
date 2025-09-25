@@ -58,17 +58,17 @@ onMounted(async () => {
                 <img
                     src="/icons/background-home.svg"
                     alt=""
-                    class="absolute -top-120 -right-15 -z-10 hidden lg:block lg:w-200 xl:h-300 xl:w-300 2xl:h-350 2xl:w-350"
+                    class="absolute -top-50 -right-15 -z-10 hidden lg:block lg:h-[41.667vw] lg:w-[41.667vw]"
                 />
                 <img
                     src="/gifs/home.gif"
                     alt="Animação"
-                    class="mr-20 hidden h-120 w-120 lg:block"
+                    class="mr-20 hidden h-[25vw] w-[25vw] lg:block"
                 />
             </div>
         </section>
 
-        <section>
+        <section id="content">
             <div
                 class="flex cursor-pointer items-center justify-center py-5 lg:text-xl"
                 @click="togglePopup"
@@ -84,7 +84,9 @@ onMounted(async () => {
         </section>
 
         <section class="grid gap-10">
-            <div class="flex items-center justify-between rounded-xl bg-[#F2F7F9] px-20 py-10">
+            <div
+                class="flex items-center justify-between rounded-xl bg-[#F2F7F9] px-20 py-10 dark:bg-[#00182F]"
+            >
                 <div class="w-[40%]">
                     <h2 class="text-3xl font-semibold">Fique informado!</h2>
                     <p class="my-5 text-xl font-semibold text-[#999999]">
@@ -103,7 +105,7 @@ onMounted(async () => {
                 <img src="/gifs/blog.gif" alt="Animação" class="h-80 w-120" />
             </div>
 
-            <div class="flex items-center justify-between rounded-xl bg-[#F2F7F9] px-20 py-10">
+            <div class="flex items-center justify-between rounded-xl px-20 py-10">
                 <img src="/gifs/donation.gif" alt="Animação" class="h-80 w-120" />
 
                 <div class="w-[40%] text-right">

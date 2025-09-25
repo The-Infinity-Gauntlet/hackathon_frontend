@@ -56,6 +56,7 @@ watch(
                 if (countdown.value <= 0) clearInterval(interval)
             }, 1000)
         }
+        closePopup()
     },
 )
 </script>

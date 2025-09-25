@@ -22,20 +22,6 @@ const { getFloods, state } = useFloodController()
 const { points, init, toGeoJSON } = useFloodMapIA()
 
 onMounted(async () => {
-    // Carrega os pontos de alagamento e loga os retornos
-    const resp = await getFloods()
-    console.log('[Map] getFloods response:', resp)
-    console.log('[Map] state.floods (after fetch):', state.floods)
-
-    // Log também quando a lista for atualizada
-    watch(
-        () => state.floods.length,
-        () => {
-            console.log('[Map] state.floods (updated):', state.floods)
-        },
-        { immediate: true },
-    )
-
     const map = new mapboxgl.Map({
         container: 'map-fixed',
         style: 'mapbox://styles/mapbox/outdoors-v12',
@@ -49,6 +35,20 @@ onMounted(async () => {
             [-47.5, -25.5],
         ],
     })
+
+    // Carrega os pontos de alagamento e loga os retornos
+    const resp = await getFloods()
+    console.log('[Map] getFloods response:', resp)
+    console.log('[Map] state.floods (after fetch):', state.floods)
+
+    // Log também quando a lista for atualizada
+    watch(
+        () => state.floods.length,
+        () => {
+            console.log('[Map] state.floods (updated):', state.floods)
+        },
+        { immediate: true },
+    )
 
     const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
@@ -86,6 +86,43 @@ onMounted(async () => {
     }
 
     map.on('load', async () => {
+        map.addSource('mapbox-dem', {
+            type: 'raster-dem',
+            url: 'mapbox://mapbox.terrain-rgb',
+            tileSize: 512,
+            maxzoom: 14,
+        })
+
+        map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+        // Hillshade para sombra do relevo
+        map.addLayer({
+            id: 'hillshade-layer',
+            type: 'hillshade',
+            source: 'mapbox-dem',
+            layout: { visibility: 'visible' },
+            paint: {
+                'hillshade-exaggeration': 0.5,
+            },
+        })
+        // Prédios 3D
+        map.addLayer(
+            {
+                id: '3d-buildings',
+                source: 'composite',
+                'source-layer': 'building',
+                filter: ['==', 'extrude', 'true'],
+                type: 'fill-extrusion',
+                minzoom: 15,
+                paint: {
+                    'fill-extrusion-color': '#aaa',
+                    'fill-extrusion-height': ['get', 'height'],
+                    'fill-extrusion-base': ['get', 'min_height'],
+                    'fill-extrusion-opacity': 0.6,
+                },
+            },
+            'waterway-label',
+        )
+
         await ctrl.load()
         await init()
 
@@ -101,6 +138,96 @@ onMounted(async () => {
                         features: fp.props,
                     },
                 })
+
+                // // Área do ponto
+                // map.addLayer({
+                //     id: sourceId + '-fill',
+                //     type: 'fill-extrusion',
+                //     source: sourceId,
+                //     paint: {
+                //         'fill-extrusion-color': [
+                //             'interpolate',
+                //             ['linear'],
+                //             ['get', 'probability'],
+                //             0,
+                //             '#6DBFC5',
+                //             20,
+                //             '#6DBFC5',
+                //             21,
+                //             '#469AA0',
+                //             40,
+                //             '#469AA0',
+                //             41,
+                //             '#2A7D93',
+                //             60,
+                //             '#2A7D93',
+                //             61,
+                //             '#3981BF',
+                //             80,
+                //             '#3981BF',
+                //             81,
+                //             '#10439F',
+                //             100,
+                //             '#10439F',
+                //         ],
+                //         'fill-extrusion-height': 10,
+                //         'fill-extrusion-base': 0,
+                //         'fill-extrusion-opacity': 0.5,
+                //     },
+                // })
+                // // Popup com props ao clicar na área
+                // map.on('click', sourceId + '-fill', (e) => {
+                //     const f = e.features?.[0]
+                //     const p: any = f?.properties || {}
+                //     const html = `
+                //             <div style="font-size:12px">
+                //                 <div><strong>Bairro:</strong> ${p.neighborhood ?? '-'}</div>
+                //                 <div><strong>Probabilidade:</strong> ${p.probability ?? '-'}%</div>
+                //                 <div><strong>Duração:</strong> ${p.duration ?? '-'} min</div>
+                //                 <div><strong>Criado em:</strong> ${p.createdAt ?? '-'}</div>
+                //                 <div><strong>ID:</strong> ${p.floodId ?? '-'}</div>
+                //             </div>
+                //         `
+                //     new mapboxgl.Popup()
+                //         .setLngLat((e as any).lngLat)
+                //         .setHTML(html)
+                //         .addTo(map)
+                // })
+
+                // // Contorno do ponto
+                // map.addLayer({
+                //     id: sourceId + '-outline',
+                //     type: 'line',
+                //     source: sourceId,
+                //     paint: {
+                //         'line-color': [
+                //             'interpolate',
+                //             ['linear'],
+                //             ['get', 'probability'],
+                //             0,
+                //             '#6DBFC5',
+                //             0.2,
+                //             '#6DBFC5',
+                //             0.21,
+                //             '#469AA0',
+                //             0.4,
+                //             '#469AA0',
+                //             0.41,
+                //             '#2A7D93',
+                //             0.6,
+                //             '#2A7D93',
+                //             0.61,
+                //             '#3981BF',
+                //             0.8,
+                //             '#3981BF',
+                //             0.81,
+                //             '#10439F',
+                //             1,
+                //             '#10439F',
+                //         ],
+                //         'line-width': 1,
+                //     },
+                // })
 
                 map.addLayer({
                     id: sourceId + '-fill',
@@ -125,34 +252,6 @@ onMounted(async () => {
         })
 
         try {
-            const response = await fetch('/flooding.json')
-            const floodGeojson = await response.json()
-
-            map.addSource('flood-area', {
-                type: 'geojson',
-                data: floodGeojson,
-            })
-
-            map.addLayer({
-                id: 'flood-area-volume',
-                type: 'fill-extrusion',
-                source: 'flood-area',
-                paint: {
-                    'fill-extrusion-color': [
-                        'interpolate',
-                        ['linear'],
-                        ['get', 'risk_level'],
-                        0.0,
-                        '#add8e6', // lightblue
-                        1.0,
-                        '#00008b', // darkblue
-                    ],
-                    'fill-extrusion-height': ['get', 'depth'],
-                    'fill-extrusion-base': 0,
-                    'fill-extrusion-opacity': 0.5,
-                },
-            })
-
             watch(
                 points,
                 (newPoints) => {

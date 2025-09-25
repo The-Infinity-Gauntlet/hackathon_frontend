@@ -38,40 +38,11 @@ onMounted(async () => {
     map.addControl(geocoder, 'top-right')
 
     map.on('load', async () => {
-        try {
-            // Carregar floodGeojson via fetch (não como import)
-            const response = await fetch('/flooding.json')
-            const floodGeojson = await response.json()
-
-            // Adicionar fonte de dados do flood
-            map.addSource('flood-area', {
-                type: 'geojson',
-                data: floodGeojson,
-            })
-
-            // Camada 3D para simular volume/profundidade de alagamento
-            map.addLayer({
-                id: 'flood-area-volume',
-                type: 'fill-extrusion',
-                source: 'flood-area',
-                paint: {
-                    'fill-extrusion-color': [
-                        'interpolate',
-                        ['linear'],
-                        ['get', 'risk_level'],
-                        0.0,
-                        '#add8e6', // lightblue
-                        1.0,
-                        '#00008b', // darkblue
-                    ],
-                    'fill-extrusion-height': ['get', 'depth'],
-                    'fill-extrusion-base': 0,
-                    'fill-extrusion-opacity': 0.5,
-                },
-            })
-        } catch (error) {
-            console.error('Erro ao carregar floodGeojson:', error)
-        }
+        // try {
+        //     })
+        // } catch (error) {
+        //     console.error('Erro ao carregar floodGeojson:', error)
+        // }
     })
 
     map.on('click', (e) => {
@@ -80,17 +51,6 @@ onMounted(async () => {
         const localization = getLocalization(lng, lat)
         neighborhood.value = localization.neighborhood
         city.value = localization.city
-        // console.log(neighborhood.value, city.value)
-        // const elevation = map.queryTerrainElevation([e.lngLat.lng, e.lngLat.lat])
-        // new mapboxgl.Popup()
-        //   .setLngLat(e.lngLat)
-        //   .setHTML(
-        //     `<strong>Elevação:</strong> ${elevation !== null ? elevation.toFixed(2) + ' m' : 'não disponível'} <br>
-        //     <strong>Coordenadas:</strong><br>
-        //     Longitude: ${lng}<br>
-        //     Latitude: ${lat}`,
-        //   )
-        //   .addTo(map)
     })
 })
 
