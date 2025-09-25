@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, watch } from 'vue'
 import { useGeolocationStore } from '@/@core/plugins/registered/pinia/geolocation'
 import { useFloodCameraMonitoringController } from '@/modules/flood_camera_monitoring/controller/FloodCameraMonitoringController'
 import { BaseChart, ProfileForm } from '@/@core/components'
 import { HlsStreamPlayer, EmbedStreamPlayer } from '@/modules/flood_camera_monitoring/infra/components'
-import { Mapbox, SelectFloodAlert } from '../components'
+import { Mapbox, SelectFloodAlert, FloodPoints } from '../components'
 import type { IFormField } from '@/@core/interfaces/form'
+import { useFloodController } from '@/modules/flood_management/controllers/FloodController'
 
 type ViewMode = 'embed' | 'hls'
 type FloodListItem = {
@@ -15,13 +16,10 @@ type FloodListItem = {
     createdAt?: string
 }
 
-defineProps<{
-    points: FloodListItem[]
-}>()
-
 const geolocation = useGeolocationStore()
 const ctrl = useFloodCameraMonitoringController()
 const cams = computed(() => ctrl.camerasWithPrediction)
+const { getFloods, state } = useFloodController()
 
 const menu = {
     id: 'menu',
@@ -127,15 +125,24 @@ onMounted(async () => {
     const currentLocation = await geolocation.findNeighborhood()
     location.value.neighborhood = currentLocation.neighborhood
     location.value.city = currentLocation.city
+    const resp = await getFloods()
     cams.value.forEach((c: any) => {
         modes[c.id] = 'hls'
     })
+
+    watch(
+        () => state.floods.length,
+        () => {
+            console.log('[Map] state.floods (updated):', state.floods)
+        },
+        { immediate: true },
+    )
 })
 </script>
 
 <template>
     <div class="container-admin">
-        <nav class="bg-[#0453AF] rounded-xl text-white w-20 h-full mr-[2.083vw]">
+        <nav class="bg-[#0453AF] rounded-xl text-white w-20 mr-[2.083vw]">
             <ul class="grid justify-center gap-7 px-5 py-10">
                 <li v-for="item in menu.options" :key="item.id">
                     <RouterLink :to="item.link">
@@ -174,39 +181,8 @@ onMounted(async () => {
                     </div>
                 </div>
 
-                <div class="w-[30vw] h-[14vw] bg-[#F3F3F3] dark:bg-[#00182F] rounded-2xl p-5">
-                    <h3 class="text-[#999999] font-semibold mb-3">Pontos atuais</h3>
-
-                    <table class="w-full table-fixed border-separate border-spacing-y-5 overflow-hidden">
-                        <thead>
-                            <tr class="text-center text-lg font-semibold text-[#999999]">
-                                <th class="py-2">Bairro</th>
-                                <th class="py-2">Probabilidade</th>
-                                <th class="py-2">Duração</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr v-for="point in points" :key="point.id" class="text-center font-semibold">
-                                <td class="py-2">{{ point.neighborhood }}</td>
-                                <td class="rounded-2xl py-2" :class="point.probability > 70
-                                    ? 'bg-[#FF000061] text-[#FF0000]'
-                                    : point.probability > 40
-                                        ? 'bg-[#FFE10130] text-[#FFE101]'
-                                        : 'bg-[#87FD8B] text-[#0F9900]'
-                                    ">
-                                    {{
-                                        point.probability > 70
-                                            ? 'Alta'
-                                            : point.probability > 40
-                                                ? 'Média'
-                                                : 'Baixa'
-                                    }}
-                                </td>
-                                <td class="py-2">{{ formatDuration(point.duration) }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="w-[30vw] h-[14vw] bg-[#F3F3F3] dark:bg-[#00182F] rounded-2xl p-5 overflow-y-scroll">
+                    <FloodPoints :points="state.floods" />
                 </div>
 
                 <div class="w-[25vw] h-[14vw] bg-[#F3F3F3] dark:bg-[#00182F] rounded-2xl p-5 mx-[3.125vw]">
@@ -216,8 +192,8 @@ onMounted(async () => {
         </div>
 
         <div class="ml-[2.083vw]">
-            <input type="text" placeholder="Localize rapidamente a sua cidade/bairro..."
-                class="w-full p-3 rounded-lg bg-[#F3F3F3] dark:bg-[#00182F] text-[#999999] outline-none">
+            <!-- <input type="text" placeholder="Localize rapidamente a sua cidade/bairro..."
+                class="w-full p-3 rounded-lg bg-[#F3F3F3] dark:bg-[#00182F] text-[#999999] outline-none"> -->
 
             <SelectFloodAlert v-model:alert="location.data[1].message" class="my-5" />
 
@@ -234,6 +210,5 @@ onMounted(async () => {
 .container-admin {
     display: flex;
     justify-content: space-between;
-    height: 94vh;
 }
 </style>
