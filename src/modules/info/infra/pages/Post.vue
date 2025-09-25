@@ -21,6 +21,10 @@ const route = useRoute()
 const postId = Number(route.params.id)
 
 const post = computed(() => posts.find((p: PostItem) => p.id === postId))
+
+const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 </script>
 
 <template>
@@ -82,6 +86,39 @@ const post = computed(() => posts.find((p: PostItem) => p.id === postId))
                 v-html="post.text"
             ></div>
         </Transition>
+
+        <div class="mt-10">
+            <div
+                class="my-6 h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
+            ></div>
+            <div
+                class="flex flex-col items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white/60 p-4 ring-1 ring-gray-100 ring-inset sm:flex-row dark:border-zinc-800 dark:bg-zinc-900/60 dark:ring-zinc-800"
+            >
+                <p class="text-center text-sm text-gray-600 sm:text-left dark:text-gray-300">
+                    Chegou ao fim da leitura?
+                </p>
+                <button
+                    type="button"
+                    @click="scrollToTop"
+                    class="inline-flex items-center gap-2 rounded-full bg-[#2768CA] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2768CA]/60"
+                    aria-label="Voltar ao topo"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="h-4 w-4"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M12 3.75a.75.75 0 0 1 .75.75v12.69l4.22-4.22a.75.75 0 1 1 1.06 1.06l-5.5 5.5a.75.75 0 0 1-1.06 0l-5.5-5.5a.75.75 0 1 1 1.06-1.06l4.22 4.22V4.5A.75.75 0 0 1 12 3.75Z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                    Voltar ao topo
+                </button>
+            </div>
+        </div>
     </div>
     <div v-else class="p-10 text-center text-gray-700 lg:text-lg dark:text-gray-300">
         <p>Post não encontrado.</p>
