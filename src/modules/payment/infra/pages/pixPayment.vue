@@ -115,7 +115,7 @@ async function handlePixPayment(values: Record<string, any>) {
                     contentPopup.value = {
                         title: 'Pagamento aprovado!',
                         message: 'Obrigado pela sua doação!',
-                        gif: '/gifs/donation.gif',
+                        gif: '/gifs/sucess.gif',
                     }
                     showPopupFinished.value = true
                     setTimeout(() => {
