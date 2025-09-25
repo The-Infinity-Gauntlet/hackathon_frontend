@@ -52,33 +52,6 @@ onMounted(async () => {
         await ctrl.load()
 
         try {
-            const response = await fetch('/flooding.json')
-            const floodGeojson = await response.json()
-
-            map.addSource('flood-area', {
-                type: 'geojson',
-                data: floodGeojson,
-            })
-
-            map.addLayer({
-                id: 'flood-area-volume',
-                type: 'fill-extrusion',
-                source: 'flood-area',
-                paint: {
-                    'fill-extrusion-color': [
-                        'interpolate',
-                        ['linear'],
-                        ['get', 'risk_level'],
-                        0.0,
-                        '#add8e6', // lightblue
-                        1.0,
-                        '#00008b', // darkblue
-                    ],
-                    'fill-extrusion-height': ['get', 'depth'],
-                    'fill-extrusion-base': 0,
-                    'fill-extrusion-opacity': 0.5,
-                },
-            })
         } catch (error) {
             console.error('Erro ao carregar floodGeojson:', error)
         }
