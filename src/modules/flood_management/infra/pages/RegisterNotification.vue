@@ -100,43 +100,55 @@ const selectedAlertInfo = computed(
 //         console.log('Permissão de notificação negada.')
 //     }
 // }
-
 async function requestPermissionAndNotify(values: Record<string, any>) {
     console.log('Values:', values)
     console.log('Permissão atual:', Notification.permission)
 
+    const title = selectedAlertInfo.value.title
+    const body =
+        (typeof values.description === 'string' && values.description.trim()) ||
+        selectedAlertInfo.value.description
+
+    const doNotify = () => {
+        // Notificação local (toast + system)
+        showNotification(title, body)
+
+        // Broadcast para outros clientes via Firestore (se definido em main.ts)
+        if (window.sendNotification) {
+            window.sendNotification(`${title}: ${body}`)
+        }
+    }
+
+    if (Notification.permission === 'granted') {
+        doNotify()
+        return
+    }
+
     if (Notification.permission === 'default') {
         const permission = await Notification.requestPermission()
         if (permission === 'granted') {
-            await showNotification()
+            doNotify()
         } else {
             console.log('Usuário negou permissão.')
         }
-    } else if (Notification.permission === 'granted') {
-        await showNotification(selectedAlertInfo.value.title, selectedAlertInfo.value.description)
-    } else {
-        console.log('Permissão de notificação negada.')
+        return
     }
+
+    console.log('Permissão de notificação negada.')
 }
 
 const { routerBack } = useNavigation()
 </script>
 
 <template>
-    <div
-        class="lg:fixed lg:inset-0 lg:z-20 lg:flex lg:items-center lg:justify-center lg:bg-black/80"
-    ></div>
-    <div
-        class="lg:fixed lg:inset-0 lg:z-20 lg:flex lg:items-center lg:justify-center lg:bg-black/80"
-    >
+    <div class="lg:fixed lg:inset-0 lg:z-20 lg:flex lg:items-center lg:justify-center lg:bg-black/80"></div>
+    <div class="lg:fixed lg:inset-0 lg:z-20 lg:flex lg:items-center lg:justify-center lg:bg-black/80">
         <div
-            class="lg:flex lg:max-h-[90vh] lg:w-[90%] lg:max-w-md lg:flex-col lg:overflow-y-auto lg:rounded-lg lg:bg-white lg:pt-4 lg:pb-7 lg:shadow-lg lg:dark:bg-[#000d19]"
-        >
+            class="lg:flex lg:max-h-[90vh] lg:w-[90%] lg:max-w-md lg:flex-col lg:overflow-y-auto lg:rounded-lg lg:bg-white lg:pt-4 lg:pb-7 lg:shadow-lg lg:dark:bg-[#000d19]">
             <div class="lg:flex lg:justify-between lg:px-5">
                 <button
                     class="hidden lg:block lg:text-2xl lg:text-gray-500 lg:hover:text-gray-700 lg:dark:hover:text-gray-300"
-                    @click="routerBack"
-                >
+                    @click="routerBack">
                     <span class="material-symbols-outlined">chevron_left</span>
                 </button>
             </div>
@@ -149,11 +161,7 @@ const { routerBack } = useNavigation()
                     <p class="text-sm">Situação</p>
                     <SelectFloodAlert v-model:alert="location.data[1].message" />
                 </div>
-                <ProfileForm
-                    :formFields="fields"
-                    buttonText="Cadastrar"
-                    @submit="requestPermissionAndNotify"
-                />
+                <ProfileForm :formFields="fields" buttonText="Cadastrar" @submit="requestPermissionAndNotify" />
             </div>
         </div>
     </div>
