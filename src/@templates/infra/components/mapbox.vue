@@ -22,11 +22,6 @@ const { getFloods, state } = useFloodController()
 const { points, init, toGeoJSON } = useFloodMapIA()
 
 onMounted(async () => {
-    // Carrega os pontos de alagamento e loga os retornos
-    const resp = await getFloods()
-    console.log('[Map] getFloods response:', resp)
-    console.log('[Map] state.floods (after fetch):', state.floods)
-
     const map = new mapboxgl.Map({
         container: 'map-fixed',
         style: 'mapbox://styles/mapbox/outdoors-v12',
@@ -40,6 +35,12 @@ onMounted(async () => {
             [-47.5, -25.5],
         ],
     })
+
+    // Carrega os pontos de alagamento e loga os retornos
+    const resp = await getFloods()
+    console.log('[Map] getFloods response:', resp)
+    console.log('[Map] state.floods (after fetch):', state.floods)
+
     // Log também quando a lista for atualizada
     watch(
         () => state.floods.length,

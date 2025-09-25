@@ -58,17 +58,17 @@ onMounted(async () => {
                 <img
                     src="/icons/background-home.svg"
                     alt=""
-                    class="absolute -top-120 -right-15 -z-10 hidden lg:block lg:w-200 xl:h-300 xl:w-300 2xl:h-350 2xl:w-350"
+                    class="absolute -top-50 -right-15 -z-10 hidden lg:block lg:h-[41.667vw] lg:w-[41.667vw]"
                 />
                 <img
                     src="/gifs/home.gif"
                     alt="Animação"
-                    class="mr-20 hidden h-120 w-120 lg:block"
+                    class="mr-20 hidden h-[25vw] w-[25vw] lg:block"
                 />
             </div>
         </section>
 
-        <section>
+        <section id="content">
             <div
                 class="flex cursor-pointer items-center justify-center py-5 lg:text-xl"
                 @click="togglePopup"
