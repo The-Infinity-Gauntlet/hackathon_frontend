@@ -68,6 +68,36 @@ onMounted(async () => {
         map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right')
     }
 
+    map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+    // Hillshade para sombra do relevo
+    map.addLayer({
+        id: 'hillshade-layer',
+        type: 'hillshade',
+        source: 'mapbox-dem',
+        layout: { visibility: 'visible' },
+        paint: {
+            'hillshade-exaggeration': 0.5,
+        },
+    })
+    // Prédios 3D
+    map.addLayer(
+        {
+            id: '3d-buildings',
+            source: 'composite',
+            'source-layer': 'building',
+            filter: ['==', 'extrude', 'true'],
+            type: 'fill-extrusion',
+            minzoom: 15,
+            paint: {
+                'fill-extrusion-color': '#aaa',
+                'fill-extrusion-height': ['get', 'height'],
+                'fill-extrusion-base': ['get', 'min_height'],
+                'fill-extrusion-opacity': 0.6,
+            },
+        },
+        'waterway-label',
+    )
+
     function addCustomMarker(lng: number, lat: number, cameraId: string) {
         const el = document.createElement('div')
         el.className = 'custom-marker'

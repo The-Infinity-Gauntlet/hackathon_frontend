@@ -84,7 +84,9 @@ onMounted(async () => {
         </section>
 
         <section class="grid gap-10">
-            <div class="flex items-center justify-between rounded-xl bg-[#F2F7F9] px-20 py-10">
+            <div
+                class="flex items-center justify-between rounded-xl bg-[#F2F7F9] px-20 py-10 dark:bg-[#00182F]"
+            >
                 <div class="w-[40%]">
                     <h2 class="text-3xl font-semibold">Fique informado!</h2>
                     <p class="my-5 text-xl font-semibold text-[#999999]">
@@ -103,7 +105,7 @@ onMounted(async () => {
                 <img src="/gifs/blog.gif" alt="Animação" class="h-80 w-120" />
             </div>
 
-            <div class="flex items-center justify-between rounded-xl bg-[#F2F7F9] px-20 py-10">
+            <div class="flex items-center justify-between rounded-xl px-20 py-10">
                 <img src="/gifs/donation.gif" alt="Animação" class="h-80 w-120" />
 
                 <div class="w-[40%] text-right">
