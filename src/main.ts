@@ -13,7 +13,7 @@ import App from './App.vue'
 
 import { initializeApp } from 'firebase/app'
 import { getMessaging, onMessage } from 'firebase/messaging'
-import { getFirestore, setDoc, doc, onSnapshot, serverTimestamp } from 'firebase/firestore'
+import { getFirestore, setDoc, doc, onSnapshot } from 'firebase/firestore'
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -25,19 +25,38 @@ const firebaseConfig = {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 }
 
+const missingFirebase = Object.entries(firebaseConfig)
+    .filter(([, v]) => !v)
+    .map(([k]) => k)
+
+if (missingFirebase.length) {
+    // eslint-disable-next-line no-console
+    console.warn(
+        '[Firebase] Variáveis ausentes:',
+        missingFirebase.join(', '),
+        '\nVerifique o arquivo .env e reinicie o servidor de desenvolvimento.',
+    )
+}
+
 const firebaseApp = initializeApp(firebaseConfig)
 const messaging = getMessaging(firebaseApp)
+
+declare global {
+    interface Window {
+        sendNotification: (text: string) => void
+    }
+}
 
 onMessage(messaging, (payload) => {
     console.log('Message received in foreground: ', payload)
 })
 
-// import { toast } from 'vue3-toastify'
+import { toast } from 'vue3-toastify'
 function showNotification(title: string, body: string) {
-    // toast.success(body, {
-    //    autoClose: 10000,
-    //    position: 'top-right',
-    // })
+    toast.success(body, {
+        autoClose: 10000,
+        position: 'top-right',
+    })
 
     navigator.serviceWorker.ready.then((registration) => {
         registration.showNotification(title, {
