@@ -1,13 +1,26 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { loadMercadoPago } from '@mercadopago/sdk-js'
-import { BaseForm } from '@/@core/components'
+import { useRouter } from 'vue-router'
+import { BaseForm, BasePopup } from '@/@core/components'
 import { QrCode } from '../components'
 import { usePixPayment } from '../../controllers/PaymentController'
 import type { IFormField } from '@/@core/interfaces/form'
 
 onMounted(async () => {
     await loadMercadoPago()
+})
+
+const router = useRouter()
+
+const showPopupFinished = ref(false)
+const closePopupFinished = () => {
+    router.push('/')
+}
+const contentPopup = ref({
+    title: '',
+    message: '',
+    gif: '',
 })
 
 const fieldsPix: IFormField[] = [
@@ -98,6 +111,27 @@ async function handlePixPayment(values: Record<string, any>) {
             console.log('Status atualizado:', s)
             if (s.status === 'approved' || s.status === 'rejected') {
                 clearInterval(interval)
+                if (s.status === 'approved') {
+                    contentPopup.value = {
+                        title: 'Pagamento aprovado!',
+                        message: 'Obrigado pela sua doação!',
+                        gif: '/gifs/true.gif',
+                    }
+                    showPopupFinished.value = true
+                    setTimeout(() => {
+                        router.push('/')
+                    }, 35000)
+                } else {
+                    contentPopup.value = {
+                        title: 'Pagamento negado!',
+                        message: 'Não foi possível realizar sua doação!',
+                        gif: '/gifs/false.gif',
+                    }
+                    showPopupFinished.value = true
+                    setTimeout(() => {
+                        router.push('/')
+                    }, 35000)
+                }
             }
             console.log('Status: ', s.status) // em s.status, o mesmo retorna com "approved", "pending" ou "rejected"
         }, 5000)
@@ -122,6 +156,13 @@ const closePopup = () => {
             :qrcode="`data:image/jpeg;base64,${qrBase64}`"
             :code="qrCode"
             @close="closePopup"
+        />
+        <BasePopup
+            :title="contentPopup.title"
+            :text="contentPopup.message"
+            :gifUrl="contentPopup.gif"
+            :showPopup="showPopupFinished"
+            @close="closePopupFinished"
         />
     </div>
 </template>
