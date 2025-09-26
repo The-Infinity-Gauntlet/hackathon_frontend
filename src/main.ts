@@ -39,37 +39,32 @@ if (missingFirebase.length) {
 }
 
 const firebaseApp = initializeApp(firebaseConfig)
-const messaging = getMessaging(firebaseApp)
 
-declare global {
-    interface Window {
-        sendNotification: (text: string) => void
+import { toast } from 'vue3-toastify'
+
+Notification.requestPermission()
+
+export function showNotification(title: string, body: string) {
+    if (Notification.permission === 'granted') {
+        navigator.serviceWorker.ready.then((registration) => {
+            registration.showNotification(title, {
+                body,
+                icon: '/pwa_icons/pwa-192x192.png',
+            })
+        })
+    } else {
+        toast.success(body, {
+            autoClose: 10000,
+            position: 'top-right',
+        })
     }
 }
 
-onMessage(messaging, (payload) => {
-    console.log('Message received in foreground: ', payload)
-})
-
-import { toast } from 'vue3-toastify'
-export function showNotification(title: string, body: string) {
-    toast.success(body, {
-        autoClose: 10000,
-        position: 'top-right',
-    })
-
-    navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification(title, {
-            body,
-            icon: '/pwa_icons/pwa-192x192.png',
-        })
-    })
-}
 
 const clientId = (() => {
     const saved = localStorage.getItem('cId')
     if (saved) return saved
-    const id = crypto.randomUUID()
+    const id = Math.random().toString().replace('0.', '')
     localStorage.setItem('cId', id)
     return id
 })()
