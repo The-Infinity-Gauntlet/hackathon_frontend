@@ -12,7 +12,6 @@ import PrimeVue from 'primevue/config'
 import App from './App.vue'
 
 import { initializeApp } from 'firebase/app'
-import { getMessaging, onMessage } from 'firebase/messaging'
 import { getFirestore, setDoc, doc, onSnapshot } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -59,7 +58,6 @@ export function showNotification(title: string, body: string) {
         })
     }
 }
-
 
 const clientId = (() => {
     const saved = localStorage.getItem('cId')
